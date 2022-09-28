@@ -15,6 +15,7 @@ export default function App() {
           headerShown: false,
         }}>
           <Stack.Screen name="SignUp" component={SignUpScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
   );
