@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styles from './style'
 import UnitCard from '../../components/unit-card'
 
-export class ClassDetail extends Component {
+export class ClassDetailScreen extends Component {
   render() {
     return (
       <View style={styles.titleBar}>
@@ -13,4 +13,4 @@ export class ClassDetail extends Component {
   }
 }
 
-export default ClassDetail
+export default ClassDetailScreen
