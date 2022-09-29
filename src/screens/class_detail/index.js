@@ -1,7 +1,7 @@
 import { Text, View, StatusBar} from 'react-native'
 import React, { Component } from 'react'
 import styles from './style'
-import UnitCard from '../../components/unit-card'
+import UnitCard from '../../components/UnitCard'
 
 export class ClassDetailScreen extends Component {
   render() {
