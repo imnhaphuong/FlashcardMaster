@@ -2,6 +2,7 @@ import { View, Text, Image, StatusBar, TextInput, TouchableOpacity, SafeAreaView
 import React from 'react'
 import styles from './style'
 import colors from '../../../contains/colors'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import VectorTop from '../../../assets/images/vector-top.svg'
 import VectorBot from '../../../assets/images/vector-bot.svg'
 import GoogleLogo from '../../../assets/images/_Google.svg'
@@ -10,15 +11,14 @@ export default SignUpScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
-
         {/* top */}
-        <View style={{ flex: 2, flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
 
           <View style={styles.vectorTop}>
             <VectorTop />
           </View>
           {/* Title */}
-          <View style={{ flex: 2, right: 100, top: 150 }}>
+          <View style={{ flex: 2, right: 100, top: 120 }}>
             <View >
               <Text style={styles.title}>Tạo tài khoản</Text>
             </View>
@@ -33,42 +33,56 @@ export default SignUpScreen = () => {
         </View>
 
         {/* Form */}
+        <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={-100} behavior={Platform.OS === "ios" ? "padding" : "height"} >
+          <View style={{ flex: 2, flexDirection: 'column', marginHorizontal: 20, top: -10 }}>
+            {/* FormText */}
 
-        <View style={{ flex: 2, marginHorizontal: 20, top: -10 }}>
-          {/* FormText */}
-          <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={1} behavior={Platform.OS === "ios" ? "padding" : "height"} >
-
-            <View >
-              <View >
-                <TextInput style={styles.textInput}
-                  placeholder="Email"
-                  keyboardType="email-address"
-                  placeholderTextColor={colors.gray_secondary}
-                />
+            <View   >
+              <View style={styles.formInput} >
+                <View >
+                  <Icon name="envelope" size={16} color={colors.gray_secondary} />
+                </View>
+                <View style={{ flex: 1, marginLeft: 5 }} >
+                  <TextInput style={styles.textInput}
+                    placeholder="Email"
+                    keyboardType="email-address"
+                    placeholderTextColor={colors.gray_secondary}
+                  />
+                </View>
               </View>
-              <View >
-                <TextInput style={styles.textInput}
-                  placeholder="Mật khẩu"
-                  keyboardType="password"
-                  secureTextEntry={true}
-                  placeholderTextColor={colors.gray_secondary}
-                />
+              <View style={styles.formInput}>
+                <View >
+                  <Icon name="lock" size={16} color={colors.gray_secondary} />
+                </View>
+                <View style={{ flex: 1, marginLeft: 5 }}>
+                  <TextInput style={styles.textInput}
+                    placeholder="Mật khẩu"
+                    keyboardType="password"
+                    secureTextEntry={true}
+                    placeholderTextColor={colors.gray_secondary}
+                  />
+                </View>
               </View>
-              <View >
-                <TextInput style={styles.textInput}
-                  placeholder="Nhập lại mật khẩu"
-                  keyboardType="password"
-                  secureTextEntry={true}
-                  placeholderTextColor={colors.gray_secondary}
-                />
+              <View style={styles.formInput}>
+                <View >
+                  <Icon name="lock" size={16} color={colors.gray_secondary} />
+                </View>
+                <View style={{ flex: 1, marginLeft: 5 }}>
+                  <TextInput style={styles.textInput}
+                    placeholder="Nhập lại mật khẩu"
+                    keyboardType="password"
+                    secureTextEntry={true}
+                    placeholderTextColor={colors.gray_secondary}
+                  />
+                </View>
               </View>
 
             </View>
             {/* BottomForm */}
-            <View style={{ flex: 1, marginTop: 20 }}>
+
+            <View style={{marginTop:30}} >
               <TouchableOpacity style={styles.btnDangKy}>
                 <View style={{
-                  
                   width: 335,
                   height: 48,
                   alignItems: "center",
@@ -114,15 +128,15 @@ export default SignUpScreen = () => {
                   </View>
                 </TouchableOpacity>
               </View>
-
             </View>
-          </KeyboardAvoidingView>
-        </View>
 
+          </View>
+        </KeyboardAvoidingView>
         {/* bottom */}
-        <View style={{ flex: 1, bottom: 90, width: 418, height: 400 }}>
+        <View style={{ flex: 1,bottom:-15,width: 418, height: 400 }}>
           <VectorBot />
         </View>
+
 
 
       </View >
