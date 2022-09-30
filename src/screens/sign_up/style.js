@@ -23,26 +23,6 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 16.42,
     },
-    textInput: {
-        fontSize: 16,
-        fontWeight: '500',
-        letterSpacing: 0.2,
-        width:'100%'
-    },
-    btnDangKy: {
-        backgroundColor: colors.violet,
-        borderRadius: 10,
-
-    },
-    vectorBot: {
-
-    },
-    btnText: {
-        fontWeight: '500',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        color: colors.pastel_purple,
-    },
     formInput: {
         flexDirection: 'row', alignItems: 'center', height: 50,
         borderColor: colors.text,
