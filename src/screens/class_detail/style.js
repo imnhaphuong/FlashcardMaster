@@ -1,18 +1,14 @@
-import { StyleSheet } from "react-native";
-import colors from "../../../contains/colors";
+import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
-  titleBar: {
-    backgroundColor: "yellow",
-  },
-  inforArea: {},
-  wrapUnits: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    paddingHorizontal: 12,
-  },
-});
+    titleBar: {
+        
+    },
+    inforArea: {
 
-export default styles;
+    },
+    
+
+})
+
+export default styles

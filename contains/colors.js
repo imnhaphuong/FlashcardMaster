@@ -8,5 +8,4 @@ export default {
     graySecondary: '#BCBEC0',
     white: '#FFF',
     highlight: '#FF5977',
-    black: '#000',
 }
