@@ -51,4 +51,4 @@ const ClassDetailScreen = () => {
   );
 };
 
-export default ClassDetailScreen;
+export default ClassDetailScreen

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   titleBar: {
-    backgroundColor: "yellow",
   },
   inforArea: {},
   wrapUnits: {
@@ -17,6 +16,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 12,
   },
-});
+})
 
-export default styles;
+export default styles

@@ -6,7 +6,6 @@ import Homescreen from '../screens/home_detail/Home_Screen';
 import Styles from './style';
 
 const Tab = createBottomTabNavigator();
-
 function MyTabs() {
   return (
     <Tab.Navigator>
@@ -20,7 +19,7 @@ function MyTabs() {
                 style={{
                   width:50,
                   height:50,
-                  tintColor: focused ? '#FF5470' : '#006965'
+                  tintColor: focused ? '#5856E7' : '#BCBEC0'
                 }}/>
             </View>
           )
@@ -35,7 +34,7 @@ function MyTabs() {
                 style={{
                   width:50,
                   height:50,
-                  tintColor: focused ? '#FF5470' : '#006965'
+                  tintColor: focused ? '#5856E7' : '#BCBEC0'
                 }}/>
             </View>
           )
@@ -50,7 +49,7 @@ function MyTabs() {
                 style={{
                   width:50,
                   height:50,
-                  tintColor: focused ? '#FF5470' : '#006965'
+                  tintColor: focused ? '#5856E7' : '#BCBEC0'
                 }}/>
             </View>
           )
@@ -65,7 +64,7 @@ function MyTabs() {
                 style={{
                   width:50,
                   height:50,
-                  tintColor: focused ? '#FF5470' : '#006965'
+                  tintColor: focused ? '#5856E7' : '#BCBEC0'
                 }}/>
             </View>
           )
@@ -80,7 +79,7 @@ function MyTabs() {
                 style={{
                   width:50,
                   height:50,
-                  tintColor: focused ? '#FF5470' : '#006965'
+                  tintColor: focused ? '#5856E7' : '#BCBEC0'
                 }}/>
             </View>
           )
