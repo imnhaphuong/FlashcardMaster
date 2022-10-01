@@ -16,7 +16,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="ClassDetail"
+        initialRouteName="Home"
       >
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="SignUp" component={SignUpScreen} />
