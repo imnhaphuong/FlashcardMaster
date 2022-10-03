@@ -1,14 +1,11 @@
-import React from "react";
+import * as React from "react";
 import { Text , Image , View } from "react-native";
 import Styles from "./style";
-import Tabs from "../../navigation/NavigationBar";
-import { ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
+import MyTabs from "../../components/navigation/NavigationBar";
 
 export default function Home_Screen () {
     const coinPrice = "200";
-    const navigation = useNavigation();
+    const userName = "Jessica";
     return (
         <View>
             <View style={Styles.boderbottom}>
@@ -27,7 +24,7 @@ export default function Home_Screen () {
                         <View style={Styles.group21}>
                             <View style={Styles.group22}>
                                 <View style={Styles.rectangle}></View>
-                                <Text style={Styles.hello}>Chào cậu, <Text style={{color:'#5856E7'}}>Jessica</Text> </Text>
+                                <Text style={Styles.hello}>Chào cậu, <Text style={{color:'#5856E7'}}>{userName}</Text> </Text>
                             </View>
                             <Image
                                 source={require("../../../assets/images/thegirl.png")}
@@ -41,6 +38,7 @@ export default function Home_Screen () {
                             style={Styles.chatvio}/>
                     </View>
                 </View>
+                <MyTabs/>
         </View>
      );
 }

@@ -42,9 +42,6 @@ const styles = StyleSheet.create({
     top: 8,
     left: 8
     //order: 0,
-
-    // marginTop: 13,
-    // marginLeft: 60,
   },
   price: {
     width: 30,
