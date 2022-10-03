@@ -7,20 +7,20 @@ const CustomInput = ({ visible, placeholder, icon, keyboardType, secureTextEntry
   return (
     <View style={styles.formInput} >
       <View >
-        <Icon name={icon} size={16} color={colors.gray_secondary} />
+        <Icon name={icon} size={16} color={colors.graySecondary} />
       </View>
       <View style={{ flex: 1, marginLeft: 5 }} >
         <TextInput style={styles.textInput}
           placeholder={placeholder}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
-          placeholderTextColor={colors.gray_secondary}
+          placeholderTextColor={colors.graySecondary}
         />
 
       </View>
       <TouchableOpacity>
         <View >
-          <Icon name={iconEye} size={16} color={colors.gray_secondary} />
+          <Icon name={iconEye} size={16} color={colors.graySecondary} />
         </View>
       </TouchableOpacity>
 
@@ -29,7 +29,7 @@ const CustomInput = ({ visible, placeholder, icon, keyboardType, secureTextEntry
 }
 const styles = StyleSheet.create({
   formInput: {
-    flexDirection: 'row', alignItems: 'center', height: 60,
+    flexDirection: 'row', alignItems: 'center', height: 55,
     borderColor: colors.text,
     borderWidth: 2,
     padding: 10,

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     btnDangKy: {
         flexDirection: 'row',
         borderRadius: 10,
-        height: 60,
+        height: 55,
         alignItems: "center",
         justifyContent: "center",
         marginVertical: 10,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
     },
     btnText_SIGNIN: {
-        color: colors.pastel_purple,
+        color: colors.pastelPurple,
     },
     btnText_GG: {
         color: colors.text,
