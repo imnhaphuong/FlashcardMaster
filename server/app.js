@@ -3,10 +3,12 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("./models/Unit");
-
+require("../../FlashcardMaster_Server/models/User");
 app.use(bodyParser.json());
 
 const Unit = mongoose.model("unit");
+const User = mongoose.model("user");
+
 const mongoUri =
   "mongodb+srv://nhaphuong:!2345@cluster0.i3iqx2l.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(mongoUri, {
@@ -22,15 +24,19 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
   console.log("Has an error when connect with Mongo", err);
 });
+
+
+
+//unit test
 app.get("/", (req, res) => {
   Unit.find({})
-  .then((data) => {
-    console.log("got all");
-    res.send(data);
-  })
-  .catch((err) => {
-    console.log("err", err);
-  });
+    .then((data) => {
+      console.log("got all");
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 });
 
 app.post("/send", (req, res) => {
