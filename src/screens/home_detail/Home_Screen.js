@@ -1,7 +1,7 @@
 import React from "react";
 import { Text , Image , View } from "react-native";
 import Styles from "./style";
-import Tabs from "../../navigation/NavigationBar";
+// import Tabs from "../../navigation/NavigationBar";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
