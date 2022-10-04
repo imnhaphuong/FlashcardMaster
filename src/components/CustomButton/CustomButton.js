@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     },
     btnDangKy_GG: {
         backgroundColor: colors.pink,
+        zIndex:1000,
     },
     btnText: {
         fontWeight: '500',
