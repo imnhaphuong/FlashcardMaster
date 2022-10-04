@@ -4,6 +4,7 @@ import SignUpScreen from "./src/screens/sign_up/SignUpScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ClassDetailScreen from "./src/screens/class_detail";
 import Home_Screen from "./src/screens/home_detail/Home_Screen";
+import Navi from "./Navi";
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,8 +19,9 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="Home"
+        initialRouteName="Navi"
       >
+        <Stack.Screen name="Navi" component={Navi}/>
         <Stack.Screen name="Home" component={Home_Screen}/>
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ClassDetail" component={ClassDetailScreen} />

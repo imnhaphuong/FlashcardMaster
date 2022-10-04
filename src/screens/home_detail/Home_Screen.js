@@ -1,44 +1,39 @@
-import * as React from "react";
-import { Text , Image , View } from "react-native";
+import React from "react";
+import { Text, Image, View } from "react-native";
 import Styles from "./style";
-import MyTabs from "../../components/navigation/NavigationBar";
+import { ScrollView } from "react-native";
+import Coin from '../../../assets/images/coin.svg';
+import Thegirl from '../../../assets/images/Thegirl.svg';
+import { SafeAreaView } from "react-native";
+import Topic from "../../components/Topic";
 
-export default function Home_Screen () {
+export default function Home_Screen() {
     const coinPrice = "200";
-    const userName = "Jessica";
     return (
-        <View>
-            <View style={Styles.boderbottom}>
-                    <Image
-                        style={Styles.landscape}
-                        source={require("../../../assets/images/landscape.png")}/>
-                    <View style={Styles.coin_display}>
-                        <Image 
-                            style={Styles.coin}
-                            source={require("../../../assets/images/coin.png")}/>
-                        <Text style={Styles.price}>{coinPrice}</Text>
-                    </View>
+        <SafeAreaView style={Styles.container}>
+            <View style={Styles.header}>
+                <Image
+                    style={Styles.landscape}
+                    source={require("../../../assets/images/landscape.png")} />
+                <View style={Styles.coin_display}>
+                    <Coin />
+                    <Text style={Styles.price}>{coinPrice}</Text>
+                </View>
             </View>
-                <View style={Styles.oke}>
-                    <View style={Styles.wellcome}>
-                        <View style={Styles.group21}>
-                            <View style={Styles.group22}>
-                                <View style={Styles.rectangle}></View>
-                                <Text style={Styles.hello}>Chào cậu, <Text style={{color:'#5856E7'}}>{userName}</Text> </Text>
-                            </View>
-                            <Image
-                                source={require("../../../assets/images/thegirl.png")}
-                                style={Styles.thegirl}/>
-                        </View>
-                        <Image
-                            source={require("../../../assets/images/chat-yel.png")}
-                            style={Styles.chatyel}/>
-                        <Image
-                            source={require("../../../assets/images/chat-vio.png")}
-                            style={Styles.chatvio}/>
+            <ScrollView style={Styles.scroolview}>
+                <View style={Styles.welcome}>
+                    <View style={Styles.group21}>
+                        <Text style={Styles.hello}>Chào cậu, <Text style={Styles.helloname}>Jessica</Text> </Text>
+                    </View>
+                    <View style={Styles.Thegirl}>
+                        <Thegirl style={Styles.ThegirlItem} />
                     </View>
                 </View>
-                <MyTabs/>
-        </View>
-     );
+                <View>
+                    <Topic/>
+                    <Topic/>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 }

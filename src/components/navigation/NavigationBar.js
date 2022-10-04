@@ -3,24 +3,27 @@ import styles from './style';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home_Screen from '../../screens/home_detail/Home_Screen';
-
+import colors from '../../../contains/colors';
+import Home from '../../../assets/images/home.svg';
+import Class from '../../../assets/images/class.svg';
+import New from '../../../assets/images/new.svg';
+import Noti from '../../../assets/images/noti.svg';
+import Profile from '../../../assets/images/profile.svg';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
-export default function MyTabs() {
+function MyTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="home" component={Home_Screen} options={{
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Image
-                source={require("../../../assets/images/home.png")} 
-                resizeMethod='contain'
-                style={{
-                  width:50,
-                  height:50,
-                  tintColor: focused ? '#5856E7' : '#BCBEC0'
-                }}/>
+              <Home style={{
+                 width:50,
+                 height:50,
+                tintColor: focused ? colors.violet : colors.graySecondary
+              }}/>
             </View>
           )
         }}/>
@@ -28,14 +31,11 @@ export default function MyTabs() {
         name="class" component={Home_Screen} options={{
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Image
-                source={require("../../../assets/images/class.png")} 
-                resizeMethod='contain'
-                style={{
-                  width:50,
-                  height:50,
-                  tintColor: focused ? '#5856E7' : '#BCBEC0'
-                }}/>
+               <Class style={{
+                 width:50,
+                 height:50,
+                tintColor: focused ? colors.violet : colors.graySecondary
+              }}/>
             </View>
           )
         }}/>
@@ -43,14 +43,11 @@ export default function MyTabs() {
         name="new" component={Home_Screen} options={{
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Image
-                source={require("../../../assets/images/new.png")} 
-                resizeMethod='contain'
-                style={{
-                  width:50,
-                  height:50,
-                  tintColor: focused ? '#5856E7' : '#BCBEC0'
-                }}/>
+               <New style={{
+                 width:50,
+                 height:50,
+                tintColor: focused ? colors.violet : colors.graySecondary
+              }}/>
             </View>
           )
         }}/>
@@ -58,14 +55,11 @@ export default function MyTabs() {
         name="noti" component={Home_Screen} options={{
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Image
-                source={require("../../../assets/images/noti.png")} 
-                resizeMethod='contain'
-                style={{
-                  width:50,
-                  height:50,
-                  tintColor: focused ? '#5856E7' : '#BCBEC0'
-                }}/>
+               <Noti style={{
+                 width:50,
+                 height:50,
+                tintColor: focused ? colors.violet : colors.graySecondary
+              }}/>
             </View>
           )
         }}/>
@@ -73,24 +67,21 @@ export default function MyTabs() {
         name="profile" component={Home_Screen} options={{
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Image
-                source={require("../../../assets/images/profile.png")} 
-                resizeMethod='contain'
-                style={{
-                  width:50,
-                  height:50,
-                  tintColor: focused ? '#5856E7' : '#BCBEC0'
-                }}/>
+               <Profile style={{
+                 width:50,
+                 height:50,
+                tintColor: focused ? colors.violet : colors.graySecondary
+              }}/>
             </View>
           )
         }}/>
     </Tab.Navigator>
   );
 }
-// export default function NavigationBar() {
-//   return (
-//     <NavigationContainer>
-//       <MyTabs />
-//     </NavigationContainer>
-//   );
-// }
+export default function NavigationBar() {
+  return (
+    <NavigationContainer independent ={true}>
+      <MyTabs />
+    </NavigationContainer>
+  );
+}
