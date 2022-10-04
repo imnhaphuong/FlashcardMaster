@@ -1,9 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
   titleBar: {
-    backgroundColor: "yellow",
   },
   inforArea: {},
   wrapUnits: {
@@ -13,6 +16,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 12,
   },
-});
+})
 
-export default styles;
+export default styles

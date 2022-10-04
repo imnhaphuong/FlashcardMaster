@@ -6,6 +6,8 @@ import ClassDetailScreen from "./src/screens/class_detail";
 import Home_Screen from "./src/screens/home_detail/Home_Screen";
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {

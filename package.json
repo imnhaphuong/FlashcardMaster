@@ -15,15 +15,24 @@
     "@react-navigation/native-stack": "^6.9.0",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
+    "link": "^1.5.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-native": "0.69.6",
-    "react-native-restart": "^0.0.24",
+    "react-native": "^0.69.6",
+    "react-native-svg": "12.3.0",
+    "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.1.1",
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-restart": "^0.0.24",
     "react-native-web": "~0.18.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   },
   "private": true
 }
