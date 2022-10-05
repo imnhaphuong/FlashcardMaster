@@ -1,10 +1,14 @@
 import { StyleSheet } from "react-native";
+import colors from "../../../contains/colors";
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
     view: {
       alignItems:'center', 
       justifyContent:'center', 
-      top:10
+      top:10,
+      width:50,
+      height:50,
+    
     },
     image: {
       width:50,
@@ -12,4 +16,4 @@ const styles = StyleSheet.create({
     }
   })
 
-  export default styles
+  export default Styles
