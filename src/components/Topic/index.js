@@ -7,7 +7,7 @@ import colors from "../../../contains/colors";
 const topicname = "Topic";
 export default function Topic() {
   return (
-    <View>
+    <View style={{marginTop: 15}}>
       <View style={Styles.topic}>
         <Text style={Styles.titletopic}>{topicname}</Text>
         <Text style={Styles.readmore}>Xem thêm</Text>
@@ -25,7 +25,7 @@ export default function Topic() {
 }
 const Styles = StyleSheet.create({
   topic: {
-    marginVertical: 20,
+    marginVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 20

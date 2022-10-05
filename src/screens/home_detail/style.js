@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   welcome: {
     flexWrap: 'wrap',
     marginHorizontal: 20,
-    marginVertical: 30,
+    marginTop: 30,
     position: 'relative',
     height: 124,
   },
@@ -89,12 +89,16 @@ const styles = StyleSheet.create({
     elevation: 20,
     marginLeft: 20
   },
-  group22: {
-    backgroundColor: 'red'
-  },
   helloname: {
     color: colors.violet
   },
+  search:{
+    backgroundColor: 'none',
+    width: 60
+  },
+  searchicon:{
+    
+  }
 });
 
 export default styles

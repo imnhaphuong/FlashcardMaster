@@ -10,68 +10,54 @@ import New from '../../../assets/images/new.svg';
 import Noti from '../../../assets/images/noti.svg';
 import Profile from '../../../assets/images/profile.svg';
 import { View } from 'react-native';
+import ClassDetailScreen from '../../screens/class_detail';
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator>
-      <Tab.Screen
+      <Tab.Screen 
         name="home" component={Home_Screen} options={{
+          tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-              <Home style={{
-                 width:50,
-                 height:50,
-                tintColor: focused ? colors.violet : colors.graySecondary
-              }}/>
+              <Home stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
         }}/>
        <Tab.Screen
-        name="class" component={Home_Screen} options={{
+        name="class" component={ClassDetailScreen} options={{
+          tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-               <Class style={{
-                 width:50,
-                 height:50,
-                tintColor: focused ? colors.violet : colors.graySecondary
-              }}/>
+               <Class stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
         }}/>
          <Tab.Screen
         name="new" component={Home_Screen} options={{
+          tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-               <New style={{
-                 width:50,
-                 height:50,
-                tintColor: focused ? colors.violet : colors.graySecondary
-              }}/>
+               <New stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
         }}/>
          <Tab.Screen
         name="noti" component={Home_Screen} options={{
+          tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-               <Noti style={{
-                 width:50,
-                 height:50,
-                tintColor: focused ? colors.violet : colors.graySecondary
-              }}/>
+               <Noti stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
         }}/>
          <Tab.Screen
         name="profile" component={Home_Screen} options={{
+          tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
             <View style={styles.view}>
-               <Profile style={{
-                 width:50,
-                 height:50,
-                tintColor: focused ? colors.violet : colors.graySecondary
-              }}/>
+               <Profile stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
         }}/>
@@ -81,7 +67,7 @@ function MyTabs() {
 export default function NavigationBar() {
   return (
     <NavigationContainer independent ={true}>
-      <MyTabs />
+      <MyTabs/>
     </NavigationContainer>
   );
 }

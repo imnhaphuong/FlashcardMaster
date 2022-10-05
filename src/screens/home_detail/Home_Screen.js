@@ -6,6 +6,7 @@ import Coin from '../../../assets/images/coin.svg';
 import Thegirl from '../../../assets/images/Thegirl.svg';
 import { SafeAreaView } from "react-native";
 import Topic from "../../components/Topic";
+import Search from '../../../assets/images/Search.svg';
 
 export default function Home_Screen() {
     const coinPrice = "200";
@@ -30,10 +31,14 @@ export default function Home_Screen() {
                     </View>
                 </View>
                 <View>
-                    <Topic/>
-                    <Topic/>
+                    <Topic />
+                    <Topic />
                 </View>
+
             </ScrollView>
+            <View style={Styles.search}>
+               <Search/>
+            </View>
         </SafeAreaView>
     );
 }
