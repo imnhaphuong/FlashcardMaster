@@ -36,12 +36,11 @@ const styles = StyleSheet.create({
   },
   price: {
     width: 30,
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 16,
     alignItems: 'center',
     textAlign: 'center',
     color: '#001E1D',
-    flex: 'none',
     marginLeft: 3
   },
   scroolview: {
@@ -82,9 +81,9 @@ const styles = StyleSheet.create({
   hello: {
     alignItems: 'center',
     fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 16,
-    color: 'black',
+    color: colors.text,
     zIndex: 20,
     elevation: 20,
     marginLeft: 20
