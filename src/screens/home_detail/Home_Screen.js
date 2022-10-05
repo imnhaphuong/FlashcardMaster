@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, Image, View } from "react-native";
 import Styles from "./style";
+// import Tabs from "../../navigation/NavigationBar";
 import { ScrollView } from "react-native";
 import Coin from '../../../assets/images/coin.svg';
 import Thegirl from '../../../assets/images/Thegirl.svg';

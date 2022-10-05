@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     subTitle: {
 
-        color: colors.dark_gray,
+        color: colors.darkGray,
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 16.42,
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         color: colors.text,
         borderRadius: 10,
         marginVertical: 10,
-    }
+    },
+   
 
 
 })
