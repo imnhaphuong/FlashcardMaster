@@ -13,18 +13,21 @@
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.0",
+    "axios": "^0.27.2",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
+    "formik": "^2.2.9",
     "link": "^1.5.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "^0.69.6",
+    "react-native-restart": "^0.0.24",
     "react-native-svg": "12.3.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-restart": "^0.0.24",
-    "react-native-web": "~0.18.7"
+    "react-native-web": "~0.18.7",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
