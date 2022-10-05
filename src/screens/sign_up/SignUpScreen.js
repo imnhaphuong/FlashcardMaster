@@ -7,23 +7,17 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import { Formik, Form, Field } from 'formik'
 import { SignupSchema } from '../../../contains/validation'
 export default SignUpScreen = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState();
-  // const [rePassword, setRePassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState();
+  const [rePassword, setRePassword] = useState();
 
 
 
   const [hide, setHide] = useState(true);
   const [reHide, setReHide] = useState(true);
 
-  const onVerifyEmail = (email) => {
-    if (true) {
-      return true;
-    }
-    return false;
-  }
-  const onSignUp = () => {
-    //validate
+  const handleSubmit = () => {
+    console.log("email");
 
   }
   const onSignUpGoogle = () => {
@@ -79,17 +73,17 @@ export default SignUpScreen = () => {
             onSubmit={values => console.log(values)}
           >
 
-            {({ handleChange, handleBlur, handleSubmit, values, touched, errors, isValid }) => (
-              <View style={{ marginHorizontal: 20, top: 100 }}  >              
+            {({ handleChange, handleBlur, handleSubmit, values, touched, errors, isEye }) => (
+              <View style={{ marginHorizontal: 20, top: 100 }}  >
                 <CustomInput onChangeText={handleChange('email')} iconEye=" "
-                  onBlur={handleBlur('email')} value={values.email} keyboardType="default" secureTextEntry={false} placeholder="Email" icon="envelope" errors={errors.email} touched={touched.email} />
+                  onBlur={handleBlur('email')} value={values.email} keyboardType="default" secureTextEntry={false} placeholder="Email" icon="envelope" errors={errors.email} touched={touched.email} isEye={false} />
                 <CustomInput onChangeText={handleChange('password')} changeIcon={hide}
-                  onBlur={handleBlur('password')} onPress={changeSecureText} secureTextEntry={hide} value={values.password} keyboardType="password" placeholder="Mật khẩu" icon="lock" iconEye="eye" errors={errors.password} touched={touched.password} />
+                  onBlur={handleBlur('password')} onPress={changeSecureText} secureTextEntry={hide} value={values.password} keyboardType="password" placeholder="Mật khẩu" icon="lock" iconEye="eye" errors={errors.password} touched={touched.password} isEye={true} />
                 <CustomInput onChangeText={handleChange('rePassword')} changeIcon={reHide}
-                  onBlur={handleBlur('rePassword')} secureTextEntry={reHide} onPress={changeReSecureText} value={values.rePassword} keyboardType="password"placeholder="Nhập lại mật khẩu" icon="lock" iconEye="eye" errors={errors.rePassword} touched={touched.rePassword}/>
+                  onBlur={handleBlur('rePassword')} secureTextEntry={reHide} onPress={changeReSecureText} value={values.rePassword} keyboardType="password" placeholder="Nhập lại mật khẩu" icon="lock" iconEye="eye" errors={errors.rePassword} touched={touched.rePassword} isEye={true} />
                 {/* BottomForm */}
                 <View style={{ maxWidth: '100%', maxHeight: 100 }} >
-                  <CustomButton text="Đăng ký" onPress={onSignUp} hide="hide" />
+                  <CustomButton text="Đăng ký" onPress={handleSubmit} hide="hide" />
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
                     <Text style={[styles.btnText, { color: colors.text }]}>Bạn đã có tài khoản?</Text>
                     <TouchableOpacity activeOpacity={0.5} onPress={onPressSignIn}>
@@ -114,11 +108,8 @@ export default SignUpScreen = () => {
             )}
 
           </Formik>
-
-
         </View>
       </ImageBackground>
-
     </SafeAreaView>
   )
 }

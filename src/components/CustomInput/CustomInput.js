@@ -3,7 +3,7 @@ import React from 'react'
 import colors from '../../../contains/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, onPress, secureTextEntry }) => {
+const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, onPress, isEye }) => {
   const hide = hide;
   return (
     <View style={{ marginBottom: 30, }}>
@@ -25,7 +25,7 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
         </View>
         <TouchableOpacity onPress={onPress}>
           <View>
-            {secureTextEntry ?
+            {isEye ?
               (changeIcon ? <Icon name={iconEye} size={16} color={colors.graySecondary} /> : <Icon name='eye-slash' size={16} color={colors.graySecondary} />) : null}
 
           </View>
