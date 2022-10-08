@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
         lineHeight: 35.84,
     },
     subTitle: {
-
+        height:'100%',
+        marginTop:10,
         color: colors.darkGray,
         fontSize: 14,
         fontWeight: '400',
@@ -41,7 +42,14 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         textDecorationLine: "underline",
         textDecorationStyle: "solid",
-    }
+    },
+    btnText: {
+        fontWeight: '500',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        color: colors.text
+
+    },
 
 
 

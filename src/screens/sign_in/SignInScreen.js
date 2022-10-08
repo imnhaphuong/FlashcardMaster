@@ -8,8 +8,8 @@ import { SignupSchema } from '../../../contains/validation'
 import React, { useState } from 'react'
 
 
-const SignInScreen = ({navigation}) => {
-  
+const SignInScreen = ({navigation, userInfo}) => {
+    console.log("sign in "+userInfo);
   const [hide, setHide] = useState(true);
   const [reHide, setReHide] = useState(true);
 

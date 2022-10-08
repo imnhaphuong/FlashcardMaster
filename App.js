@@ -13,6 +13,8 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -20,8 +22,9 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="SignIn"
+        initialRouteName="SignUp"
       >
+        
         <Stack.Screen name="Navi" component={Navi}/>
         <Stack.Screen name="Home" component={Home_Screen}/>
         <Stack.Screen name="SignUp" component={SignUpScreen} />
