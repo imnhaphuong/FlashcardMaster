@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import styles from "./style";
 import { createClassSchema } from "./validation";
@@ -29,6 +30,8 @@ const ModalCreateClass = () => {
       .then((res) => res.json())
       .then((resJson) => {
         console.log(resJson);
+        setModalVisible(!modalVisible);
+        Keyboard.dismiss
       })
       .catch((error) => {
         console.log(error);
