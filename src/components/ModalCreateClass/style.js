@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: StatusBar.currentHeight || 0,
   },
   modalView: {
     width: "90%",
@@ -25,10 +24,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   form: {
-    backgroundColor: 'red'
+    backgroundColor: "red",
   },
   inputClassName: {
-    width: '100%',
+    width: "100%",
     borderColor: colors.violet,
     height: 48,
     borderWidth: 1,
@@ -46,9 +45,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
   },
   buttonCancel: {
     paddingVertical: 10,
@@ -74,6 +70,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  createBtn: {
+    flexDirection: "row",
+    borderRadius: 10,
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    backgroundColor: colors.yellow,
+    shadowColor: colors.text,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.9,
+  },
+  textBtn: {
+    fontSize: 16,
+    color: colors.text,
   },
 });
 
