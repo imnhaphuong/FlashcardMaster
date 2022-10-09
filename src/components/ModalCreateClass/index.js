@@ -86,7 +86,7 @@ const ModalCreateClass = () => {
                       checkboxStyle={styles.checkbox}
                       labelStyle={styles.label}
                       checkedImage={require("../../../assets/images/checkbox/checked.png")}
-                      unCheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
+                      uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
                       label="Hiển thị lớp học ở chế độ công khai"
                       checked={values.mode}
                       onChange={() => {
