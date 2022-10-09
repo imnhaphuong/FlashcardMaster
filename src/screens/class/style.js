@@ -4,8 +4,7 @@ import colors from "../../../contains/colors";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-    // backgroundColor: colors.pastelPurple,
+    backgroundColor: colors.pastelPurple,
     flexDirection: "column",
   },
   header: {
@@ -13,12 +12,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: colors.text,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: .9,
+    shadowColor: 'black',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 1},
+    elevation: 2,
   },
   textHeader: {
     textAlign: "center",
@@ -50,12 +47,8 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     fontSize: 16,
-  },
-  textJoin: {
     color: colors.pastelPurple,
-  },
-  textCreate: {
-    color: colors.text,
+    fontWeight: '600'
   },
   input: {
     borderWidth: 1,
@@ -68,11 +61,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     color: colors.text,
     backgroundColor: colors.white,
+    
   },
   wrapOr: {
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 20,
+
   },
   or: {
     textAlign: "center",

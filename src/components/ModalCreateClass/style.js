@@ -2,6 +2,17 @@ import { StatusBar, StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
+  containerCB: {
+    marginBottom: 20,
+  },
+  checkbox: {
+    height: 24,
+    width: 24,
+    resizeMode: "contain",
+  },
+  label: {
+    color: colors.text,
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -17,14 +28,13 @@ const styles = StyleSheet.create({
     shadowColor: colors.text,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  form: {
-    backgroundColor: "red",
+    shadowOpacity: .25,
+    shadowRadius: 10,
+    elevation: 10,
+    borderColor: colors.graySecondary,
+    borderWidth: 1,
   },
   inputClassName: {
     width: "100%",
@@ -34,6 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 16,
     paddingHorizontal: 16,
+    backgroundColor: colors.white,
   },
   wrapButtons: {
     flexDirection: "row",
@@ -42,7 +53,8 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
     elevation: 2,
   },
@@ -89,6 +101,7 @@ const styles = StyleSheet.create({
   textBtn: {
     fontSize: 16,
     color: colors.text,
+    fontWeight: "600",
   },
 });
 

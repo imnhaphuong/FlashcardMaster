@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import styles from "./style";
 import ModalCreateClass from "../../components/ModalCreateClass";
+import colors from "../../../contains/colors";
 
 const ClassScreen = (props) => {
   const [visible, setvisible] = useState(false);
@@ -21,6 +23,12 @@ const ClassScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor={colors.white}
+        barStyle={"dark-content"}
+        showHideTransition={"fade"}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.header}
@@ -32,14 +40,13 @@ const ClassScreen = (props) => {
 
       <View style={styles.wrapContent}>
         <TextInput style={styles.input} placeholder="Nhập mã lớp học" />
-       
-        <TouchableOpacity
-        onPress={Keyboard.dismiss}>
+
+        <TouchableOpacity onPress={Keyboard.dismiss}>
           <View style={[styles.btn, styles.joinBtn]}>
             <Text style={[styles.textBtn, styles.textJoin]}>Tham gia</Text>
           </View>
         </TouchableOpacity>
-        
+
         <View style={styles.wrapOr}>
           <View style={styles.line} />
           <View>
@@ -47,7 +54,7 @@ const ClassScreen = (props) => {
           </View>
           <View style={styles.line} />
         </View>
-        
+
         <ModalCreateClass />
       </View>
     </SafeAreaView>
