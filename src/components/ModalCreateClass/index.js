@@ -15,7 +15,7 @@ import { Formik, Field, Form } from "formik";
 import CheckBox from "react-native-checkbox";
 
 const ModalCreateClass = () => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const textHolder = `Tên lớp của bạn là?`;
 
   const submitData = async (values) => {
@@ -31,7 +31,7 @@ const ModalCreateClass = () => {
       .then((resJson) => {
         console.log(resJson);
         setModalVisible(!modalVisible);
-        Keyboard.dismiss
+        Keyboard.dismiss;
       })
       .catch((error) => {
         console.log(error);
@@ -82,13 +82,20 @@ const ModalCreateClass = () => {
                       value={values.name}
                     />
                     <CheckBox
+                      containerStyle={styles.containerCB}
+                      checkboxStyle={styles.checkbox}
+                      labelStyle={styles.label}
+                      checkedImage={require("../../../assets/images/checkbox/checked.png")}
+                      unCheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
                       label="Hiển thị lớp học ở chế độ công khai"
                       checked={values.mode}
                       onChange={() => {
                         setFieldValue("mode", !values.mode);
                       }}
                     />
-                    <View style={{ flexDirection: "row" }}>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
                       <View>
                         {errors.name && touched.name ? (
                           <Text style={{ color: "red", textAlign: "left" }}>
@@ -96,7 +103,6 @@ const ModalCreateClass = () => {
                           </Text>
                         ) : null}
                       </View>
-
                       <View style={styles.wrapButtons}>
                         <Pressable
                           style={[styles.buttonCancel]}
