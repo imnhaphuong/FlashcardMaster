@@ -11,6 +11,7 @@ import Noti from '../../../assets/images/noti.svg';
 import Profile from '../../../assets/images/profile.svg';
 import { View } from 'react-native';
 import ClassDetailScreen from '../../screens/class_detail';
+import SysModal from '../SysModal/SysModal';
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -24,7 +25,7 @@ function MyTabs() {
               <Home stroke ={focused ? colors.violet : colors.graySecondary}/>
             </View>
           )
-        }}/>
+        }}/>   
        <Tab.Screen
         name="class" component={ClassDetailScreen} options={{
           tabBarShowLabel:false,
