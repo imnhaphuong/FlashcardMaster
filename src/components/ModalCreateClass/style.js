@@ -2,11 +2,21 @@ import { StatusBar, StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
+  containerCB: {
+    marginBottom: 20,
+  },
+  checkbox: {
+    height: 24,
+    width: 24,
+    resizeMode: "contain",
+  },
+  label: {
+    color: colors.text,
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: StatusBar.currentHeight || 0,
   },
   modalView: {
     width: "90%",
@@ -18,23 +28,23 @@ const styles = StyleSheet.create({
     shadowColor: colors.text,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  form: {
-    backgroundColor: 'red'
+    shadowOpacity: .25,
+    shadowRadius: 10,
+    elevation: 10,
+    borderColor: colors.graySecondary,
+    borderWidth: 1,
   },
   inputClassName: {
-    width: '100%',
+    width: "100%",
     borderColor: colors.violet,
     height: 48,
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 16,
     paddingHorizontal: 16,
+    backgroundColor: colors.white,
   },
   wrapButtons: {
     flexDirection: "row",
@@ -43,12 +53,10 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
     elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
   },
   buttonCancel: {
     paddingVertical: 10,
@@ -74,6 +82,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  createBtn: {
+    flexDirection: "row",
+    borderRadius: 10,
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    backgroundColor: colors.yellow,
+    shadowColor: colors.text,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.9,
+  },
+  textBtn: {
+    fontSize: 16,
+    color: colors.text,
+    fontWeight: "600",
   },
 });
 
