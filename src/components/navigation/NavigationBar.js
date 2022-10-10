@@ -26,6 +26,14 @@ export default function NavigationBar() {
             <View style={styles.view}>
               <Home stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
+<<<<<<< HEAD
+          )
+        }}/>   
+       <Tab.Screen
+        name="class" component={ClassDetailScreen} options={{
+          tabBarShowLabel:false,
+          tabBarIcon:({focused}) => (
+=======
           ),
         }}
         listeners={({ navigation, route }) => ({
@@ -44,6 +52,7 @@ export default function NavigationBar() {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
+>>>>>>> main
             <View style={styles.view}>
               <Class stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
