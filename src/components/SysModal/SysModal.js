@@ -1,12 +1,11 @@
 import { View, Text, Modal, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React,{useState} from 'react'
 import colors from '../../../contains/colors'
 import { LinearGradient } from 'react-native-svg'
 
-const SysModal = ({ message, visible, onClose }) => {
-    
+const SysModal = ({message,visible,onClose}) => {
     return (
-        <Modal animationType="fade" onRequestClose={onClose} visible={visible} transparent={true}>
+        <Modal visible={visible} transparent={true}>
             <View style={{
                 flex: 1,
                 backgroundColor: 'rgba(00,00,00,.5)',
@@ -35,7 +34,7 @@ const SysModal = ({ message, visible, onClose }) => {
                     </View>
                     {/* body */}
                     <View>
-                        <Text style={{ fontSize: 16, color: colors.darkGray }}>{message}</Text>
+                        <Text style={{fontSize: 16, color: colors.darkGray}}>{message}</Text>
                     </View>
                     {/* button */}
                     <View style={{
@@ -43,7 +42,7 @@ const SysModal = ({ message, visible, onClose }) => {
                         alignItems: "center",
                         marginTop: 20,
                     }}>
-                        {/* <TouchableOpacity >
+                        <TouchableOpacity >
                             <View style={{
                                 alignItems: 'center',
                                 justifyContent: "center",
@@ -60,11 +59,11 @@ const SysModal = ({ message, visible, onClose }) => {
                                     // fontWeight: 'bold',
                                     color: colors.white,
                                 }} onPress={onClose}>
-                                    Thoát
+                                    Close
                                 </Text>
 
                             </View>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
