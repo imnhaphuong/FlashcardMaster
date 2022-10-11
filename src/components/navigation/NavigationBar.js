@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import styles from "./style";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home_Screen from "../../screens/home_detail/Home_Screen";
-import colors from "../../../contains/colors";
-import Home from "../../../assets/images/home.svg";
-import Class from "../../../assets/images/class.svg";
-import New from "../../../assets/images/new.svg";
-import Noti from "../../../assets/images/noti.svg";
-import Profile from "../../../assets/images/profile.svg";
-import { View, Text, Alert } from "react-native";
-import ClassScreen from "../../screens/class";
+import * as React from 'react';
+import styles from './style';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Home_Screen from '../../screens/home_detail/Home_Screen';
+import colors from '../../../contains/colors';
+import Home from '../../../assets/images/home.svg';
+import Class from '../../../assets/images/class.svg';
+import New from '../../../assets/images/new.svg';
+import Noti from '../../../assets/images/noti.svg';
+import Profile from '../../../assets/images/profile.svg';
+import { View } from 'react-native';
+import ClassDetailScreen from '../../screens/class_detail';
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -26,33 +26,12 @@ export default function NavigationBar() {
             <View style={styles.view}>
               <Home stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
-<<<<<<< HEAD
           )
-        }}/>   
+        }}/>
        <Tab.Screen
         name="class" component={ClassDetailScreen} options={{
           tabBarShowLabel:false,
           tabBarIcon:({focused}) => (
-=======
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          focus: (e) => {
-            // if (route.state.routeNames.length > 0) {
-            // navigation.navigate('class')
-            setcurrentScreen(route.name);
-            // }
-          },
-        })}
-      />
-      <Tab.Screen
-        name="class"
-        component={ClassScreen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => (
->>>>>>> main
             <View style={styles.view}>
               <Class stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
