@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from './style';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

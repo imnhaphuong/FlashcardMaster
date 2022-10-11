@@ -3,14 +3,14 @@ import React from 'react'
 import colors from '../../../contains/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, onPress, isEye }) => {
+const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, iconEyeSlash, onPress, isEye }) => {
   const hide = hide;
   return (
     <View style={{ marginBottom: 30, }}>
 
       <View style={styles.formInput} >
         <View >
-          <Icon name={icon} size={16} color={colors.graySecondary} />
+          {icon}
         </View>
         <View style={{ flex: 1, marginLeft: 5 }} >
           <TextInput style={styles.textInput}
@@ -26,7 +26,7 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
         <TouchableOpacity onPress={onPress}>
           <View>
             {isEye ?
-              (changeIcon ? <Icon name={iconEye} size={16} color={colors.graySecondary} /> : <Icon name='eye-slash' size={16} color={colors.graySecondary} />) : null}
+              (changeIcon ? <View>{ iconEye }</View> : <View>{ iconEyeSlash }</View>) : null}
 
           </View>
         </TouchableOpacity>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', height: 50,
     borderColor: colors.text,
     borderWidth: 1,
-    borderStyle:'solid',
+    borderStyle: 'solid',
     padding: 10,
     color: colors.text,
     borderRadius: 10,
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     letterSpacing: 0.2,
-    width: '100%'
+    width: '100%',
+    color: colors.text,
   },
   textErr: {
     fontSize: 14,
