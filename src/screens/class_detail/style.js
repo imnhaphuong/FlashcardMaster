@@ -4,9 +4,25 @@ import colors from "../../../contains/colors";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: colors.pastelPurple,
+    flexDirection: "column",
   },
-  titleBar: {
+  header: {
+    flexDirection: 'row',
+    height: 64,
+    backgroundColor: colors.white,
+    shadowColor: colors.text,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 1},
+    elevation: 2,
+  },
+  textHeader: {
+    textAlign: "center",
+    fontSize: 20,
+    color: colors.text,
   },
   inforArea: {},
   wrapUnits: {
