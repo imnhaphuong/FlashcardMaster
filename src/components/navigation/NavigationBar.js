@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import styles from './style';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home_Screen from '../../screens/home_detail/Home_Screen';
-import colors from '../../../contains/colors';
-import Home from '../../../assets/images/home.svg';
-import Class from '../../../assets/images/class.svg';
-import New from '../../../assets/images/new.svg';
-import Noti from '../../../assets/images/noti.svg';
-import Profile from '../../../assets/images/profile.svg';
-import { View } from 'react-native';
-import ClassDetailScreen from '../../screens/class_detail';
+import React, { useState } from "react";
+import styles from "./style";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home_Screen from "../../screens/home_detail/Home_Screen";
+import colors from "../../../contains/colors";
+import Home from "../../../assets/images/home.svg";
+import Class from "../../../assets/images/class.svg";
+import New from "../../../assets/images/new.svg";
+import Noti from "../../../assets/images/noti.svg";
+import Profile from "../../../assets/images/profile.svg";
+import { View } from "react-native";
+import ClassDetailScreen from "../../screens/class_detail";
+import ClassScreen from "../../screens/class";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -22,16 +23,20 @@ export default function NavigationBar() {
         name="home"
         component={Home_Screen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               <Home stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
-          )
-        }}/>
-       <Tab.Screen
-        name="class" component={ClassDetailScreen} options={{
-          tabBarShowLabel:false,
-          tabBarIcon:({focused}) => (
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="class"
+        component={ClassScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               <Class stroke={focused ? colors.violet : colors.graySecondary} />
             </View>
@@ -47,7 +52,7 @@ export default function NavigationBar() {
         name="new"
         component={Home_Screen}
         options={{
-          tabBarShowLabel: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               <New stroke={focused ? colors.violet : colors.graySecondary} />
@@ -64,7 +69,7 @@ export default function NavigationBar() {
         name="noti"
         component={Home_Screen}
         options={{
-          tabBarShowLabel: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               <Noti stroke={focused ? colors.violet : colors.graySecondary} />
@@ -81,7 +86,7 @@ export default function NavigationBar() {
         name="profile"
         component={Home_Screen}
         options={{
-          tabBarShowLabel: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               <Profile
