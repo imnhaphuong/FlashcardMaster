@@ -2,47 +2,52 @@ import { StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
-  wrapUnitCard: {
+  wrapClassCard: {
     flex: 1,
-    borderRadius: 5,
-    padding: 16,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderColor: colors.text,
+    borderWidth: 1,
     backgroundColor: colors.white,
-    shadowColor: colors.black,
+    shadowColor: colors.darkGray,
     shadowOpacity: "25%",
     shadowOffset: {
       width: 0,
       height: 1,
     },
-    elevation: 2,
-    height: 112,
-    marginHorizontal: 8,
-    marginBottom: 6,
+    elevation: 1,
+    height: 100,
+    marginBottom: 8,
     justifyContent: "space-evenly",
   },
-  unitName: {
-    fontSize: 14,
+  className: {
     fontWeight: "bold",
     color: colors.text,
-    lineHeight: 17,
+    fontSize: 16,
   },
-  numberOfCards: {
-    fontSize: 10,
-    color: colors.darkGray,
-    lineHeight: 12,
-  },
-  wrapUser: {
+  wrapMembers: {
     flexDirection: "row",
     alignItems: "center",
   },
-  avatar: {
+  numberOfMembers: {
+    fontSize: 12,
+    color: colors.darkGray,
+    marginLeft: 4,
+  },
+  wrapCreator: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  avatarCreator: {
     width: 16,
     height: 16,
     borderRadius: 100,
-    marginRight: 4,
   },
-  username: {
+  usernameCreator: {
     fontSize: 12,
     color: colors.violet,
+    marginLeft: 4,
   },
 });
 

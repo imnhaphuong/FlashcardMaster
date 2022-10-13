@@ -18,7 +18,9 @@ import { View } from 'react-native';
 import ClassDetailScreen from '../../screens/class_detail';
 
 const Tab = createBottomTabNavigator();
-function MyTabs() {
+export default function NavigationBar() {
+  const [currentScreen, setcurrentScreen] = useState("class");
+
   return (
     <Tab.Navigator screenOptions={
       {tabBarStyle: {height: 80},
@@ -33,51 +35,77 @@ function MyTabs() {
             <View style={styles.view}>
              {focused ? <HomeFocus/> : <Home/>}
             </View>
-          )
-        }}/>
-       <Tab.Screen
-        name="class" component={ClassDetailScreen} options={{
-          tabBarShowLabel:false,
-          tabBarIcon:({focused}) => (
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="class"
+        component={ClassScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
              {focused ? <ClassFocus/> : <Class/>}
             </View>
-          )
-        }}/>
-         <Tab.Screen
-        name="new" component={Home_Screen} options={{
-          tabBarShowLabel:false,
-          tabBarIcon:({focused}) => (
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          focus: (e) => {
+            setcurrentScreen(route.name);
+          },
+        })}
+      />
+      <Tab.Screen
+        name="new"
+        component={Home_Screen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <NewFocus/> : <New/>}
             </View>
-          )
-        }}/>
-         <Tab.Screen
-        name="noti" component={Home_Screen} options={{
-          tabBarShowLabel:false,
-          tabBarIcon:({focused}) => (
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          focus: (e) => {
+            setcurrentScreen(route.name);
+          },
+        })}
+      />
+      <Tab.Screen
+        name="noti"
+        component={Home_Screen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <NotiFocus/> : <Noti/>}
             </View>
-          )
-        }}/>
-         <Tab.Screen
-        name="profile" component={Home_Screen} options={{
-          tabBarShowLabel:false,
-          tabBarIcon:({focused}) => (
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          focus: (e) => {
+            setcurrentScreen(route.name);
+          },
+        })}
+      />
+      <Tab.Screen
+        name="profile"
+        component={Home_Screen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <ProfileFocus/> : <Profile/>}
             </View>
-          )
-        }}/>
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          focus: (e) => {
+            setcurrentScreen(route.name);
+          },
+        })}
+      />
     </Tab.Navigator>
-  );
-}
-export default function NavigationBar() {
-  return (
-    <NavigationContainer independent ={true}>
-      <MyTabs/>
-    </NavigationContainer>
   );
 }

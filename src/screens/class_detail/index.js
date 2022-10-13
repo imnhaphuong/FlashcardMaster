@@ -1,9 +1,21 @@
-import { View, SafeAreaView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  StatusBar,
+  KeyboardAvoidingView,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import styles from "./style";
+import colors from "../../../contains/colors";
 import UnitCard from "../../components/UnitCard";
+import Back from "../../../assets/images/header/back.svg";
+import More from "../../../assets/images/header/more.svg";
 
-const ClassDetailScreen = () => {
+const ClassDetailScreen = (props) => {
   const UNIT_DATA = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -39,6 +51,33 @@ const ClassDetailScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor={colors.white}
+        barStyle={"dark-content"}
+        showHideTransition={"fade"}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.header}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.goBack();
+          }}
+        >
+          <Back />
+        </TouchableOpacity>
+        <Text style={styles.textHeader}>Lớp học</Text>
+        <TouchableOpacity>
+          <More />
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+
+      <View style={styles.inforArea}>
+        <Text style={styles.numberOfUnits}>4 hoc phan</Text>
+        <Text style={styles.className}>ABC</Text>
+      </View>
       <View style={styles.wrapUnits}>
         <FlatList
           data={UNIT_DATA}
@@ -51,4 +90,4 @@ const ClassDetailScreen = () => {
   );
 };
 
-export default ClassDetailScreen
+export default ClassDetailScreen;

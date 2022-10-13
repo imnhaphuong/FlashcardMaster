@@ -3,14 +3,14 @@ import React from 'react'
 import colors from '../../../contains/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, onPress, secureTextEntry }) => {
+const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, iconEyeSlash, onPress, isEye }) => {
   const hide = hide;
   return (
     <View style={{ marginBottom: 30, }}>
 
       <View style={styles.formInput} >
         <View >
-          <Icon name={icon} size={16} color={colors.graySecondary} />
+          {icon}
         </View>
         <View style={{ flex: 1, marginLeft: 5 }} >
           <TextInput style={styles.textInput}
@@ -25,8 +25,8 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
         </View>
         <TouchableOpacity onPress={onPress}>
           <View>
-            {secureTextEntry ?
-              (changeIcon ? <Icon name={iconEye} size={16} color={colors.graySecondary} /> : <Icon name='eye-slash' size={16} color={colors.graySecondary} />) : null}
+            {isEye ?
+              (changeIcon ? <View>{ iconEye }</View> : <View>{ iconEyeSlash }</View>) : null}
 
           </View>
         </TouchableOpacity>
@@ -40,19 +40,20 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
 }
 const styles = StyleSheet.create({
   formInput: {
-    flexDirection: 'row', alignItems: 'center', height: 57,
+    flexDirection: 'row', alignItems: 'center', height: 50,
     borderColor: colors.text,
-    borderWidth: 2,
+    borderWidth: 1,
+    borderStyle: 'solid',
     padding: 10,
     color: colors.text,
     borderRadius: 10,
-
   },
   textInput: {
     fontSize: 16,
     fontWeight: '500',
     letterSpacing: 0.2,
-    width: '100%'
+    width: '100%',
+    color: colors.text,
   },
   textErr: {
     fontSize: 14,
