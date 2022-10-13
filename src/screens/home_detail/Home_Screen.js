@@ -1,45 +1,55 @@
 import React from "react";
-import { Text, Image, View } from "react-native";
-import Styles from "./style";
-// import Tabs from "../../navigation/NavigationBar";
+import { Text, Image, View, StatusBar } from "react-native";
+import styles from "./style";
 import { ScrollView } from "react-native";
-import Coin from '../../../assets/images/coin.svg';
-import Thegirl from '../../../assets/images/Thegirl.svg';
+import Coin from "../../../assets/images/coin.svg";
+import Thegirl from "../../../assets/images/Thegirl.svg";
 import { SafeAreaView } from "react-native";
 import Topic from "../../components/Topic";
-import Search from '../../../assets/images/Search.svg';
+import Search from "../../../assets/images/Search.svg";
+import colors from "../../../contains/colors";
 
 export default function Home_Screen() {
-    const coinPrice = "200";
-    return (
-        <SafeAreaView style={Styles.container}>
-            <View style={Styles.header}>
-                <Image
-                    style={Styles.landscape}
-                    source={require("../../../assets/images/landscape.png")} />
-                <View style={Styles.coin_display}>
-                    <Coin />
-                    <Text style={Styles.price}>{coinPrice}</Text>
-                </View>
-            </View>
-            <ScrollView style={Styles.scroolview}>
-                <View style={Styles.welcome}>
-                    <View style={Styles.group21}>
-                        <Text style={Styles.hello}>Chào cậu, <Text style={Styles.helloname}>Jessica</Text> </Text>
-                    </View>
-                    <View style={Styles.Thegirl}>
-                        <Thegirl style={Styles.ThegirlItem} />
-                    </View>
-                </View>
-                <View>
-                    <Topic />
-                    <Topic />
-                </View>
-
-            </ScrollView>
-            <View style={Styles.search}>
-               <Search/>
-            </View>
-        </SafeAreaView>
-    );
+  const coinPrice = "200";
+  return (
+    <SafeAreaView style={styles.container}>
+     <StatusBar
+        animated={true}
+        backgroundColor={colors.white}
+        barStyle={"dark-content"}
+        showHideTransition={"fade"}
+      />
+      <View style={styles.header}>
+        <Image
+          style={styles.landscape}
+          source={require("../../../assets/images/landscape.png")}
+        />
+        <View style={styles.coin_display}>
+          <Coin />
+          <Text style={styles.price}>{coinPrice}</Text>
+        </View>
+      </View>
+      <ScrollView style={styles.scroolview}>
+        <View style={styles.welcome}>
+          <View style={styles.group21}>
+            <Text style={styles.hello}>
+              Chào cậu, <Text style={styles.helloname}>Jessica</Text>{" "}
+            </Text>
+          </View>
+          <View style={styles.Thegirl}>
+            <Thegirl style={styles.ThegirlItem} />
+          </View>
+        </View>
+        <View>
+          <Topic/>
+          <Topic/>
+        </View>
+      </ScrollView>
+      <View style={styles.search}>
+        <View style={styles.searchicon}>
+          <Search/>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }

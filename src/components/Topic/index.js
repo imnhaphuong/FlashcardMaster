@@ -3,7 +3,7 @@ import UnitCard from "../../components/UnitCard";
 import { FlatList, Text, View } from "react-native";
 import { StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
-import { SafeAreaView } from "react-native-web";
+import { SafeAreaView } from "react-native";
 
 const topicname = "Topic";
 const UNIT_DATA = [
@@ -46,13 +46,12 @@ export default function Topic() {
           <Text style={Styles.titletopic}>{topicname}</Text>
           <Text style={Styles.readmore}>Xem thêm</Text>
         </View>
-        <View style={Styles.unitcard}>
-          <UnitCard />
-          <UnitCard />
-        </View>
-        <View style={Styles.unitcard}>
-          <UnitCard />
-          <UnitCard />
+        <View style={Styles.wrapUnits}>
+          <FlatList
+            data={UNIT_DATA}
+            renderItem={myRenderItem}
+            numColumns={2}
+            keyExtractor={(item) => item.id}/>
         </View>
       </View>
     </SafeAreaView>
@@ -74,8 +73,11 @@ const Styles = StyleSheet.create({
     color: colors.violet,
     fontSize: 14,
   },
-  unitcard: {
-    flexDirection: 'row',
-    marginHorizontal: 20
-  }
+  wrapUnits: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    paddingHorizontal: 12,
+  },
 })

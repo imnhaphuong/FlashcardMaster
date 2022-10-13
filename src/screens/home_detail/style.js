@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: StatusBar.currentHeight || 0
+    backgroundColor: colors.pastelPurple,
+    //marginTop: StatusBar.currentHeight || 0
   },
   header: {
     backgroundColor: colors.white,
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.25,
-    elevation: 5
+    elevation: 2
   },
   landscape: {
     width: 186,
@@ -35,18 +36,16 @@ const styles = StyleSheet.create({
     width: 24,
   },
   price: {
-    width: 30,
-    fontWeight: '500',
+    width: 35,
+    fontWeight: 'bold',
     fontSize: 16,
     alignItems: 'center',
     textAlign: 'center',
     color: '#001E1D',
-    flex: 'none',
-    marginLeft: 3
+    marginLeft: 3,
   },
   scroolview: {
     flex: 2,
-    backgroundColor: colors.pastelPurple,
   },
   welcome: {
     flexWrap: 'wrap',
@@ -82,22 +81,28 @@ const styles = StyleSheet.create({
   hello: {
     alignItems: 'center',
     fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 16,
-    color: 'black',
+    color: colors.text,
     zIndex: 20,
     elevation: 20,
     marginLeft: 20
   },
   helloname: {
-    color: colors.violet
+    color: colors.violet,
   },
   search:{
-    backgroundColor: 'none',
-    width: 60
+    position: 'absolute',
+    bottom: '8%',
+    right: '5%'
   },
   searchicon:{
-    
+    backgroundColor: colors.violet,
+    borderRadius: 50,
+    width: 48,
+    height: 48,
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   }
 });
 
