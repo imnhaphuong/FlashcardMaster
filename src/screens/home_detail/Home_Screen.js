@@ -1,18 +1,24 @@
 import React from "react";
-import { Text, Image, View } from "react-native";
+import { Text, Image, View, StatusBar } from "react-native";
 import styles from "./style";
-// import Tabs from "../../navigatio/NavigationBar";
 import { ScrollView } from "react-native";
 import Coin from "../../../assets/images/coin.svg";
 import Thegirl from "../../../assets/images/Thegirl.svg";
 import { SafeAreaView } from "react-native";
 import Topic from "../../components/Topic";
 import Search from "../../../assets/images/Search.svg";
+import colors from "../../../contains/colors";
 
 export default function Home_Screen() {
   const coinPrice = "200";
   return (
     <SafeAreaView style={styles.container}>
+     <StatusBar
+        animated={true}
+        backgroundColor={colors.white}
+        barStyle={"dark-content"}
+        showHideTransition={"fade"}
+      />
       <View style={styles.header}>
         <Image
           style={styles.landscape}
@@ -35,12 +41,14 @@ export default function Home_Screen() {
           </View>
         </View>
         <View>
-          <Topic />
-          <Topic />
+          <Topic/>
+          <Topic/>
         </View>
       </ScrollView>
       <View style={styles.search}>
-        <Search />
+        <View style={styles.searchicon}>
+          <Search/>
+        </View>
       </View>
     </SafeAreaView>
   );
