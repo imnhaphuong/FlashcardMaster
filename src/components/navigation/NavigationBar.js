@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from './style';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,7 +15,8 @@ import NotiFocus from '../../../assets/images/notifocus.svg';
 import Profile from '../../../assets/images/profile.svg';
 import ProfileFocus from '../../../assets/images/profilefocus.svg';
 import { View } from 'react-native';
-import ClassDetailScreen from '../../screens/class_detail';
+// import ClassDetailScreen from '../../screens/class_detail';
+import ClassScreen from '../../screens/class';
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
