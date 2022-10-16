@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, SafeAreaView, ImageBackground, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
+import React, { useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors'
 import CustomInput from '../../components/CustomInput/CustomInput'
@@ -9,7 +9,6 @@ import { SignupSchema } from '../../../contains/validation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { useNavigation } from '@react-navigation/core'
-import axios from 'axios'
 import SysModal from '../../components/SysModal/SysModal'
 import BgSignUp from '../../../assets/images/bgSignUp.svg'
 import LockIcon from '../../../assets/images/lock.svg'
@@ -23,7 +22,6 @@ export default SignUpScreen = ({ navigation }) => {
 
   const navi = useNavigation();
   const [isLoading, setLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState('');
   const [signUp, setSignUp] = useState(false)
   const [hide, setHide] = useState(true);
   const [reHide, setReHide] = useState(true);
@@ -61,7 +59,6 @@ export default SignUpScreen = ({ navigation }) => {
     }
   }
   const submitData = async (values) => {
-
     setLoading(true)
     if (values.rePassword !== values.password) {
       setMess('Mật khẩu nhập lại chưa đúng');
@@ -69,51 +66,42 @@ export default SignUpScreen = ({ navigation }) => {
       showModa();
       return;
     } else {
-      try {
-        await fetch("http://192.168.43.158:3000/api/user/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(values),
-        }).then(res => res.json()
-        ).then(data => {
-          setMess('Đăng ký thành công');
-          setSignUp(true)
-          let userInfo = data;
-          // AsyncStorage.setItem('user', JSON.parse(userInfo));
-          // setUserInfo(userInfo);
-          console.log("userInfo ", userInfo);
-
-        })
-      } catch (error) {
-        console.log(error);
-        setMess("Đăng ký thất bại");
-      } finally {
+      console.log("values", values.email);
+      const result = await fetch("http://192.168.43.158:3000/api/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }).then(res => res.json()
+      )
+      console.log("status", result);
+      if (result.status === 'ok') {
+        // everythign went fine
+        setMess('Đăng ký thành công');
         setShowModal(true);
-        showModa();;
+        showModa();
+        setTimeout(() => {
+          navigation.push("SignIn")
+        }, 2000);
+      } else {
+        console.log(result.error);
+        setMess(result.error);
+        setShowModal(true);
+        showModa();
       }
 
     }
 
-    if (signUp == true) {
-      await delay(1000);
-      navigation.navigate("SignIn", {
-        userInfo: userInfo
-      });
-    }
+
   };
-  const onCloseAlert = () => {
-    setShowModal(false);
-    setLoading(false);
-  }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Spinner color={colors.violet} visible={isLoading} />
 
-      <SysModal onClose={onCloseAlert} visible={showModal} message={mess} />
+      <SysModal visible={showModal} message={mess} />
       <ScrollView scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
 
         <View style={{
@@ -166,9 +154,9 @@ export default SignUpScreen = ({ navigation }) => {
                 <CustomInput onChangeText={handleChange('rePassword')} changeIcon={reHide}
                   onBlur={handleBlur('rePassword')} secureTextEntry={reHide} onPress={changeReSecureText} value={values.rePassword} keyboardType="password" placeholder="Nhập lại mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.rePassword} touched={touched.rePassword} isEye={true} />
                 {/* BottomForm */}
-                <View >
+                <View style={{ top: 10 }}>
                   <CustomButton text="Đăng ký" onPress={handleSubmit} hide="hide" />
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                     <Text style={styles.btnText}>Bạn đã có tài khoản?</Text>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("SignIn")}>
                       <Text style={styles.textSignIn}>
