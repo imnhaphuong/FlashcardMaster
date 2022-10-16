@@ -40,7 +40,7 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
 }
 const styles = StyleSheet.create({
   formInput: {
-    flexDirection: 'row', alignItems: 'center', height: 50,
+    flexDirection: 'row', alignItems: 'center', height: 58,
     borderColor: colors.text,
     borderWidth: 1,
     borderStyle: 'solid',
@@ -56,10 +56,9 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   textErr: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'red',
-    fontWeight: 'bold',
-    fontStyle: 'italic',
+    fontWeight: '500',
     marginLeft: 10
   }
 })
