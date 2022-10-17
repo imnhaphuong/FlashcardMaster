@@ -4,7 +4,7 @@ import SignUpScreen from "./src/screens/sign_up/SignUpScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ClassDetailScreen from "./src/screens/class_detail";
 import Home_Screen from "./src/screens/home_detail/Home_Screen";
-import NavigationBar from "./src/components/navigation/NavigationBar";
+import NavigationBar from "./src/components/Navigation/NavigationBar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
