@@ -61,7 +61,7 @@ export default SignInScreen = ({ navigation }) => {
   const submitData = async (values) => {
     setLoading(true)
     try {
-      await fetch("http://192.168.43.158:3000/api/users/signin", {
+      const result = await fetch("http://192.168.43.158:3000/api/users/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,20 +69,27 @@ export default SignInScreen = ({ navigation }) => {
         },
         body: JSON.stringify(values),
       }).then(res => res.json()
-      ).then(data => {
-        if (data.status === 'error') {
-          // everythign went fine
-          setMess(data.message);
-          setShowModal(true);
-          showModa();
-        } else {
-          console.log("data", data);
-          setLoading(false)
-          AsyncStorage.setItem('user', JSON.stringify(data));
-          // navigation.push("Navi")
-        }
+      )
+      if (result.status === 'error') {
+        // everythign went fine
+        setMess(result.message);
+        setShowModal(true);
+        showModa();
+      } else if (result.status === 'errorVerified') {
+        setMess(result.message);
+        console.log(result.message);
+        setShowModal(true);
+        showModa();
+        setTimeout(() => {
+          navigation.push("VerifyEmail")
+        }, 1000);
+      } else {
+        console.log("data", result);
+        setLoading(false)
 
-      })
+        AsyncStorage.setItem('userId', JSON.stringify(result._id));
+        navigation.push("Navi")
+      }
     } catch (error) {
       console.log(error);
       setMess("Email hoặc mật khẩu chưa đúng");
@@ -134,9 +141,9 @@ export default SignInScreen = ({ navigation }) => {
             }}
             validateOnMount={true}
             validationSchema={SignInSchema}
-            onSubmit={(values, { resetForm }) => {
-              submitData(values)
-              // resetForm();
+            onSubmit={async (values, { resetForm }) => {
+              await submitData(values)
+              resetForm();
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (

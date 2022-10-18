@@ -81,9 +81,11 @@ export default SignUpScreen = ({ navigation }) => {
         setMess('Đăng ký thành công');
         setShowModal(true);
         showModa();
+        AsyncStorage.setItem('userId', result.userId);
         setTimeout(() => {
-          navigation.push("SignIn")
-        }, 2000);
+
+          navigation.push("VerifyEmail")
+        }, 1000);
       } else {
         console.log(result.error);
         setMess(result.error);
@@ -141,8 +143,9 @@ export default SignUpScreen = ({ navigation }) => {
             }}
             validateOnMount={true}
             validationSchema={SignupSchema}
-            onSubmit={values => {
-              submitData(values)
+            onSubmit={async (values, { resetForm }) => {
+              await submitData(values)
+              resetForm();
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (

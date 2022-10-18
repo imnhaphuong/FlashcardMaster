@@ -17,10 +17,11 @@ const styles = StyleSheet.create({
         lineHeight: 35.84,
     },
     subTitle: {
-        height:'100%',
+        height:16,
+        width:'100%',
         marginTop:10,
         color: colors.darkGray,
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 16.42,
     },
