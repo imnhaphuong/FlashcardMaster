@@ -21,3 +21,10 @@ import { Formik, Form, Field } from 'formik';
     .required('Vui lòng nhập mật khẩu!'),
   email: Yup.string().email('Email chưa đúng định dạng!').required('Vui lòng nhập Email!'),
 });
+export const OTPSchema = Yup.object().shape({
+  number1: Yup.string().max(1),
+  number2: Yup.string().max(1),
+  number3: Yup.string().max(1),
+  number4: Yup.string().max(1),
+
+});

@@ -61,7 +61,7 @@ export default SignInScreen = ({ navigation }) => {
   const submitData = async (values) => {
     setLoading(true)
     try {
-      await fetch("https://flashcard-master.vercel.app/api/users/signin", {
+      const result = await fetch("http://192.168.43.158:3000/api/users/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,19 +69,27 @@ export default SignInScreen = ({ navigation }) => {
         },
         body: JSON.stringify(values),
       }).then(res => res.json()
-      ).then(data => {
-        let email = data.email;
-        let password = data.password;
-        setEmail(email);
-        setPassword(password);
-        showModa()
-        AsyncStorage.setItem('user', JSON.stringify(data));
-        if (values.email === email && values.password === password) {
-          console.log("values", data);
-          navigation.push("Navi")
-        }
-        
-      })
+      )
+      if (result.status === 'error') {
+        // everythign went fine
+        setMess(result.message);
+        setShowModal(true);
+        showModa();
+      } else if (result.status === 'errorVerified') {
+        setMess(result.message);
+        console.log(result.message);
+        setShowModal(true);
+        showModa();
+        setTimeout(() => {
+          navigation.push("VerifyEmail")
+        }, 1000);
+      } else {
+        console.log("data", result);
+        setLoading(false)
+
+        AsyncStorage.setItem('userId', JSON.stringify(result._id));
+        navigation.push("Navi")
+      }
     } catch (error) {
       console.log(error);
       setMess("Email hoặc mật khẩu chưa đúng");
@@ -97,7 +105,7 @@ export default SignInScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Spinner color={colors.violet} visible={isLoading} />
-      <SysModal  visible={showModal} message={mess} />
+      <SysModal visible={showModal} message={mess} />
       <ScrollView scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
         <View style={{
           position: "absolute",
@@ -133,9 +141,9 @@ export default SignInScreen = ({ navigation }) => {
             }}
             validateOnMount={true}
             validationSchema={SignInSchema}
-            onSubmit={(values, { resetForm }) => {
-              submitData(values)
-              // resetForm();
+            onSubmit={async (values, { resetForm }) => {
+              await submitData(values)
+              resetForm();
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
