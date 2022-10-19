@@ -7,16 +7,14 @@ const ClassCard = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        console.log("press a class card");
+        console.log("press on the class card has id = " + props.id);
         props.navigation.navigate("ClassDetail",
-        {
-          id: props.id
-        }
+          {id: props.id}
         );
       }}
     >
       <View style={styles.wrapClassCard}>
-        <Text style={styles.className}>{props.class_name}</Text>
+        <Text style={styles.className}>{props.name}</Text>
         <View style={styles.wrapCreator}>
         <Image
           style={styles.avatarCreator}

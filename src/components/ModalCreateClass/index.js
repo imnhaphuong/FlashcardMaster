@@ -19,7 +19,7 @@ const ModalCreateClass = () => {
   const textHolder = `Tên lớp của bạn là?`;
 
   const submitData = async (values) => {
-    fetch("http://flashcard-master.vercel.app/api/class/create", {
+    fetch("http://flashcard-master.vercel.app/api/classes/create", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
