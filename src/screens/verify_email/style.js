@@ -12,14 +12,16 @@ const styles = StyleSheet.create({
     title: {
         color: colors.text,
         fontSize: 28,
-        fontWeight: '700',
+        fontWeight: 'bold',
         textTransform: 'uppercase',
         lineHeight: 35.84,
     },
     subTitle: {
-
+        height:16,
+        width:'100%',
+        marginTop:10,
         color: colors.darkGray,
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 16.42,
     },

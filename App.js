@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
+import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="Navi"
+        initialRouteName="SignUp"
       >
         <Stack.Screen name="Navi" component={NavigationBar} />
         <Stack.Screen name="Home" component={Home_Screen} />
@@ -29,6 +30,8 @@ export default function App() {
         <Stack.Screen name="ClassDetail" component={ClassDetailScreen} />
         <Stack.Screen name="Search" component={Search_Screen}/>
         <Stack.Screen name="TopicReadMore" component={TopicReadMore}/>
+        <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
