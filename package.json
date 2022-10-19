@@ -11,11 +11,16 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
+    "@react-native-community/google-signin": "^5.0.0",
+    "@react-native-google-signin/google-signin": "^8.0.1",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.0",
     "axios": "^0.27.2",
+    "eas-cli": "^2.4.1",
     "expo": "~46.0.13",
+    "expo-auth-session": "^3.7.1",
+    "expo-google-sign-in": "^11.0.0",
     "expo-status-bar": "~1.4.0",
     "formik": "^2.2.9",
     "link": "^1.5.1",
@@ -33,7 +38,8 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-random": "~12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
@@ -43,5 +49,16 @@
       "./assets/fonts/"
     ]
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "android": {
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ]
+  }
 }

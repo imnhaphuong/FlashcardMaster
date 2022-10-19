@@ -8,31 +8,47 @@ import { Formik, } from 'formik'
 import { SignupSchema } from '../../../contains/validation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { useNavigation } from '@react-navigation/core'
 import SysModal from '../../components/SysModal/SysModal'
 import BgSignUp from '../../../assets/images/bgSignUp.svg'
 import LockIcon from '../../../assets/images/lock.svg'
 import EnvelopeIcon from '../../../assets/images/message.svg'
 import EyeIcon from '../../../assets/images/eye.svg'
 import EyeSlashIcon from '../../../assets/images/no-eye.svg'
+// import * as Google from 'expo-auth-session';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin'
+
 
 
 
 export default SignUpScreen = ({ navigation }) => {
 
-  const navi = useNavigation();
+  componentDidMount = () => {
+    // GoogleSignin.configure({
+    //   webClientId: '295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    //   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    //   hostedDomain: '', // specifies a hosted domain restriction
+    //   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+    //   accountName: '', // [Android] specifies an account name on the device that should be used
+    //   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+    //   googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
+    //   openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
+    //   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+    // });
+  }
+
   const [isLoading, setLoading] = useState(false);
   const [signUp, setSignUp] = useState(false)
   const [hide, setHide] = useState(true);
   const [reHide, setReHide] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState('');
-
+  const [userInfo, setUserInfo] = useState('')
   const lock = <LockIcon />
   const envelope = <EnvelopeIcon />
   const eye = <EyeIcon />
   const eyeSlash = <EyeSlashIcon />
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  // const [googleSubmitting, setGoogleSubmitting] = useState(false)
+  // const request = new Google.AuthRequest({  });
 
   const showModa = () => {
     setTimeout(() => {
@@ -43,6 +59,28 @@ export default SignUpScreen = ({ navigation }) => {
 
   const onSignUpGoogle = () => {
     console.log("Sign Up Google");
+    // setGoogleSubmitting(true);
+    // const config = {
+    //   webClientId: `295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com`,
+    //   androidClientId: `295207311716-nm4vh7ii73hfvj1ugqhrub34ctd5jkfm.apps.googleusercontent.com`,
+    //   scopes: ['profile', 'email']
+    // };
+    // // Google.promptAsync()
+    // request.promptAsync(discovery, { useProxy: true }).then((result) => {
+    //   const { type, user } = result;
+    //   const { email, displayName, photoUrl } = user;
+    //   if (type === 'success') {
+    //     handleMessage("Google signin succeeful", 'SUCCESS');
+    //     setTimeout(() => navigation.navigate('Navi', { email, displayName, photoUrl }))
+    //   } else {
+    //     handleMessage("Google signin was cancelled");
+    //   }
+    //   setGoogleSubmitting(false);
+    // }).catch(err => {
+    //   console.log(err);
+    //   handleMessage("An error occurred. Check your network and try again");
+    //   setGoogleSubmitting(false);
+    // })
   }
   const changeSecureText = () => {
     if (hide == true) {
@@ -167,7 +205,11 @@ export default SignUpScreen = ({ navigation }) => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  <CustomButton text="Đăng ký bằng Google" onPress={onSignUpGoogle} type="GG" />
+                  {/* {!googleSubmitting && ( */}
+                    <CustomButton text="Đăng ký bằng Google" onPress={onSignUpGoogle} type="GG" />
+
+                  {/* )} */}
+
                 </View>
               </View>
             )}

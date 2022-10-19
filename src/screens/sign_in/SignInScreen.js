@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
 
+
 export default SignInScreen = ({ navigation }) => {
 
 
@@ -87,7 +88,7 @@ export default SignInScreen = ({ navigation }) => {
         console.log("data", result);
         setLoading(false)
 
-        AsyncStorage.setItem('userId', JSON.stringify(result._id));
+        AsyncStorage.setItem('userId', result.data._id);
         navigation.push("Navi")
       }
     } catch (error) {
