@@ -15,19 +15,19 @@ import styles from "./style";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import colors from "../../../contains/colors";
 import ClassCard from "../../components/ClassCard";
-import getData from "./getdata";
+import getData from "./data";
 
 const ClassScreen = (props) => {
   const [visible, setvisible] = useState(false);
   const popupModal = () => {
     setvisible(true);
-    console.log("call" + visible);
     return true;
   };
 
   const myRenderItem = ({ item }) => (
     <ClassCard
-      class_name={item.name}
+      id={item._id}
+      name={item.name}
       creator={item.creator}
       number_of_members={item.members.length}
       navigation={props.navigation}
@@ -59,7 +59,7 @@ const ClassScreen = (props) => {
         data={CLASSES_DATA.reverse()}
         renderItem={myRenderItem}
         numColumns={1}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         ListHeaderComponent={
           <View>
             <TextInput

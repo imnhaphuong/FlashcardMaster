@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme" :"fcard",
     "name": "FlashcardMaster",
     "slug": "FlashcardMaster",
     "version": "1.0.0",
@@ -24,10 +25,34 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.tdc.flashcardmaster",
+      "versionCode": 1,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "flashcardmaster.page.link",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ec397e49-4516-4283-aee8-f91ffff3177e"
+      }
     }
   }
 }
