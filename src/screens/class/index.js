@@ -36,7 +36,7 @@ const ClassScreen = (props) => {
 
   const [CLASSES_DATA, setdata] = useState([]);
   getData(setdata);
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
