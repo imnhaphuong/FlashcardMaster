@@ -9,11 +9,11 @@ import { SignupSchema } from '../../../contains/validation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
-import BgSignUp from '../../../assets/images/bgSignUp.svg'
-import LockIcon from '../../../assets/images/lock.svg'
-import EnvelopeIcon from '../../../assets/images/message.svg'
-import EyeIcon from '../../../assets/images/eye.svg'
-import EyeSlashIcon from '../../../assets/images/no-eye.svg'
+import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
+import LockIcon from '../../../assets/images/sign_up/lock.svg'
+import EnvelopeIcon from '../../../assets/images/sign_up/message.svg'
+import EyeIcon from '../../../assets/images/sign_up/eye.svg'
+import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
 // import * as Google from 'expo-auth-session';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
@@ -105,7 +105,7 @@ export default SignUpScreen = ({ navigation }) => {
       return;
     } else {
       console.log("values", values.email);
-      const result = await fetch("http://192.168.43.158:3000/api/users/create", {
+      const result = await fetch("https://flashcard-master.vercel.app/api/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

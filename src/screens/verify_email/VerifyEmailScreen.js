@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import BgSignUp from '../../../assets/images/bgSignUp.svg'
+import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
 import colors from '../../../contains/colors'
 import styles from './style'
 import CustomInputOTP from '../../components/CustomInputOTP/CustomInputOTP'
@@ -45,7 +45,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log(data);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users//verify-email", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,9 +117,9 @@ export default VerifyEmailScreen = ({ navigation }) => {
                     }}
                     validateOnMount={true}
                     validationSchema={OTPSchema}
-                    onSubmit={async (values, { resetForm }) => {
+                    onSubmit={async (values) => {
                         await submitData(values)
-                        resetForm();
+                        // resetForm();
                     }}
                 >
                     {({ handleChange, handleSubmit, values, touched }) => (

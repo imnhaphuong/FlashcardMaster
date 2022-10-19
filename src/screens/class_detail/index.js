@@ -150,7 +150,7 @@ const ClassDetailScreen = (props) => {
             <Text style={styles.option}>Chia sẻ</Text>
           </TouchableOpacity>
 
-          <Text style={styles.option}>Options</Text>
+          {/* <Text style={styles.option}>Options</Text> */}
         </View>
         <View style={styles.inforArea}>
           <Text style={styles.className}>{CLASS.name} </Text>

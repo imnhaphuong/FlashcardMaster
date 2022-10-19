@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../../../contains/colors'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import GoogleLogo from '../../../assets/images/_Google.svg'
+import GoogleLogo from '../../../assets/images/sign_up/_Google.svg'
 
 const CustomButton = ({ onPress, text, type = 'SIGNIN', hide }) => {
 
