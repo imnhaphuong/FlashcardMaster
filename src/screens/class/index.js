@@ -18,7 +18,8 @@ import ClassCard from "../../components/ClassCard";
 import getData from "./data";
 
 const ClassScreen = (props) => {
-  const [visible, setvisible] = useState(false);
+
+  const [loadingState, setloadingState] = useState(true)
   const popupModal = () => {
     setvisible(true);
     return true;
@@ -26,6 +27,7 @@ const ClassScreen = (props) => {
 
   const myRenderItem = ({ item }) => (
     <ClassCard
+      mode = {item.mode}
       id={item._id}
       name={item.name}
       creator={item.creator}
