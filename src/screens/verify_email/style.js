@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         height:16,
-        width:'100%',
+        width:200,
         marginTop:10,
         color: colors.darkGray,
         fontSize: 16,

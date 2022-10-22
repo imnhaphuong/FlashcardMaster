@@ -1,7 +1,7 @@
 //import { useState } from "react";
 
 const getDataUnit = async (setdata) => {
-    fetch("http://192.168.1.89:3000/api/units", {
+    fetch("https://flashcard-master.vercel.app/api/units", {
       method: "get",
       headers: {
         "Content-Type": "application/json",

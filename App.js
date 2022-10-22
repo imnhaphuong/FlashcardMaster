@@ -14,6 +14,7 @@ import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
+import SignInOption from "./src/screens/sign_in/SignInOption";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,7 +57,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="nav"
+        initialRouteName="SignUp"
       >
         <Stack.Screen name="class" component={ClassScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
@@ -67,6 +68,7 @@ export default function App() {
         <Stack.Screen name="Search" component={Search_Screen}/>
         <Stack.Screen name="TopicReadMore" component={TopicReadMore}/>
         <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
+
 
       </Stack.Navigator>
     </NavigationContainer>

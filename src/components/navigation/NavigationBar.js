@@ -44,6 +44,8 @@ export default function NavigationBar() {
         component={ClassScreen}
         options={{
           headerShown: false,
+          tabBarShowLabel:false,
+
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
              {focused ? <ClassFocus/> : <Class/>}
@@ -61,6 +63,8 @@ export default function NavigationBar() {
         component={Home_Screen}
         options={{
           headerShown: false,
+          tabBarShowLabel:false,
+
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <NewFocus/> : <New/>}
@@ -78,6 +82,8 @@ export default function NavigationBar() {
         component={Home_Screen}
         options={{
           headerShown: false,
+          tabBarShowLabel:false,
+
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <NotiFocus/> : <Noti/>}
@@ -95,6 +101,8 @@ export default function NavigationBar() {
         component={Home_Screen}
         options={{
           headerShown: false,
+          tabBarShowLabel:false,
+
           tabBarIcon: ({ focused }) => (
             <View style={styles.view}>
               {focused ? <ProfileFocus/> : <Profile/>}
