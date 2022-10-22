@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors'
 import CustomInput from '../../components/CustomInput/CustomInput'
@@ -14,11 +14,12 @@ import LockIcon from '../../../assets/images/sign_up/lock.svg'
 import EnvelopeIcon from '../../../assets/images/sign_up/message.svg'
 import EyeIcon from '../../../assets/images/sign_up/eye.svg'
 import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
-// import * as Google from 'expo-auth-session';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 
-
+WebBrowser.maybeCompleteAuthSession();
 
 export default SignUpScreen = ({ navigation }) => {
 
@@ -42,14 +43,36 @@ export default SignUpScreen = ({ navigation }) => {
   const [reHide, setReHide] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState('');
-  const [userInfo, setUserInfo] = useState('')
+  const [user, setUser] = useState(null)
   const lock = <LockIcon />
   const envelope = <EnvelopeIcon />
   const eye = <EyeIcon />
   const eyeSlash = <EyeSlashIcon />
+  const [accessToken, setAccessToken] = useState(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: "295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com",
+    androidClientId: '295207311716-nm4vh7ii73hfvj1ugqhrub34ctd5jkfm.apps.googleusercontent.com',
+    iosClientId: '295207311716-ustbb774a7hbpeel01g2je7ou4fi35ba.apps.googleusercontent.com'
+  });
+  useEffect(()=>{
+    if(response?.type === "success"){
+      setAccessToken(response.authentication.accessToken);
+      accessToken && fetchUserInfo();
+    }
+  },[response,accessToken]);
   // const [googleSubmitting, setGoogleSubmitting] = useState(false)
   // const request = new Google.AuthRequest({  });
-
+  async function fetchUserInfo(){
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me",{
+      headers: { 
+        Authorization: `Bear ${accessToken}`
+      }
+    })
+    const userInfo = await response.json();
+    setUser(userInfo);
+    AsyncStorage.setItem('userGG',JSON.stringify(userInfo));
+    
+  }
   const showModa = () => {
     setTimeout(() => {
       setShowModal(false);
@@ -61,8 +84,7 @@ export default SignUpScreen = ({ navigation }) => {
     console.log("Sign Up Google");
     // setGoogleSubmitting(true);
     // const config = {
-    //   webClientId: `295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com`,
-    //   androidClientId: `295207311716-nm4vh7ii73hfvj1ugqhrub34ctd5jkfm.apps.googleusercontent.com`,
+
     //   scopes: ['profile', 'email']
     // };
     // // Google.promptAsync()
@@ -120,8 +142,9 @@ export default SignUpScreen = ({ navigation }) => {
         setShowModal(true);
         showModa();
         AsyncStorage.setItem('userId', result.userId);
-        setTimeout(() => {
+        AsyncStorage.setItem('firstTime', 'true');
 
+        setTimeout(() => {
           navigation.push("VerifyEmail")
         }, 1000);
       } else {
@@ -135,7 +158,14 @@ export default SignUpScreen = ({ navigation }) => {
 
 
   };
-
+  const ShowUserInfo = () => {
+    if(user) {
+      return(
+        <Text style={styles.subTitle}>{user.name}
+            </Text>
+      )
+    }
+  } 
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -167,6 +197,8 @@ export default SignUpScreen = ({ navigation }) => {
           }}>
             <Text style={styles.subTitle}>Chào mừng bạn đến với Flashcard Master
             </Text>
+            {user && <ShowUserInfo />}
+           
           </View>
         </View>
         {/* Form */}
@@ -194,7 +226,7 @@ export default SignUpScreen = ({ navigation }) => {
                   onBlur={handleBlur('password')} onPress={changeSecureText} secureTextEntry={hide} value={values.password} keyboardType="password" placeholder="Mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.password} touched={touched.password} isEye={true} />
                 <CustomInput onChangeText={handleChange('rePassword')} changeIcon={reHide}
                   onBlur={handleBlur('rePassword')} secureTextEntry={reHide} onPress={changeReSecureText} value={values.rePassword} keyboardType="password" placeholder="Nhập lại mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.rePassword} touched={touched.rePassword} isEye={true} />
-                {/* BottomForm */}
+           
                 <View style={{ top: 10 }}>
                   <CustomButton text="Đăng ký" onPress={handleSubmit} hide="hide" />
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
@@ -206,7 +238,9 @@ export default SignUpScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   {/* {!googleSubmitting && ( */}
-                    <CustomButton text="Đăng ký bằng Google" onPress={onSignUpGoogle} type="GG" />
+                  <CustomButton text="Đăng ký bằng Google" onPress={()=>{
+                    promptAsync();
+                  }} type="GG" />
 
                   {/* )} */}
 
@@ -214,6 +248,7 @@ export default SignUpScreen = ({ navigation }) => {
               </View>
             )}
           </Formik>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

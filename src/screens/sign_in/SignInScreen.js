@@ -14,7 +14,7 @@ import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
-
+import ModalOption from '../../components/ModalOption/ModalOption'
 
 export default SignInScreen = ({ navigation }) => {
 
@@ -22,9 +22,9 @@ export default SignInScreen = ({ navigation }) => {
   const [hide, setHide] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(false);
-
+  const [type, setType] = useState("");
+  const [showOptions, setShowOptions] = useState(true);
+  const [email, setEmail] = useState(null);
 
 
   const [mess, setMess] = useState('');
@@ -82,14 +82,21 @@ export default SignInScreen = ({ navigation }) => {
         setShowModal(true);
         showModa();
         setTimeout(() => {
-          navigation.push("VerifyEmail")
+          navigation.replace("VerifyEmail")
         }, 1000);
       } else {
         console.log("data", result);
         setLoading(false)
-
+        AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
-        navigation.push("nav")
+        setEmail(result.data.email);
+        //Check type user
+        setType(result.data.type);
+        if (result.data.type !== 0) {
+          setTimeout(() => {
+            navigation.replace("nav")
+          }, 1000);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -100,11 +107,60 @@ export default SignInScreen = ({ navigation }) => {
     }
 
   };
-
-
+  const chooseClass = async () => {
+    console.log("email", email);
+    const data = {
+      email: email,
+    }
+    try {
+       await fetch("http://192.168.43.158:3000/api/users/type-class", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      )
+      setShowOptions(false);
+      setTimeout(() => {
+        navigation.replace("nav")
+      }, 1000);
+    } catch (err) {
+      setMess(err);
+      setShowModal(true);
+      showModa();
+    }
+  }
+  const choosePersonal = async () => {
+    const data = {
+      email: email,
+    }
+    try {
+      await fetch("http://192.168.43.158:3000/api/users/type-personal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      )
+      setShowOptions(false);
+      setTimeout(() => {
+        navigation.replace("nav")
+      }, 1000);
+    } catch (err) {
+      setMess(err);
+      setShowModal(true);
+      showModa();
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {type === 0 ? <ModalOption visible={showOptions} chooseClass={chooseClass} choosePersonal={choosePersonal} /> : ""}
+
       <Spinner color={colors.violet} visible={isLoading} />
       <SysModal visible={showModal} message={mess} />
       <ScrollView scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>

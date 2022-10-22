@@ -20,12 +20,16 @@ export default VerifyEmailScreen = ({ navigation }) => {
     const [mess, setMess] = useState('');
     const [userId, setUserId] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [user,setUser] = useState(null)
 
     // React function hook && react funtion 
     useEffect(() => {
         AsyncStorage.getItem('userId').then(result => {
             setUserId(result);
         })
+        // AsyncStorage.getItem('userGG').then(result => {
+        //     setUser(result);
+        // })
     }, [])
     const showModa = () => {
         setTimeout(() => {
@@ -102,7 +106,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
                         <Text style={styles.title}>Xác nhận tài khoản</Text>
                     </View>
                     <View >
-                        <Text style={styles.subTitle}>Vui lòng kiểm tra email, nhập mã otp vào bên dưới
+                        <Text style={styles.subTitle}>{user}
                         </Text>
                     </View>
                 </View>
