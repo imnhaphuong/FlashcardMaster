@@ -62,7 +62,7 @@ export default SignInScreen = ({ navigation }) => {
   const submitData = async (values) => {
     setLoading(true)
     try {
-      const result = await fetch("https://flashcard-master.vercel.app/api/users/signin", {
+      const result = await fetch("http://192.168.43.158:3000/api/users/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export default SignInScreen = ({ navigation }) => {
       email: email,
     }
     try {
-       await fetch("http://192.168.43.158:3000/api/users/type-class", {
+      await fetch("http://192.168.43.158:3000/api/users/type-class", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,6 +156,7 @@ export default SignInScreen = ({ navigation }) => {
       showModa();
     }
   }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

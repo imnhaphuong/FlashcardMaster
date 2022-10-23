@@ -127,7 +127,7 @@ export default SignUpScreen = ({ navigation }) => {
       return;
     } else {
       console.log("values", values.email);
-      const result = await fetch("https://flashcard-master.vercel.app/api/users/create", {
+      const result = await fetch("http://192.168.43.158:3000/api/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,11 +138,9 @@ export default SignUpScreen = ({ navigation }) => {
       console.log("status", result);
       if (result.status === 'ok') {
         // everythign went fine
-        setMess('Đăng ký thành công');
-        setShowModal(true);
-        showModa();
-        AsyncStorage.setItem('userId', result.userId);
-        AsyncStorage.setItem('firstTime', 'true');
+
+        AsyncStorage.setItem('userId', result.user._id);
+        AsyncStorage.setItem('userInfo', JSON.stringify(result.user));
 
         setTimeout(() => {
           navigation.push("VerifyEmail")
