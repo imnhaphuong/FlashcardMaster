@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import BgSignUp from '../../../assets/images/bgSignUp.svg'
+import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
 import colors from '../../../contains/colors'
 import styles from './style'
 import CustomInputOTP from '../../components/CustomInputOTP/CustomInputOTP'
@@ -20,12 +20,16 @@ export default VerifyEmailScreen = ({ navigation }) => {
     const [mess, setMess] = useState('');
     const [userId, setUserId] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [user,setUser] = useState(null)
 
     // React function hook && react funtion 
     useEffect(() => {
         AsyncStorage.getItem('userId').then(result => {
             setUserId(result);
         })
+        // AsyncStorage.getItem('userGG').then(result => {
+        //     setUser(result);
+        // })
     }, [])
     const showModa = () => {
         setTimeout(() => {
@@ -45,7 +49,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log(data);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users//verify-email", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -102,7 +106,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
                         <Text style={styles.title}>Xác nhận tài khoản</Text>
                     </View>
                     <View >
-                        <Text style={styles.subTitle}>Vui lòng kiểm tra email, nhập mã otp vào bên dưới
+                        <Text style={styles.subTitle}>{user}
                         </Text>
                     </View>
                 </View>
@@ -117,9 +121,9 @@ export default VerifyEmailScreen = ({ navigation }) => {
                     }}
                     validateOnMount={true}
                     validationSchema={OTPSchema}
-                    onSubmit={async (values, { resetForm }) => {
+                    onSubmit={async (values) => {
                         await submitData(values)
-                        resetForm();
+                        // resetForm();
                     }}
                 >
                     {({ handleChange, handleSubmit, values, touched }) => (

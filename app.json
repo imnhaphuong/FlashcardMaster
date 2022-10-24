@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme" :"fcard",
+    "scheme": "fcard",
     "name": "FlashcardMaster",
     "slug": "FlashcardMaster",
     "version": "1.0.0",
@@ -19,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tdc.flashcardmaster"
     },
     "android": {
       "adaptiveIcon": {
@@ -51,7 +52,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "ec397e49-4516-4283-aee8-f91ffff3177e"
+        "projectId": "1dce0852-eb65-4f58-ba62-3a443a6fffed"
       }
     }
   }
