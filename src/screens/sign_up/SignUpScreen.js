@@ -127,7 +127,7 @@ export default SignUpScreen = ({ navigation }) => {
       return;
     } else {
       console.log("values", values.email);
-      const result = await fetch("http://192.168.43.158:3000/api/users/create", {
+      const result = await fetch("https://flashcard-master.vercel.app/api/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

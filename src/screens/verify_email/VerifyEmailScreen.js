@@ -11,7 +11,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import SysModal from '../../components/SysModal/SysModal'
 import Spinner from 'react-native-loading-spinner-overlay'
 
-const port = '192.168.43.158:3000'
 export default VerifyEmailScreen = ({ navigation }) => {
 
     const [isLoading, setLoading] = useState(false);
@@ -45,7 +44,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log(data);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users/verify-email", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,6 +75,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
     }
     const sendVerification= async()=>{
+        setLoading(true)
         console.log("send verification");
         const {email} = JSON.parse(user); 
         const data = {
@@ -84,7 +84,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log("email",email);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users/send-verification", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,8 +93,10 @@ export default VerifyEmailScreen = ({ navigation }) => {
                 body: JSON.stringify(data),
             }).then(res => res.json()
             )
+            setLoading(false)
         }catch(err){
             console.log(err);
+            setLoading(false)
         }
     }
     return (
