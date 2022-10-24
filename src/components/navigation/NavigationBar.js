@@ -4,16 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home_Screen from '../../screens/home_detail/Home_Screen';
 import colors from '../../../contains/colors';
-import Home from '../../../assets/images/home.svg';
-import HomeFocus from '../../../assets/images/homefocus.svg'
-import Class from '../../../assets/images/class.svg';
-import ClassFocus from '../../../assets/images/classfocus.svg';
-import New from '../../../assets/images/new.svg';
-import NewFocus from '../../../assets/images/newfocus.svg';
-import Noti from '../../../assets/images/noti.svg';
-import NotiFocus from '../../../assets/images/notifocus.svg';
-import Profile from '../../../assets/images/profile.svg';
-import ProfileFocus from '../../../assets/images/profilefocus.svg';
+import Home from '../../../assets/images/nab/home.svg';
+import HomeFocus from '../../../assets/images/nab/homefocus.svg'
+import Class from '../../../assets/images/nab/class.svg';
+import ClassFocus from '../../../assets/images/nab/classfocus.svg';
+import New from '../../../assets/images/nab/new.svg';
+import NewFocus from '../../../assets/images/nab/newfocus.svg';
+import Noti from '../../../assets/images/nab/noti.svg';
+import NotiFocus from '../../../assets/images/nab/notifocus.svg';
+import Profile from '../../../assets/images/nab/profile.svg';
+import ProfileFocus from '../../../assets/images/nab/profilefocus.svg';
 import { View } from 'react-native';
 // import ClassDetailScreen from '../../screens/class_detail';
 import ClassScreen from '../../screens/class';
