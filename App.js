@@ -57,7 +57,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="SignUp"
+        initialRouteName="SignIn"
       >
         <Stack.Screen name="class" component={ClassScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
@@ -68,8 +68,6 @@ export default function App() {
         <Stack.Screen name="Search" component={Search_Screen}/>
         <Stack.Screen name="TopicReadMore" component={TopicReadMore}/>
         <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );
