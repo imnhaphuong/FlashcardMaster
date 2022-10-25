@@ -5,16 +5,24 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
-import React from "react";
+
+import React, { useState } from "react";
 import styles from "./style";
 import Members from "../../../assets/images/members.svg";
+import getUserByID from "../../../getdata/getUserById";
 
 const ClassCard = (props) => {
+  const [creator, setcreator] = useState([]);
+  getUserByID(setcreator, props.creator);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         console.log("press on the class card has id = " + props.id);
-        props.navigation.navigate("ClassDetail", { id: props.id });
+        props.navigation.navigate("ClassDetail", {
+          id: props.id,
+          creator: props.creator,
+        });
       }}
     >
       <View style={styles.wrapClassCard}>
@@ -36,7 +44,7 @@ const ClassCard = (props) => {
             style={styles.avatarCreator}
             source={require("../../../assets/images/avt-default.png")}
           />
-          <Text style={styles.usernameCreator}>{props.creator}</Text>
+          <Text style={styles.usernameCreator}>{creator.fullName}</Text>
         </View>
         <View style={styles.wrapMembers}>
           <Members />

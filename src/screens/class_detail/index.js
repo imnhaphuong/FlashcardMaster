@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Share,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -16,16 +17,25 @@ import colors from "../../../contains/colors";
 import UnitCard from "../../components/UnitCard";
 import Back from "../../../assets/images/header/back.svg";
 import More from "../../../assets/images/header/more.svg";
-import getData from "./data";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import getClassById from "../../../getdata/getClassById";
+import getUserByID from "../../../getdata/getUserById";
+import Line from "../../components/Line";
+import ModalCreateClass from "../../components/ModalCreateClass";
 
 const ClassDetailScreen = (props) => {
   var params = props.route.params;
-  const [CLASS, setdata] = useState([]);
-  getData(setdata, params.id);
+  const [CLASS, setclass] = useState([]);
+  const [creator, setcreator] = useState([]);
+  const [toggleMore, settoggleMore] = useState(false);
+  const [visible, setvisible] = useState(false);
+
+  getClassById(setclass, params.id);
+  getUserByID(setcreator, params.creator);
 
   const UNITS = [
     {
@@ -51,6 +61,7 @@ const ClassDetailScreen = (props) => {
       username: "nguyen van a",
     },
   ];
+
   const MEMBERS = ["HI"];
 
   const renderUnitItem = ({ item }) => (
@@ -71,7 +82,6 @@ const ClassDetailScreen = (props) => {
     //handle tab selection for custom Tab Selection SegmentedControlTab
     setSelectedIndex(index);
   };
-  const [data, setabc] = useState([]);
 
   // share
   const onShare = async () => {
@@ -99,9 +109,7 @@ const ClassDetailScreen = (props) => {
         },
         body: JSON.stringify(payload),
       });
-
       const json = await res.json();
-
       const result = await Share.share({
         message: `Join the class ${json.shortLink}`,
         url: json.shortLink,
@@ -115,7 +123,15 @@ const ClassDetailScreen = (props) => {
       console.log(err);
     }
   };
-
+  //update
+  const onUpdate = () => {
+    console.log('update');
+    setvisible(true)
+  }
+  //delete
+  const onDelete = () => {
+    console.log('delete');
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -137,78 +153,97 @@ const ClassDetailScreen = (props) => {
           <Back />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Lớp học</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(toggleMore);
+            settoggleMore(!toggleMore);
+          }}
+        >
           <More />
         </TouchableOpacity>
       </KeyboardAvoidingView>
 
       {/* Content */}
-      <View style={styles.wrapContent}>
-        {/* Options */}
-        <View style={[styles.wrapOptions, { zIndex: 10 }]}>
-          <TouchableOpacity onPress={onShare}>
-            <Text style={styles.option}>Chia sẻ</Text>
-          </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={() => settoggleMore(false)}>
+        <View style={styles.wrapContent}>
+          {/* Options */}
+          {toggleMore ? (
+            <View style={[styles.wrapOptions, { zIndex: 10 }]}>
+              <TouchableOpacity onPress={onShare} style={styles.option}>
+                <Text>Chia sẻ</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
+              <TouchableOpacity onPress={onUpdate} style={styles.option}>
+                <Text>Chỉnh sửa</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
+              <TouchableOpacity onPress={onDelete} style={styles.option}>
+                <Text>Xóa lớp học</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
-          <Text style={styles.option}>Options</Text>
-        </View>
-        <View style={styles.inforArea}>
-          <Text style={styles.className}>{CLASS.name} </Text>
-          <View style={styles.wrapUser}>
-            <Image
-              style={styles.avatar}
-              source={require("../../../assets/images/avt-default.png")}
-            />
-            <Text style={styles.username}>{CLASS.creator}</Text>
+          <View style={styles.inforArea}>
+            <Text style={styles.className}>{CLASS.name} </Text>
+            <View style={styles.wrapUser}>
+              <Image
+                style={styles.avatar}
+                source={require("../../../assets/images/avt-default.png")}
+              />
+              <Text style={styles.username}>{creator.email} </Text>
+            </View>
           </View>
-        </View>
-        {/* Tabs */}
-        <SegmentedControlTab
-          values={[
-            `Học phần (${numberOfUnits})`,
-            `Thành viên (${numberOfMembers})`,
-          ]}
-          selectedIndex={selectedIndex}
-          onTabPress={handleIndexSelect}
-          tabsContainerStyle={{
-            height: 60,
-            backgroundColor: colors.pastelPurple,
-          }}
-          tabStyle={{
-            backgroundColor: colors.pastelPurple,
-            borderColor: "transparent",
-            borderBottomColor: colors.graySecondary,
-            borderWidth: 1,
-          }}
-          activeTabStyle={{
-            backgroundColor: "#deddfa",
-            borderBottomColor: colors.violet,
-            borderWidth: 2,
-          }}
-          tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
-          activeTabTextStyle={{ color: colors.violet }}
-        />
+          {/* Tabs */}
+          <SegmentedControlTab
+            values={[
+              `Học phần (${numberOfUnits})`,
+              `Thành viên (${numberOfMembers})`,
+            ]}
+            selectedIndex={selectedIndex}
+            onTabPress={handleIndexSelect}
+            tabsContainerStyle={{
+              height: 60,
+              backgroundColor: colors.pastelPurple,
+            }}
+            tabStyle={{
+              backgroundColor: colors.pastelPurple,
+              borderColor: "transparent",
+              borderBottomColor: colors.graySecondary,
+              borderWidth: 1,
+            }}
+            activeTabStyle={{
+              backgroundColor: "#deddfa",
+              borderBottomColor: colors.violet,
+              borderWidth: 2,
+            }}
+            tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
+            activeTabTextStyle={{ color: colors.violet }}
+          />
 
-        {selectedIndex === 0 && (
-          <View style={styles.wrapUnits}>
-            <FlatList
-              data={UNITS}
-              renderItem={renderUnitItem}
-              numColumns={2}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
-        )}
-        {selectedIndex === 1 && (
-          <View style={styles.wrapUnits}>
-            <FlatList
-              data={MEMBERS}
-              renderItem={renderUserItem}
-              numColumns={1}
-            />
-          </View>
-        )}
-      </View>
+          {selectedIndex === 0 && (
+            <View style={styles.wrapUnits}>
+              <FlatList
+                data={UNITS}
+                renderItem={renderUnitItem}
+                numColumns={2}
+                keyExtractor={(item) => item.id}
+              />
+            </View>
+          )}
+          {selectedIndex === 1 && (
+            <View style={styles.wrapUnits}>
+              <FlatList
+                data={MEMBERS}
+                renderItem={renderUserItem}
+                numColumns={1}
+              />
+            </View>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+      {
+        visible ? <ModalCreateClass visible={visible} name={CLASS.name} mode={!CLASS.mode} event={'edit'} /> : null
+      }
     </SafeAreaView>
   );
 };

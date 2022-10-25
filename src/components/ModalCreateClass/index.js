@@ -13,13 +13,26 @@ import styles from "./style";
 import { createClassSchema } from "./validation";
 import { Formik, Field, Form } from "formik";
 import CheckBox from "react-native-checkbox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ModalCreateClass = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const ModalCreateClass = (props) => {
+  //get user id when logged to fill in creator id
+  const event = props.event ? props.event : null
+  const [userId, setuserId] = useState("");
+  AsyncStorage.getItem("userId").then((result) => {
+    setuserId(result);
+  });
+
+  const visible = props.visible ? props.visible : false;
+  const [modalVisible, setModalVisible] = useState(visible);
   const textHolder = `Tên lớp của bạn là?`;
-
+  const className = props.name ? props.name : "";
+  const mode = props.mode ? props.mode : true;
+ const url = event == null ? "https://flashcard-master.vercel.app/api/classes/create" : ""
+  //submit form create class
   const submitData = async (values) => {
-    fetch("http://flashcard-master.vercel.app/api/classes/create", {
+    values.creator = userId;
+    fetch(url, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +43,7 @@ const ModalCreateClass = () => {
       .then((res) => res.json())
       .then((resJson) => {
         console.log(resJson);
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
         Keyboard.dismiss;
       })
       .catch((error) => {
@@ -38,6 +51,7 @@ const ModalCreateClass = () => {
       });
   };
 
+  //UI
   return (
     <View>
       <View style={styles.centeredView}>
@@ -57,9 +71,8 @@ const ModalCreateClass = () => {
               <Formik
                 style={styles.form}
                 initialValues={{
-                  name: "",
-                  creator: "nhaphuong",
-                  mode: true,
+                  name: className,
+                  mode: mode,
                 }}
                 onSubmit={(values) => submitData(values)}
                 validationSchema={createClassSchema}
@@ -106,7 +119,7 @@ const ModalCreateClass = () => {
                       <View style={styles.wrapButtons}>
                         <Pressable
                           style={[styles.buttonCancel]}
-                          onPress={() => setModalVisible(!modalVisible)}
+                          onPress={() => setModalVisible(false)}
                         >
                           <Text style={[styles.textButton, styles.textCancel]}>
                             Hủy
@@ -129,11 +142,6 @@ const ModalCreateClass = () => {
           </View>
         </Modal>
       </View>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <View style={[styles.createBtn]}>
-          <Text style={[styles.textBtn]}>+ Tạo lớp mới</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };

@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.9,
   },
+  
   joinBtn: {
     backgroundColor: colors.violet,
   },

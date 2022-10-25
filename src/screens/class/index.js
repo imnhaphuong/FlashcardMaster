@@ -15,19 +15,17 @@ import styles from "./style";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import colors from "../../../contains/colors";
 import ClassCard from "../../components/ClassCard";
-import getData from "./data";
+import getAllClasses from "../../../getdata/getAllClasses";
 
 const ClassScreen = (props) => {
-
-  const [loadingState, setloadingState] = useState(true)
-  const popupModal = () => {
-    setvisible(true);
-    return true;
-  };
+  const [loadingState, setloadingState] = useState(true);
+  const [visible, setvisible] = useState(false);
+  const [CLASSES_DATA, setdata] = useState([]);
+  getAllClasses(setdata);
 
   const myRenderItem = ({ item }) => (
     <ClassCard
-      mode = {item.mode}
+      mode={item.mode}
       id={item._id}
       name={item.name}
       creator={item.creator}
@@ -36,9 +34,6 @@ const ClassScreen = (props) => {
     />
   );
 
-  const [CLASSES_DATA, setdata] = useState([]);
-  getData(setdata);
-  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -58,7 +53,7 @@ const ClassScreen = (props) => {
       <FlatList
         style={styles.wrapFlatList}
         showsVerticalScrollIndicator={false}
-        data={CLASSES_DATA.reverse()}
+        data={CLASSES_DATA}
         renderItem={myRenderItem}
         numColumns={1}
         keyExtractor={(item) => item._id}
@@ -69,11 +64,7 @@ const ClassScreen = (props) => {
               placeholder="Nhập mã lớp học"
               onSubmitEditing={Keyboard.dismiss}
             />
-            <TouchableOpacity
-              onPress={() => {
-                console.log(CLASSES_DATA);
-              }}
-            >
+            <TouchableOpacity>
               <View style={[styles.btn, styles.joinBtn]}>
                 <Text style={[styles.textBtn, styles.textJoin]}>Tham gia</Text>
               </View>
@@ -86,7 +77,15 @@ const ClassScreen = (props) => {
               </View>
               <View style={styles.line} />
             </View>
-            <ModalCreateClass />
+
+            <TouchableOpacity onPress={() => setvisible(!visible)}>
+              <View style={[styles.btn, styles.createBtn]}>
+                <Text style={[styles.textBtn, styles.textCreate]}>
+                  + Tạo lớp mới
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {visible ? <ModalCreateClass visible={visible} /> : null}
 
             <View style={[styles.wrapOr]}>
               <View style={styles.line} />
