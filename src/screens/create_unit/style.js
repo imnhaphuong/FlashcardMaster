@@ -53,29 +53,16 @@ const styles = StyleSheet.create({
   createCard:{
     marginTop:10,
   },
-  search:{
+  add:{
     position: 'absolute',
     bottom: '8%',
     right: '5%'
   },
-  searchicon:{
+  addIcon:{
     backgroundColor: colors.violet,
     borderRadius: 50,
-    width: 48,
-    height: 48,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
-  } ,
-  search:{
-    position: 'absolute',
-    bottom: '8%',
-    right: '5%'
-  },
-  searchicon:{
-    backgroundColor: colors.violet,
-    borderRadius: 50,
-    width: 48,
-    height: 48,
+    width: 52,
+    height: 52,
     justifyContent: 'space-evenly',
     alignItems: 'center'
   }

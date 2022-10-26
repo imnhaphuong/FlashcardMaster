@@ -5,7 +5,7 @@ import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Check from "../../../assets/images/header/check.svg";
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Stack, TextInput, IconButton } from "react-native-paper";
+import { Stack, TextInput, IconButton, Checkbox } from "react-native-paper";
 import CheckBox from "react-native-checkbox";
 import { Formik } from 'formik';
 import CreateUnitCard from '../../components/CreateUnitCard/CreateUnitCard';
@@ -84,18 +84,18 @@ const CreateUnitScreen = () => {
               </>
             )}
           </Formik>
-          <View style={styles.search}>
-            <View style={styles.searchicon}>
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('Search')}
-              >
-                <Add/>
-              </TouchableOpacity>
-
-            </View>
-          </View>
         </View>
       </ScrollView>
+      <View style={styles.add}>
+        <View style={styles.addIcon}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Search')}
+          >
+            <Add />
+          </TouchableOpacity>
+
+        </View>
+      </View>
     </SafeAreaView>
   )
 }

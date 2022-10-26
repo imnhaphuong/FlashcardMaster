@@ -58,7 +58,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="SignIn"
+        initialRouteName="CreateUnit"
       >
         <Stack.Screen name="class" component={ClassScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />

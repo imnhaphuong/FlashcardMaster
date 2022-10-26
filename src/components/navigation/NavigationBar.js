@@ -39,8 +39,8 @@ export default function NavigationBar() {
     }
     console.log("userId2345", userId);
     try {
-      // const url = "http://192.168.43.158:3000/api/users/id";
-      const url ="https://flashcard-master.vercel.app/api/users/id";
+      const url = "http://192.168.43.158:3000/api/users/id";
+      // const url ="https://flashcard-master.vercel.app/api/users/id";
       const result = await fetch(url, {
         method: "POST",
         headers: {
