@@ -109,8 +109,10 @@ export default function NavigationBar() {
               ),
             }}
             listeners={({ navigation, route }) => ({
-              focus: (e) => {
-                setcurrentScreen(route.name);
+              tabPress: (e) => {
+                e.preventDefault();
+                // setcurrentScreen(route.name);
+                navigation.navigate('CreateUnit');
               },
             })}
           />
@@ -187,8 +189,10 @@ export default function NavigationBar() {
               ),
             }}
             listeners={({ navigation, route }) => ({
-              focus: (e) => {
-                setcurrentScreen(route.name);
+              tabPress: (e) => {
+                e.preventDefault();
+                // setcurrentScreen(route.name);
+                navigation.navigate('CreateUnit');
               },
             })}
           />

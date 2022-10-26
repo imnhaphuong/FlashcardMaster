@@ -13,7 +13,7 @@ const CreateUnitCard = ({handleSubmit}) => {
       <CustomInputUnit label={term}/>
       <CustomInputUnit label={defi}/>
       <CustomInputUnit label={example}/>
-      <CustomButton style={{color: colors.pink}} text="Đăng ký" onPress={handleSubmit} hide="hide" />
+      <CustomButton type="ADD" text="Tải ảnh lên" onPress={handleSubmit} hide="hide" />
     </View>
   )
 }

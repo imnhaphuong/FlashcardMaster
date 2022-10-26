@@ -4,11 +4,14 @@ import colors from "../../../contains/colors";
 const styles = StyleSheet.create({
     input: {
         flex: 1,
-        // marginVertical:5,
+        marginBottom: 5,
+        
     },
     textInput: {
         backgroundColor: colors.white,
-        height: 64,
+        fontSize: 16,
+        fontWeight:'500',
+        color: colors.darkGray
     },
 
 });

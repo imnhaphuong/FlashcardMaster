@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     height:64,
   },
   containerCB: {
-    marginVertical: 20,
+    marginTop: 10,
   },
   checkbox: {
     height: 24,
@@ -47,10 +47,37 @@ const styles = StyleSheet.create({
   },
   labelCheckbox: {
     color: colors.text,
+    fontSize: 16,
+    fontWeight: "500",
   },
   createCard:{
-    marginTop:30,
-    
+    marginTop:10,
+  },
+  search:{
+    position: 'absolute',
+    bottom: '8%',
+    right: '5%'
+  },
+  searchicon:{
+    backgroundColor: colors.violet,
+    borderRadius: 50,
+    width: 48,
+    height: 48,
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  } ,
+  search:{
+    position: 'absolute',
+    bottom: '8%',
+    right: '5%'
+  },
+  searchicon:{
+    backgroundColor: colors.violet,
+    borderRadius: 50,
+    width: 48,
+    height: 48,
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   }
 
 });

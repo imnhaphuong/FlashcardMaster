@@ -10,6 +10,8 @@ import CheckBox from "react-native-checkbox";
 import { Formik } from 'formik';
 import CreateUnitCard from '../../components/CreateUnitCard/CreateUnitCard';
 import CustomInputUnit from '../../components/CustomInputUnit/CustomInputUnit';
+import Add from "../../../assets/images/checkbox/add.svg";
+
 const CreateUnitScreen = () => {
   const label = 'Tên học phần'
   return (
@@ -43,7 +45,7 @@ const CreateUnitScreen = () => {
             style={styles.form}
             initialValues={{
               name: "",
-              creator: "nhaphuong",
+              creator: "",
               mode: true,
             }}
             onSubmit={(values) => submitData(values)}
@@ -59,7 +61,7 @@ const CreateUnitScreen = () => {
               touched,
             }) => (
               <>
-                <CustomInputUnit label={label}/>
+                <CustomInputUnit label={label} />
                 <CheckBox
                   containerStyle={styles.containerCB}
                   checkboxStyle={styles.checkbox}
@@ -73,12 +75,25 @@ const CreateUnitScreen = () => {
                   }}
                 />
                 <View style={styles.createCard}>
-                  <CreateUnitCard onPress={handleSubmit}/>
+                  <CreateUnitCard />
+                  <CreateUnitCard />
+                  <CreateUnitCard />
+                  <CreateUnitCard />
+                  <CreateUnitCard />
                 </View>
               </>
             )}
           </Formik>
+          <View style={styles.search}>
+            <View style={styles.searchicon}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('Search')}
+              >
+                <Add/>
+              </TouchableOpacity>
 
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

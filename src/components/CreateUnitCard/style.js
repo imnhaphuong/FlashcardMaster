@@ -3,9 +3,11 @@ import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
   formCard:{
+    marginVertical:10,
     backgroundColor:colors.white,
     padding:10,
-    height:250,
+    height:280,
+    borderRadius:10,
   }
 
 });
