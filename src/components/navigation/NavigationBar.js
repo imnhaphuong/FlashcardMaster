@@ -18,6 +18,7 @@ import { View } from 'react-native';
 // import ClassDetailScreen from '../../screens/class_detail';
 import ClassScreen from '../../screens/class';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CreateUnitScreen from '../../screens/create_unit/CreateUnitScreen';
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -83,7 +84,6 @@ export default function NavigationBar() {
             options={{
               headerShown: false,
               tabBarShowLabel: false,
-
               tabBarIcon: ({ focused }) => (
                 <View style={styles.view}>
                   {focused ? <ClassFocus /> : <Class />}
@@ -97,12 +97,11 @@ export default function NavigationBar() {
             })}
           />
           <Tab.Screen
-            name="new"
-            component={Home_Screen}
+            name="create_unit"
+            component={CreateUnitScreen}
             options={{
               headerShown: false,
               tabBarShowLabel: false,
-
               tabBarIcon: ({ focused }) => (
                 <View style={styles.view}>
                   {focused ? <NewFocus /> : <New />}
@@ -175,8 +174,8 @@ export default function NavigationBar() {
             }}
           />
           <Tab.Screen
-            name="new"
-            component={Home_Screen}
+            name="create_unit"
+            component={CreateUnitScreen}
             options={{
               headerShown: false,
               tabBarShowLabel: false,

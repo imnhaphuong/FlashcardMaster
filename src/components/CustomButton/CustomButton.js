@@ -12,7 +12,7 @@ const CustomButton = ({ onPress, text, type = 'SIGNIN', hide }) => {
                 <View style={styles[`${hide}`]} >
                     <GoogleLogo />
                 </View>
-               <Text style={[styles.btnText, styles[`btnText_${type}`]]}>{text}</Text>
+               <Text style={{backgroundColor:colors.pink}[styles.btnText, styles[`btnText_${type}`]]}>{text}</Text>
             </View>
         </TouchableOpacity >
     )
