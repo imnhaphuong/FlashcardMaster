@@ -8,13 +8,14 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
-import NavigationBar from "./src/components/Navigation/NavigationBar";
+import NavigationBar from "./src/components/navigation/NavigationBar";
 import {Text} from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import SignInOption from "./src/screens/sign_in/SignInOption";
+import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +58,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="SignUp"
+        initialRouteName="SignIn"
       >
         <Stack.Screen name="class" component={ClassScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
@@ -68,7 +69,7 @@ export default function App() {
         <Stack.Screen name="Search" component={Search_Screen}/>
         <Stack.Screen name="TopicReadMore" component={TopicReadMore}/>
         <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-
+        <Stack.Screen name="CreateUnit" component={CreateUnitScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

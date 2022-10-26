@@ -85,7 +85,6 @@ export default SignInScreen = ({ navigation }) => {
           navigation.replace("VerifyEmail")
         }, 1000);
       } else {
-        console.log("data", result);
         setLoading(false)
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
@@ -113,7 +112,7 @@ export default SignInScreen = ({ navigation }) => {
       email: email,
     }
     try {
-       await fetch("http://192.168.43.158:3000/api/users/type-class", {
+      await fetch("https://flashcard-master.vercel.app/api/users/type-class", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +136,7 @@ export default SignInScreen = ({ navigation }) => {
       email: email,
     }
     try {
-      await fetch("http://192.168.43.158:3000/api/users/type-personal", {
+      await fetch("https://flashcard-master.vercel.app/api/users/type-personal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,6 +155,7 @@ export default SignInScreen = ({ navigation }) => {
       showModa();
     }
   }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

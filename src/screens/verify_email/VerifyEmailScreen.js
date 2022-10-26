@@ -11,25 +11,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import SysModal from '../../components/SysModal/SysModal'
 import Spinner from 'react-native-loading-spinner-overlay'
 
-
 export default VerifyEmailScreen = ({ navigation }) => {
-    const ref_input2 = useRef();
-    const ref_input3 = useRef();
-    const ref_input4 = useRef();
+
     const [isLoading, setLoading] = useState(false);
     const [mess, setMess] = useState('');
     const [userId, setUserId] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [user,setUser] = useState(null)
+    const [user, setUser] = useState(null);
 
     // React function hook && react funtion 
     useEffect(() => {
         AsyncStorage.getItem('userId').then(result => {
             setUserId(result);
         })
-        // AsyncStorage.getItem('userGG').then(result => {
-        //     setUser(result);
-        // })
+        AsyncStorage.getItem('userInfo').then(result => {
+            setUser(result);
+        })
     }, [])
     const showModa = () => {
         setTimeout(() => {
@@ -39,9 +36,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
     };
     const submitData = async (values) => {
         setLoading(true)
-
-        const { number1, number2, number3, number4 } = values;
-        const otp = number1 + number2 + number3 + number4
+        const { otp } = values;
         console.log("otp", otp);
         const data = {
             otp: otp,
@@ -58,7 +53,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
                 body: JSON.stringify(data),
             }).then(res => res.json()
             )
-            console.log("result",result);
+            console.log("result", result);
             if (result.status === 'success') {
                 setLoading(false)
                 setTimeout(() => {
@@ -79,9 +74,33 @@ export default VerifyEmailScreen = ({ navigation }) => {
             // showModa();
         }
     }
-
+    const sendVerification= async()=>{
+        setLoading(true)
+        console.log("send verification");
+        const {email} = JSON.parse(user); 
+        const data = {
+            userId:userId,
+            email: email,
+        }
+        console.log("email",email);
+        try {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(data),
+            }).then(res => res.json()
+            )
+            setLoading(false)
+        }catch(err){
+            console.log(err);
+            setLoading(false)
+        }
+    }
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
             <Spinner color={colors.violet} visible={isLoading} />
 
             <SysModal visible={showModal} message={mess} />
@@ -106,17 +125,14 @@ export default VerifyEmailScreen = ({ navigation }) => {
                         <Text style={styles.title}>Xác nhận tài khoản</Text>
                     </View>
                     <View >
-                        <Text style={styles.subTitle}>{user}
+                        <Text style={styles.subTitle}>Vui lòng kiểm tra email, nhập mã vào bên dưới
                         </Text>
                     </View>
                 </View>
                 {/* Form */}
                 <Formik
                     initialValues={{
-                        number1: '',
-                        number2: '',
-                        number3: '',
-                        number4: '',
+                        otp: '',
 
                     }}
                     validateOnMount={true}
@@ -128,41 +144,31 @@ export default VerifyEmailScreen = ({ navigation }) => {
                 >
                     {({ handleChange, handleSubmit, values, touched }) => (
                         <View>
-                            <View style={{ top: 280, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', }} >
-                                <CustomInputOTP onChangeText={handleChange('number1')}
-                                    value={values.number1} keyboardType='numeric'
-                                    returnKeyType="next"
+                            <View style={{ top: 250, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', }} >
+                                <CustomInputOTP onChangeText={handleChange('otp')}
+                                    value={values.otp} keyboardType='numeric'
                                     autoFocus={true}
-                                    touched={touched.number1}
-                                    onSubmitEditing={() => ref_input2.current.focus()}
-                                />
-                                <CustomInputOTP onChangeText={handleChange('number2')}
-                                    forwardRef={ref_input2}
-                                    value={values.number2} keyboardType='numeric'
-                                    returnKeyType="next"
-                                    touched={touched.number2}
-                                    onSubmitEditing={() => ref_input3.current.focus()} />
-                                <CustomInputOTP onChangeText={handleChange('number3')}
-                                    forwardRef={ref_input3}
-                                    value={values.number3} keyboardType='numeric'
-                                    returnKeyType="next"
-                                    touched={touched.number3}
-                                    onSubmitEditing={() => ref_input4.current.focus()} />
-                                <CustomInputOTP onChangeText={handleChange('number4')}
-                                    forwardRef={ref_input4}
-                                    value={values.number4} keyboardType='numeric'
-                                    returnKeyType="next"
-                                    touched={touched.number4}
+                                    touched={touched.otp}
                                 />
 
                             </View>
-                            <View style={{ marginTop: 367, marginHorizontal: 20 }}>
+
+                            <View style={{ marginTop: 300, marginHorizontal: 20 }}>
+                                <TouchableOpacity style={{
+                                    alignItems: 'center', marginBottom: 30,
+                                }} activeOpacity={0.5} onPress={sendVerification}>
+                                    <Text style={styles.textSignIn}>
+                                        Gửi lại mã
+                                    </Text>
+                                </TouchableOpacity>
                                 <CustomButton onPress={handleSubmit} hide="hide" text="Xác nhận" />
                             </View>
                         </View>
 
                     )}
                 </Formik>
+
+
 
             </ScrollView>
         </SafeAreaView >

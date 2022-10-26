@@ -19,6 +19,7 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
             value={value}
             secureTextEntry={changeIcon}
             placeholder={placeholder}
+            autoCapitalize="none"
             keyboardType={keyboardType}
             placeholderTextColor={colors.graySecondary}
           />

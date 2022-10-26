@@ -5,10 +5,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    vectorTop: {
-        flex: 1,
-        left: 220,
-    },
     title: {
         color: colors.text,
         fontSize: 28,
@@ -17,11 +13,12 @@ const styles = StyleSheet.create({
         lineHeight: 35.84,
     },
     subTitle: {
-
         color: colors.darkGray,
         fontSize: 14,
         fontWeight: '400',
+        height:'100%',
         lineHeight: 16.42,
+        marginTop:10,
     },
     formInput: {
         flexDirection: 'row', alignItems: 'center', height: 50,

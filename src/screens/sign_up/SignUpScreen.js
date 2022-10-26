@@ -16,26 +16,13 @@ import EyeIcon from '../../../assets/images/sign_up/eye.svg'
 import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
-// import { GoogleSignin } from '@react-native-google-signin/google-signin'
+
 
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default SignUpScreen = ({ navigation }) => {
 
-  componentDidMount = () => {
-    // GoogleSignin.configure({
-    //   webClientId: '295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-    //   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-    //   hostedDomain: '', // specifies a hosted domain restriction
-    //   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-    //   accountName: '', // [Android] specifies an account name on the device that should be used
-    //   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-    //   googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
-    //   openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
-    //   profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
-    // });
-  }
 
   const [isLoading, setLoading] = useState(false);
   const [signUp, setSignUp] = useState(false)
@@ -127,7 +114,7 @@ export default SignUpScreen = ({ navigation }) => {
       return;
     } else {
       console.log("values", values.email);
-      const result = await fetch("https://flashcard-master.vercel.app/api/users/create", {
+      const result = await fetch("http://192.168.43.158:3000/api/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,11 +125,9 @@ export default SignUpScreen = ({ navigation }) => {
       console.log("status", result);
       if (result.status === 'ok') {
         // everythign went fine
-        setMess('Đăng ký thành công');
-        setShowModal(true);
-        showModa();
-        AsyncStorage.setItem('userId', result.userId);
-        AsyncStorage.setItem('firstTime', 'true');
+
+        AsyncStorage.setItem('userId', result.user._id);
+        AsyncStorage.setItem('userInfo', JSON.stringify(result.user));
 
         setTimeout(() => {
           navigation.push("VerifyEmail")
