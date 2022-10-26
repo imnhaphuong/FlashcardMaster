@@ -1,4 +1,4 @@
-const getClassById = async (setdata, id) => {
+const getClassById = async (setdata, _id) => {
     fetch("http://flashcard-master.vercel.app/api/classes/", {
       method: "post",
       headers: {
@@ -6,7 +6,7 @@ const getClassById = async (setdata, id) => {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        id: id,
+        id: _id,
       }),
     })
       .then((res) => res.json())

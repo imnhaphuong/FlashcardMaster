@@ -26,15 +26,16 @@ import getClassById from "../../../getdata/getClassById";
 import getUserByID from "../../../getdata/getUserById";
 import Line from "../../components/Line";
 import ModalCreateClass from "../../components/ModalCreateClass";
+import ConfirmForm from "../../components/ConfirmForm";
 
 const ClassDetailScreen = (props) => {
   var params = props.route.params;
   const [CLASS, setclass] = useState([]);
-  const [creator, setcreator] = useState([]);
+  const [CREATOR, setcreator] = useState([]);
   const [toggleMore, settoggleMore] = useState(false);
-  const [visible, setvisible] = useState(false);
-
-  getClassById(setclass, params.id);
+  let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
+  let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
+  getClassById(setclass, params._id);
   getUserByID(setcreator, params.creator);
 
   const UNITS = [
@@ -125,13 +126,12 @@ const ClassDetailScreen = (props) => {
   };
   //update
   const onUpdate = () => {
-    console.log('update');
-    setvisible(true)
-  }
+    setVisibleUpdateModal(true);
+  };
   //delete
   const onDelete = () => {
-    console.log('delete');
-  }
+    setVisibleDeleteModal(true);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -155,7 +155,6 @@ const ClassDetailScreen = (props) => {
         <Text style={styles.textHeader}>Lớp học</Text>
         <TouchableOpacity
           onPress={() => {
-            console.log(toggleMore);
             settoggleMore(!toggleMore);
           }}
         >
@@ -190,7 +189,7 @@ const ClassDetailScreen = (props) => {
                 style={styles.avatar}
                 source={require("../../../assets/images/avt-default.png")}
               />
-              <Text style={styles.username}>{creator.email} </Text>
+              <Text style={styles.username}>{CREATOR.email} </Text>
             </View>
           </View>
           {/* Tabs */}
@@ -241,9 +240,27 @@ const ClassDetailScreen = (props) => {
           )}
         </View>
       </TouchableWithoutFeedback>
-      {
-        visible ? <ModalCreateClass visible={visible} name={CLASS.name} mode={!CLASS.mode} event={'edit'} /> : null
-      }
+      {visibleUpdateModal && CLASS ? (
+        <ModalCreateClass
+          visible={visibleUpdateModal}
+          _id={CLASS._id}
+          name={CLASS.name}
+          mode={CLASS.mode}
+          event={"update"}
+          setStateMethod={setVisibleUpdateModal}
+        />
+      ) : null}
+
+      {visibleDeleteModal && CLASS ? (
+        <ConfirmForm
+          visible={visibleDeleteModal}
+          _id={CLASS._id}
+          name={CLASS.name}
+          event={"delete"}
+          setStateMethod={setVisibleDeleteModal}
+          navigation={props.navigation}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

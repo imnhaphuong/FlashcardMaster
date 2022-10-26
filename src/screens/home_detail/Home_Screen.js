@@ -44,7 +44,7 @@ const Home_Screen = (props) => {
       Linking.removeEventListener("click", handleDeepLink);
     };
   }, []);
-  AsyncStorage.setItem('userId', '6354f970676f000671d71f21')
+  AsyncStorage.setItem('userId', '6358d0c15840c87ac1a9fd7f')
  
   console.log(data);
   const [visible, setvisible] = useState(false);

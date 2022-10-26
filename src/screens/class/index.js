@@ -18,7 +18,6 @@ import ClassCard from "../../components/ClassCard";
 import getAllClasses from "../../../getdata/getAllClasses";
 
 const ClassScreen = (props) => {
-  const [loadingState, setloadingState] = useState(true);
   const [visible, setvisible] = useState(false);
   const [CLASSES_DATA, setdata] = useState([]);
   getAllClasses(setdata);
@@ -26,7 +25,7 @@ const ClassScreen = (props) => {
   const myRenderItem = ({ item }) => (
     <ClassCard
       mode={item.mode}
-      id={item._id}
+      _id={item._id}
       name={item.name}
       creator={item.creator}
       number_of_members={item.members.length}

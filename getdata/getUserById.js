@@ -6,7 +6,7 @@ const getUserByID = async (setdata, _id) => {
       Accept: "application/json",
     },
     body: JSON.stringify({
-      _id: _id,
+      id: _id,
     }),
   })
     .then((res) => res.json())
@@ -19,8 +19,7 @@ const getUserByID = async (setdata, _id) => {
       } else setdata(resJson);
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 };
-
 module.exports = getUserByID;

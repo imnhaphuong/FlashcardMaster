@@ -18,9 +18,9 @@ const ClassCard = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        console.log("press on the class card has id = " + props.id);
+        console.log("press on the class card has id = " + props._id);
         props.navigation.navigate("ClassDetail", {
-          id: props.id,
+          _id: props._id,
           creator: props.creator,
         });
       }}
