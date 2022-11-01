@@ -65,6 +65,14 @@ const styles = StyleSheet.create({
     height: 52,
     justifyContent: 'space-evenly',
     alignItems: 'center'
+  },
+  formCard:{
+    flex: 1,
+    marginVertical:10,
+    backgroundColor:colors.white,
+    padding:10,
+    height:"100%",
+    borderRadius:10,
   }
 
 });

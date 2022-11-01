@@ -37,9 +37,9 @@ export default SignUpScreen = ({ navigation }) => {
   const eyeSlash = <EyeSlashIcon />
   const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: "295207311716-m98mtlav7avs9964qvi5dl8bvb7tud0n.apps.googleusercontent.com",
-    androidClientId: '295207311716-nm4vh7ii73hfvj1ugqhrub34ctd5jkfm.apps.googleusercontent.com',
-    iosClientId: '295207311716-ustbb774a7hbpeel01g2je7ou4fi35ba.apps.googleusercontent.com'
+    clientId: process.env.CLIENT_ID,
+    androidClientId: process.env.ANDOID_CLIENT_ID,
+    iosClientId: process.env.IOS_CLIENT_ID,
   });
   useEffect(()=>{
     if(response?.type === "success"){

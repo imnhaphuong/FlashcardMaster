@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     btnDangKy_ADD:{
 
-        marginVertical:10,
+        marginTop:5,
         backgroundColor: colors.pink,
     },
     btnText: {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     btnText_ADD:{
-        color: colors.text,
+        color: colors.text,       
     },
     hide:{
         display:'none',

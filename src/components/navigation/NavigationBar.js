@@ -19,19 +19,20 @@ import { View } from 'react-native';
 import ClassScreen from '../../screens/class';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CreateUnitScreen from '../../screens/create_unit/CreateUnitScreen';
+import {useDispatch,useSelector} from 'react-redux'
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
   const [currentScreen, setcurrentScreen] = useState("class");
   const [userId, setUserId] = useState('');
   const [type, setType] = useState('');
+  const info = useSelector((state)=> state.infoUser)
 
   useEffect(() => {
     AsyncStorage.getItem('userId').then(result => {
       setUserId(result);
     })
-
-    console.log("userId", userId);
+    console.log("info", info);
   }, [])
   async function fetchData() {
     const data = {
