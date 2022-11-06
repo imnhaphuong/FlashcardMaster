@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import colors from '../../../contains/colors'
 import GoogleLogo from '../../../assets/images/sign_up/_Google.svg'
 
-const CustomButton = ({ onPress, text, type = 'SIGNIN', hide }) => {
+const CustomButton = ({ name,onPress, text, type = 'SIGNIN', hide }) => {
 
 
     return (
-        <TouchableOpacity onPress={onPress}  >
+        <TouchableOpacity name={name} onPress={onPress}  >
             <View style={[styles.btnDangKy, styles[`btnDangKy_${type}`]]}>
                 <View style={styles[`${hide}`]} >
                     <GoogleLogo />
@@ -37,9 +37,19 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     btnDangKy_ADD:{
-
         marginTop:5,
         backgroundColor: colors.pink,
+    },
+    btnDangKy_CHANGE_IMAGE:{
+        height: 40,
+        backgroundColor: colors.pink,
+        width:"100%"
+    },
+    btnDangKy_DE_IMAGE:{
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: colors.violet,
+        width:"100%"
     },
     btnText: {
         fontWeight: '500',
@@ -56,6 +66,14 @@ const styles = StyleSheet.create({
     },
     btnText_ADD:{
         color: colors.text,       
+    },
+    btnText_CHANGE_IMAGE:{
+        color: colors.text,  
+        fontSize: 14,
+    },
+    btnText_DE_IMAGE:{
+        fontSize: 14,
+        color: colors.white,  
     },
     hide:{
         display:'none',

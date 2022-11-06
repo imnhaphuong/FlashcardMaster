@@ -20,6 +20,7 @@
     "@react-navigation/native-stack": "^6.9.0",
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
     "eas-cli": "^2.4.1",
     "expo": "~46.0.13",
     "expo-auth-session": "^3.7.1",
@@ -38,6 +39,7 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-checkbox": "^2.0.0",
+    "react-native-image-picker": "^4.10.0",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-paper": "^5.0.0-rc.8",
     "react-native-responsive-screen": "^1.4.2",
@@ -54,7 +56,8 @@
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-image-picker": "~13.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -74,7 +77,11 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
     ]
   }
 }

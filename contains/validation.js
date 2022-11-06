@@ -26,7 +26,7 @@ export const OTPSchema = Yup.object().shape({
 
 });
 //UnitSchema
-export const Unitchema = Yup.object().shape({
+export const UnitSchema = Yup.object().shape({
   unitName: Yup.string().required('Tên học phần không được để trống'),
   flashCard: Yup.array().of(
     Yup.object().shape({

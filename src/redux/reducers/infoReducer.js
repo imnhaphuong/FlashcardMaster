@@ -2,7 +2,7 @@ export const UPDATE_DAY_ACTIVE = "UPDATE_DAY_ACTIVE";
 
 const initialState = {
     email: "",
-    fullName: " ",
+    fullname: " ",
     password: "",
     isVerified: false,
     avatar: "",
