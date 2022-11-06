@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../../../contains/colors'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import GoogleLogo from '../../../assets/images/_Google.svg'
+import GoogleLogo from '../../../assets/images/sign_up/_Google.svg'
 
 const CustomButton = ({ onPress, text, type = 'SIGNIN', hide }) => {
 
@@ -37,6 +36,11 @@ const styles = StyleSheet.create({
         zIndex:1000,
         marginVertical: 20,
     },
+    btnDangKy_ADD:{
+
+        marginVertical:10,
+        backgroundColor: colors.pink,
+    },
     btnText: {
         fontWeight: '500',
         fontSize: 16,
@@ -49,6 +53,9 @@ const styles = StyleSheet.create({
     btnText_GG: {
         color: colors.text,
         marginLeft: 5
+    },
+    btnText_ADD:{
+        color: colors.text,
     },
     hide:{
         display:'none',

@@ -33,7 +33,7 @@ const Topic = (props) => {
         </View>
         <View style={Styles.wrapUnits}>
           <FlatList
-            data={UNIT_DATA.reverse()}
+            data={UNIT_DATA}
             renderItem={myRenderItem}
             numColumns={2}
             //keyExtractor={(item) => item.id}

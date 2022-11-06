@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../../../contains/colors'
-import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value, placeholder, icon, keyboardType, iconEye, iconEyeSlash, onPress, isEye }) => {
   const hide = hide;
@@ -19,6 +19,7 @@ const CustomInput = ({ changeIcon, touched, errors, onBlur, onChangeText, value,
             value={value}
             secureTextEntry={changeIcon}
             placeholder={placeholder}
+            autoCapitalize="none"
             keyboardType={keyboardType}
             placeholderTextColor={colors.graySecondary}
           />

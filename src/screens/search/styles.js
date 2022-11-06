@@ -14,7 +14,7 @@ input:{
     borderWidth: 1,
     borderColor: '#405655',
     paddingHorizontal: 30,
-    borderRadius: '5%'
+    borderRadius: 5,
 },
 icon:{
     position: 'absolute',

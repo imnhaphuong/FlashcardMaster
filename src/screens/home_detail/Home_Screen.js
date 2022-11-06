@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import styles from "./style";
-import Coin from "../../../assets/images/coin.svg";
-import Thegirl from "../../../assets/images/Thegirl.svg";
+import Coin from "../../../assets/images/header/coin.svg";
+import Thegirl from "../../../assets/images/welcome/Thegirl.svg";
 import Topic from "../../components/Topic";
-import Search from "../../../assets/images/Search.svg";
+import Search from "../../../assets/images/nab/Search.svg";
 import colors from "../../../contains/colors";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -70,7 +70,7 @@ const Home_Screen = (props) => {
       <View style={styles.header}>
         <Image
           style={styles.landscape}
-          source={require("../../../assets/images/landscape.png")}
+          source={require("../../../assets/images/welcome/landscape.png")}
         />
         <View style={styles.coin_display}>
           <Coin />

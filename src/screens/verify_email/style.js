@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
         lineHeight: 35.84,
     },
     subTitle: {
-        height:16,
-        width:'100%',
-        marginTop:10,
+        height: 16,
+        width: '100%',
+        marginTop: 10,
         color: colors.darkGray,
         fontSize: 16,
         fontWeight: '400',
@@ -35,13 +35,14 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     textSignIn: {
+        
         fontWeight: '500',
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 24,
         letterSpacing: 0.2,
         color: colors.violet,
         marginLeft: 5,
-        textDecorationLine: "underline",
+        // textDecorationLine: "underline",
         textDecorationStyle: "solid",
     },
     btnText: {
