@@ -27,16 +27,24 @@ import getUserByID from "../../../getdata/getUserById";
 import Line from "../../components/Line";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import ConfirmForm from "../../components/ConfirmForm";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const ClassDetailScreen = (props) => {
+  //State
   var params = props.route.params;
   const [CLASS, setclass] = useState([]);
   const [CREATOR, setcreator] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [toggleMore, settoggleMore] = useState(false);
   let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
   let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
-  getClassById(setclass, params._id);
-  getUserByID(setcreator, params.creator);
+
+  //useEffect
+  useEffect(() => {
+    getUserByID(setcreator, params.creator);
+    getClassById(setclass, params._id, setLoading);
+    console.log("call use effect in class detail");
+  }, [isLoading]);
 
   const UNITS = [
     {
@@ -70,6 +78,7 @@ const ClassDetailScreen = (props) => {
       unit_name={item.unit_name}
       username={item.username}
       number_of_cards={item.number_of_cards}
+      navigation={props.navigation}
     />
   );
   const renderUserItem = (item) => <UserCard isCreator={true} />;
@@ -134,6 +143,7 @@ const ClassDetailScreen = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -189,7 +199,7 @@ const ClassDetailScreen = (props) => {
                 style={styles.avatar}
                 source={require("../../../assets/images/avt-default.png")}
               />
-              <Text style={styles.username}>{CREATOR.email} </Text>
+              <Text style={styles.username}>{CREATOR.fullname} </Text>
             </View>
           </View>
           {/* Tabs */}
@@ -240,16 +250,17 @@ const ClassDetailScreen = (props) => {
           )}
         </View>
       </TouchableWithoutFeedback>
-      {visibleUpdateModal && CLASS ? (
-        <ModalCreateClass
-          visible={visibleUpdateModal}
-          _id={CLASS._id}
-          name={CLASS.name}
-          mode={CLASS.mode}
-          event={"update"}
-          setStateMethod={setVisibleUpdateModal}
-        />
-      ) : null}
+
+      <ModalCreateClass
+        visible={visibleUpdateModal}
+        _id={CLASS._id}
+        name={CLASS.name}
+        mode={CLASS.mode}
+        event={"update"}
+        setLoading={setLoading}
+        setVisibleModal={setVisibleUpdateModal}
+        settoggleMore={settoggleMore}
+      />
 
       {visibleDeleteModal && CLASS ? (
         <ConfirmForm
@@ -257,7 +268,8 @@ const ClassDetailScreen = (props) => {
           _id={CLASS._id}
           name={CLASS.name}
           event={"delete"}
-          setStateMethod={setVisibleDeleteModal}
+          setVisibleModal={setVisibleDeleteModal}
+          setLoading={setLoading}
           navigation={props.navigation}
         />
       ) : null}

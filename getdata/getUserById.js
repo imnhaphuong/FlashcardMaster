@@ -6,20 +6,22 @@ const getUserByID = async (setdata, _id) => {
       Accept: "application/json",
     },
     body: JSON.stringify({
-      id: _id,
+      _id: _id,
     }),
   })
     .then((res) => res.json())
     .then((resJson) => {
       if (resJson.hasOwnProperty("error") == true) {
         setdata({
-          fullName: "not found",
-          email: "not found",
+          fullname: "not found",
         });
       } else setdata(resJson);
     })
     .catch((error) => {
-      // console.log(error);
+      console.log(error);
+      setdata({
+        fullname: "not found",
+      });
     });
 };
 module.exports = getUserByID;

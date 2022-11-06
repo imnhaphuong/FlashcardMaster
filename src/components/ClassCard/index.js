@@ -19,7 +19,7 @@ const ClassCard = (props) => {
     <TouchableWithoutFeedback
       onPress={() => {
         console.log("press on the class card has id = " + props._id);
-        props.navigation.navigate("ClassDetail", {
+        props.navigation.navigate("class_detail", {
           _id: props._id,
           creator: props.creator,
         });
@@ -37,14 +37,13 @@ const ClassCard = (props) => {
             source={require("../../../assets/images/classmode/private.png")}
           />
         )}
-
         <Text style={styles.className}>{props.name}</Text>
         <View style={styles.wrapCreator}>
           <Image
             style={styles.avatarCreator}
             source={require("../../../assets/images/avt-default.png")}
           />
-          <Text style={styles.usernameCreator}>{creator.fullName}</Text>
+          <Text style={styles.usernameCreator}>{creator.fullname}</Text>
         </View>
         <View style={styles.wrapMembers}>
           <Members />

@@ -16,23 +16,34 @@ import CheckBox from "react-native-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ModalCreateClass = (props) => {
+  ///State
   //get user id when logged to fill in creator id
   const [userId, setuserId] = useState("");
   AsyncStorage.getItem("userId").then((result) => {
     setuserId(result);
   });
+  //loading
+  const setLoading = props.setLoading ? props.setLoading : null;
+  //visible modal
   const visible = props.visible ? props.visible : false;
-  const [modalVisible, setModalVisible] = useState(visible);
+  const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : false;
+
   const textHolder = `Tên lớp của bạn là?`;
   const className = props.name ? props.name : "";
   const myMode = props.mode == 0 ? false : true;
   const _id = props._id ? props._id : null;
+  //url
   const url =
     props.event === "update"
       ? "https://flashcard-master.vercel.app/api/classes/update"
       : "https://flashcard-master.vercel.app/api/classes/create";
+
   //submit form create class
   const submitData = async (values) => {
+    console.log(url);
+    if (typeof setLoading == "function") {
+      setLoading(true);
+    }
     values.creator = userId;
     fetch(url, {
       method: "post",
@@ -44,14 +55,18 @@ const ModalCreateClass = (props) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        setModalVisible(false);
-        if (typeof props.setStateMethod != "undefined");
-        props.setStateMethod(false);
         console.log(values);
       })
       .catch((error) => {
         console.log(error);
       });
+    setVisibleModal(false);
+    if (typeof setLoading == "function") {
+      setLoading(false);
+    }
+    if (typeof props.settoggleMore == "function") {
+      props.settoggleMore(false);
+    }
   };
 
   //UI
@@ -61,10 +76,10 @@ const ModalCreateClass = (props) => {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible}
+          visible={visible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
+            setVisibleModal(!visible);
           }}
         >
           <View style={styles.centeredView}>
@@ -124,9 +139,7 @@ const ModalCreateClass = (props) => {
                         <Pressable
                           style={[styles.buttonCancel]}
                           onPress={() => {
-                            setModalVisible(false);
-                            if (typeof props.callback != "undefined");
-                            props.setStateMethod(false);
+                            setVisibleModal(false);
                           }}
                         >
                           <Text style={[styles.textButton, styles.textCancel]}>

@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./style";
 
@@ -11,7 +11,7 @@ const UnitCard = (props) => {
   const username = props.username ? props.username : "user100233";
 
   return (
-    <View style={styles.wrapUnitCard}>
+    <Pressable style={styles.wrapUnitCard} onPress={() => {props.navigation.navigate('unit_detail')}} >
       <Text style={styles.unitName}>{unit_name}</Text>
       <Text style={styles.numberOfCards}>{number_of_cards}</Text>
       <View style={styles.wrapUser}>
@@ -21,7 +21,7 @@ const UnitCard = (props) => {
         />
         <Text style={styles.username}>{username}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

@@ -17,12 +17,17 @@ import colors from "../../../contains/colors";
 
 const ConfirmForm = (props) => {
   const visible = props.visible ? props.visible : false;
-  const [modalVisible, setModalVisible] = useState(visible);
+  const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : null;
+  //loading
+  const setLoading = props.setLoading ? props.setLoading : null;
+
   const className = props.name;
   const _id = props._id ? props._id : null;
+
   const url = "https://flashcard-master.vercel.app/api/classes/delete";
   //submit form create class
   const submitData = async (values) => {
+    setLoading(true);
     console.log(values);
     fetch(url, {
       method: "post",
@@ -34,6 +39,7 @@ const ConfirmForm = (props) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
+        setLoading(false);
         props.navigation.goBack();
       })
       .catch((error) => {
@@ -48,16 +54,17 @@ const ConfirmForm = (props) => {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible}
+          visible={visible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
+            setVisibleModal(!visible);
           }}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>
-                Bạn có chắc muốn xóa lớp <Text style={{ color: colors.highlight }}>"{className}"</Text>
+                Bạn có chắc muốn xóa lớp{" "}
+                <Text style={{ color: colors.highlight }}>"{className}"</Text>
               </Text>
               {/* Validate form */}
               <Formik
@@ -65,7 +72,10 @@ const ConfirmForm = (props) => {
                 initialValues={{
                   id: _id,
                 }}
-                onSubmit={(values) => submitData(values)}
+                onSubmit={(values) => {
+                  submitData(values);
+                  setVisibleModal(false);
+                }}
               >
                 {({
                   handleChange,
@@ -80,20 +90,11 @@ const ConfirmForm = (props) => {
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <View>
-                        {errors.name && touched.name ? (
-                          <Text style={{ color: "red", textAlign: "left" }}>
-                            {errors.name}
-                          </Text>
-                        ) : null}
-                      </View>
                       <View style={styles.wrapButtons}>
                         <Pressable
                           style={[styles.buttonCancel]}
                           onPress={() => {
-                            setModalVisible(false);
-                            if (typeof props.callback != "undefined");
-                            props.setStateMethod(false);
+                            setVisibleModal(false);
                           }}
                         >
                           <Text style={[styles.textButton, styles.textCancel]}>
