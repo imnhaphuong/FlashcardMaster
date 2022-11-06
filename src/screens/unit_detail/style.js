@@ -25,9 +25,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.text,
   },
-  wrapContent: {
-    position: "relative",
-  },
+
   wrapOptions: {
     position: "absolute",
     top: 0,
@@ -50,16 +48,19 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  wrapContent: {
+    position: "relative",
+    paddingTop: 20,
+  },
   inforArea: {
-    height: 150,
-    backgroundColor: colors.white,
     justifyContent: "center",
     paddingHorizontal: 20,
   },
-  className: {
+  unitName: {
     fontWeight: "bold",
     fontSize: 20,
     color: colors.text,
+    paddingBottom: 8,
   },
   wrapUser: {
     flexDirection: "row",
@@ -67,18 +68,18 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   avatar: {
-    width: 20,
-    height: 20,
+    width: 36,
+    height: 36,
     borderRadius: 100,
     marginRight: 4,
   },
   username: {
     fontSize: 15,
-    color: colors.violet,
+    color: colors.text,
   },
   numberOfUnits: {
     fontSize: 14,
-    color: colors.violet,
+    color: colors.text,
   },
 
   wrapUnits: {
@@ -88,6 +89,41 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 12,
     paddingTop: 20,
+  },
+  wrapFlipCards: {
+    paddingLeft: 20,
+    paddingVertical: 20,
+  },
+  btn: {
+    flexDirection: "row",
+    borderRadius: 10,
+    height: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginBottom: 12,
+  },
+  btnLearn: {
+    backgroundColor: colors.violet,
+  },
+  btnMatch: {
+    backgroundColor: colors.yellow,
+  },
+  btnTest: {
+    backgroundColor: colors.pink,
+  },
+  textBtn: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  textLearn: {
+    color: colors.pastelPurple,
+  },
+  wrapButtons: {
+    marginHorizontal: 20,
+  },
+  wrapListCardsArea: {
+    marginHorizontal: 20,
   },
 });
 

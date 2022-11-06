@@ -10,41 +10,25 @@ import {
   Keyboard,
 } from "react-native";
 import styles from "./style";
-import { createClassSchema } from "./validation";
 import { Formik, Field, Form } from "formik";
 import CheckBox from "react-native-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import colors from "../../../contains/colors";
 
-const ModalCreateClass = (props) => {
-  ///State
-  //get user id when logged to fill in creator id
-  const [userId, setuserId] = useState("");
-  AsyncStorage.getItem("userId").then((result) => {
-    setuserId(result);
-  });
+const ConfirmForm = (props) => {
+  const visible = props.visible ? props.visible : false;
+  const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : null;
   //loading
   const setLoading = props.setLoading ? props.setLoading : null;
-  //visible modal
-  const visible = props.visible ? props.visible : false;
-  const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : false;
 
-  const textHolder = `Tên lớp của bạn là?`;
-  const className = props.name ? props.name : "";
-  const myMode = props.mode == 0 ? false : true;
+  const className = props.name;
   const _id = props._id ? props._id : null;
-  //url
-  const url =
-    props.event === "update"
-      ? "https://flashcard-master.vercel.app/api/classes/update"
-      : "https://flashcard-master.vercel.app/api/classes/create";
 
+  const url = "https://flashcard-master.vercel.app/api/classes/delete";
   //submit form create class
   const submitData = async (values) => {
-    console.log(url);
-    if (typeof setLoading == "function") {
-      setLoading(true);
-    }
-    values.creator = userId;
+    setLoading(true);
+    console.log(values);
     fetch(url, {
       method: "post",
       headers: {
@@ -55,18 +39,12 @@ const ModalCreateClass = (props) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        console.log(values);
+        setLoading(false);
+        props.navigation.goBack();
       })
       .catch((error) => {
         console.log(error);
       });
-    setVisibleModal(false);
-    if (typeof setLoading == "function") {
-      setLoading(false);
-    }
-    if (typeof props.settoggleMore == "function") {
-      props.settoggleMore(false);
-    }
   };
 
   //UI
@@ -84,17 +62,20 @@ const ModalCreateClass = (props) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Nhập tên lớp</Text>
+              <Text style={styles.modalText}>
+                Bạn có chắc muốn xóa lớp{" "}
+                <Text style={{ color: colors.highlight }}>"{className}"</Text>
+              </Text>
               {/* Validate form */}
               <Formik
                 style={styles.form}
                 initialValues={{
                   id: _id,
-                  name: className,
-                  mode: myMode,
                 }}
-                onSubmit={(values) => submitData(values)}
-                validationSchema={createClassSchema}
+                onSubmit={(values) => {
+                  submitData(values);
+                  setVisibleModal(false);
+                }}
               >
                 {({
                   handleChange,
@@ -106,35 +87,9 @@ const ModalCreateClass = (props) => {
                   touched,
                 }) => (
                   <>
-                    <TextInput
-                      style={styles.inputClassName}
-                      placeholder={textHolder}
-                      onChangeText={handleChange("name")}
-                      onBlur={handleBlur("name")}
-                      value={values.name}
-                    />
-                    <CheckBox
-                      containerStyle={styles.containerCB}
-                      checkboxStyle={styles.checkbox}
-                      labelStyle={styles.label}
-                      checkedImage={require("../../../assets/images/checkbox/checked.png")}
-                      uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
-                      label="Hiển thị lớp học ở chế độ công khai"
-                      checked={values.mode}
-                      onChange={() => {
-                        setFieldValue("mode", !values.mode);
-                      }}
-                    />
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <View>
-                        {errors.name && touched.name ? (
-                          <Text style={{ color: "red", textAlign: "left" }}>
-                            {errors.name}
-                          </Text>
-                        ) : null}
-                      </View>
                       <View style={styles.wrapButtons}>
                         <Pressable
                           style={[styles.buttonCancel]}
@@ -151,7 +106,7 @@ const ModalCreateClass = (props) => {
                           onPress={handleSubmit}
                         >
                           <Text style={[styles.textButton, styles.textCreate]}>
-                            {props.event === "update" ? "Cập nhật" : "Tạo"}
+                            Xóa
                           </Text>
                         </Pressable>
                       </View>
@@ -167,4 +122,4 @@ const ModalCreateClass = (props) => {
   );
 };
 
-export default ModalCreateClass;
+export default ConfirmForm;
