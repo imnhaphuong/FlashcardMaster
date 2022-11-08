@@ -178,9 +178,7 @@ export default SignInScreen = ({ navigation }) => {
         </View>
         {/* Title */}
         <View style={{ top: 130, marginLeft: 20 }}>
-          <View >
             <Text style={styles.title}>Đăng Nhập</Text>
-          </View>
           <View style={{
             width: 271,
             height: 16,

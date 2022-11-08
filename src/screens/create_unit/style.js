@@ -24,17 +24,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: colors.text,
+    fontFamily: 'WorkSans',
+   
   },
-  label:{
+  label: {
     flex: 1,
   },
   content: {
-    flex:2,
-    margin:20,
+    flex: 2,
+    margin: 20,
   },
   textInput: {
     backgroundColor: colors.white,
-    height:64,
+    height: 64,
+    fontFamily: 'WorkSans',
   },
   containerCB: {
     marginTop: 10,
@@ -49,16 +52,17 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 16,
     fontWeight: "500",
+    fontFamily: 'WorkSans',
   },
-  createCard:{
-    marginTop:10,
+  createCard: {
+    marginTop: 10,
   },
-  add:{
+  add: {
     position: 'absolute',
     bottom: '8%',
     right: '5%'
   },
-  addIcon:{
+  addIcon: {
     backgroundColor: colors.violet,
     borderRadius: 50,
     width: 52,
@@ -66,13 +70,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center'
   },
-  formCard:{
+  formCard: {
     flex: 1,
-    marginVertical:10,
-    backgroundColor:colors.white,
-    padding:10,
-    height:"100%",
-    borderRadius:10,
+    marginVertical: 10,
+    backgroundColor: colors.white,
+    padding: 10,
+    height: "100%",
+    borderRadius: 10,
   }
 
 });

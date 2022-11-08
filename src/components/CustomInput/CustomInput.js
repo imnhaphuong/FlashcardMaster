@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
     padding: 10,
     color: colors.text,
     borderRadius: 10,
+    fontFamily: 'WorkSans',
+
   },
   textInput: {
     fontSize: 16,
@@ -55,12 +57,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
     width: '100%',
     color: colors.text,
+    fontFamily: 'WorkSans',
+
   },
   textErr: {
     fontSize: 13,
     color: 'red',
     fontWeight: '500',
-    marginLeft: 10
+    marginLeft: 10,
+    fontFamily: 'WorkSans',
+
   }
 })
 export default CustomInput

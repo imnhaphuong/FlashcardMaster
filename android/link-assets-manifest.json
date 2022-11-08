@@ -1,0 +1,77 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/WorkSans-Black.ttf",
+      "sha1": "5147ae4f5b0ec11dc9ce6afb24e26c1bcb9f913d"
+    },
+    {
+      "path": "assets/fonts/WorkSans-BlackItalic.ttf",
+      "sha1": "06e9be9bef3c63b5b7c2351fcc96c169d29c961a"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Bold.ttf",
+      "sha1": "048d6d2ced2cd4a4513e19ce9765c96896039087"
+    },
+    {
+      "path": "assets/fonts/WorkSans-BoldItalic.ttf",
+      "sha1": "70d5b1d15f6ee6c24c5da3a93c81037ab803c771"
+    },
+    {
+      "path": "assets/fonts/WorkSans-ExtraBold.ttf",
+      "sha1": "83e6e490d0bd85263e7fd13e8de21c72d27e6740"
+    },
+    {
+      "path": "assets/fonts/WorkSans-ExtraBoldItalic.ttf",
+      "sha1": "49858b83234a98141af4456bcb80100c023c4575"
+    },
+    {
+      "path": "assets/fonts/WorkSans-ExtraLight.ttf",
+      "sha1": "da7b8d9c8690ab9578701bd344a0a6e2d779d119"
+    },
+    {
+      "path": "assets/fonts/WorkSans-ExtraLightItalic.ttf",
+      "sha1": "f8d4484d1a0283c5fc37c8973537ee40abf0a9f8"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Italic.ttf",
+      "sha1": "6d80f9c07a8435971af04b7b3b93f0da832aa0f6"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Light.ttf",
+      "sha1": "7072fb1da403cc0618804b71b72b4df5a8b3647d"
+    },
+    {
+      "path": "assets/fonts/WorkSans-LightItalic.ttf",
+      "sha1": "2bc49e978a0028bc4f50626dd240ef6bc18633ed"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Medium.ttf",
+      "sha1": "a8cf94376a573ae2c43d0457a28b4357e9808946"
+    },
+    {
+      "path": "assets/fonts/WorkSans-MediumItalic.ttf",
+      "sha1": "415e67600e97d48bba649a2e9b4d277b188aedf0"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Regular.ttf",
+      "sha1": "89a5d38e1316b70da48e9475628023264af74783"
+    },
+    {
+      "path": "assets/fonts/WorkSans-SemiBold.ttf",
+      "sha1": "f12114ffb09b58990f7aab420b592c3e4315ff95"
+    },
+    {
+      "path": "assets/fonts/WorkSans-SemiBoldItalic.ttf",
+      "sha1": "e7afb438f645e4d395e385857865b3d1b2182606"
+    },
+    {
+      "path": "assets/fonts/WorkSans-Thin.ttf",
+      "sha1": "bf150c5dc03745ef7342e7c6882451dba2539724"
+    },
+    {
+      "path": "assets/fonts/WorkSans-ThinItalic.ttf",
+      "sha1": "9bf6b754d934f841fa90345d391de6552d283323"
+    }
+  ]
+}

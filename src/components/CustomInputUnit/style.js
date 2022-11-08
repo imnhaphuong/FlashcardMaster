@@ -10,14 +10,16 @@ const styles = StyleSheet.create({
         height:50,
         backgroundColor: colors.white,
         fontSize: 16,
-        fontWeight:'500',
-        color: colors.darkGray,        
+        // fontWeight:'500',
+        color: colors.darkGray,  
+        fontFamily: 'WorkSans',     
     },
     textErr: {
         fontSize: 13,
         color: 'red',
-        fontWeight: '500',
-        marginLeft: 10
+        // fontWeight: '500',
+        marginLeft: 10,
+        fontFamily: 'WorkSans',
       }
 
 });

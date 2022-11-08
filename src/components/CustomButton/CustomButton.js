@@ -52,10 +52,9 @@ const styles = StyleSheet.create({
         width:"100%"
     },
     btnText: {
-        fontWeight: '500',
         fontSize: 16,
         letterSpacing: 0.2,
-
+        fontFamily: 'WorkSans-SemiBold',
     },
     btnText_SIGNIN: {
         color: colors.pastelPurple,

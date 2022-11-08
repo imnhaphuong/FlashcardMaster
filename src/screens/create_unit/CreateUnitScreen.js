@@ -20,6 +20,7 @@ import SysModal from '../../components/SysModal/SysModal';
 // import { launchImageLibrary } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system'
+import { Checkbox } from 'react-native-paper';
 
 
 const CreateUnitScreen = ({ navigation }) => {
@@ -89,7 +90,7 @@ const CreateUnitScreen = ({ navigation }) => {
     const fileInfo = await getFileInfo(uri)
     console.log("fileInfo", fileInfo);
     if (!result.cancelled) {
-      //Kiểm tra kích thước
+      //Kiểm tra kích thước file
       if (!fileInfo.size) {
         setMess("Không thể chọn hình ảnh với kích thước không phù hợp")
         setShowModal(true)
@@ -105,27 +106,27 @@ const CreateUnitScreen = ({ navigation }) => {
           return
         }
       }
-      if(images[i] !==""){
-        let base64Img = `data:image/jpg;base64,${result.base64}`
-        let oldData = {
-          "file": base64Img,
-          "upload_preset": "_FlashcardMaster"
-        }
-        await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/destroy', {
-        method: "POST",
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(data),
-      })
-      }
+      // if (images[i] !== "") {
+      //   let base64Img = `data:image/jpg;base64,${result.base64}`
+      //   let oldData = {
+      //     "file": base64Img,
+      //     "upload_preset": "_FlashcardMaster"
+      //   }
+      //   await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/destroy', {
+      //     method: "POST",
+      //     headers: {
+      //       'content-type': 'application/json'
+      //     },
+      //     body: JSON.stringify(data),
+      //   })
+      // }
       //Upload imgage to cloudinary
       let base64Img = `data:image/jpg;base64,${result.base64}`
       let data = {
         "file": base64Img,
         "upload_preset": "_FlashcardMaster"
       }
-      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/upload', {
+      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/flashcard/image/upload', {
         method: "POST",
         headers: {
           'content-type': 'application/json'
@@ -207,7 +208,6 @@ const CreateUnitScreen = ({ navigation }) => {
 
   }
   return (
-
     <Formik
       style={styles.form}
       initialValues={{
@@ -268,18 +268,24 @@ const CreateUnitScreen = ({ navigation }) => {
                   <View style={styles.content}>
                     <CustomInputUnit onChangeText={handleChange('unitName')}
                       onBlur={handleBlur('unitName')} value={values.unitName} errors={errors.unitName} touched={touched.unitName} label={label} />
-                    <CheckBox
-                      containerStyle={styles.containerCB}
-                      checkboxStyle={styles.checkbox}
-                      labelStyle={styles.labelCheckbox}
-                      checkedImage={require("../../../assets/images/checkbox/checked.png")}
-                      uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
-                      label="Công khai học phần"
-                      checked={values.mode}
-                      onChange={() => {
+                    <Checkbox
+                      status={values.mode ? 'checked' : 'unchecked'}
+                      onPress={() => {
                         setFieldValue("mode", !values.mode);
-                        console.log("mode", values.mode);
                       }}
+                      uncheckedColor={colors.violet}
+                      theme={styles.checkbox}
+                      // style={styles.containerCB}
+                      // checkboxStyle={styles.checkbox}
+                      // labelStyle={styles.labelCheckbox}
+                      // checkedImage={require("../../../assets/images/checkbox/checked.png")}
+                      // uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
+                      label="Công khai học phần"
+                      // checked={values.mode}
+                      // onChange={() => {
+                      //   setFieldValue("mode", !values.mode);
+                      //   console.log("mode", values.mode);
+                      // }}
                     />
                     <View style={styles.createCard}>
                       {
@@ -336,7 +342,8 @@ const CreateUnitScreen = ({ navigation }) => {
                       showModa()
                     }
                     push({
-                      id: uuid.v4(), term: "",
+                      // id: uuid.v4(), 
+                      term: "",
                       define: "",
                       example: "",
                       image: "",

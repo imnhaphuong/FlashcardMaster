@@ -8,29 +8,22 @@ const styles = StyleSheet.create({
     title: {
         color: colors.text,
         fontSize: 28,
-        fontWeight: '700',
         textTransform: 'uppercase',
         lineHeight: 35.84,
+        fontFamily: 'WorkSans-Bold',
+
     },
     subTitle: {
         color: colors.darkGray,
         fontSize: 14,
-        fontWeight: '400',
         height:'100%',
         lineHeight: 16.42,
         marginTop:10,
-    },
-    formInput: {
-        flexDirection: 'row', alignItems: 'center', height: 50,
-        borderColor: colors.text,
-        borderWidth: 2,
-        padding: 12,
-        color: colors.text,
-        borderRadius: 10,
-        marginVertical: 10,
+        fontFamily: 'WorkSans',
+
     },
     textSignIn: {
-        fontWeight: '500',
+        // fontWeight: '700',
         fontSize: 16,
         lineHeight: 24,
         letterSpacing: 0.2,
@@ -38,12 +31,15 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         textDecorationLine: "underline",
         textDecorationStyle: "solid",
+        fontFamily: 'WorkSans-SemiBold',
+
     },
     btnText: {
-        fontWeight: '500',
+        // fontWeight: '500',
         fontSize: 16,
         letterSpacing: 0.2,
-        color: colors.text
+        color: colors.text,
+        fontFamily: 'WorkSans-SemiBold',
 
     },
 
