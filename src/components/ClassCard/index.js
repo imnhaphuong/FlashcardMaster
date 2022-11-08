@@ -12,16 +12,12 @@ import Members from "../../../assets/images/members.svg";
 import getUserByID from "../../../getdata/getUserById";
 
 const ClassCard = (props) => {
-  const [creator, setcreator] = useState([]);
-  getUserByID(setcreator, props.creator);
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         console.log("press on the class card has id = " + props._id);
         props.navigation.navigate("class_detail", {
           _id: props._id,
-          creator: props.creator,
         });
       }}
     >
@@ -43,7 +39,7 @@ const ClassCard = (props) => {
             style={styles.avatarCreator}
             source={require("../../../assets/images/avt-default.png")}
           />
-          <Text style={styles.usernameCreator}>{creator.fullname}</Text>
+          <Text style={styles.usernameCreator}>{props.creator.fullname}</Text>
         </View>
         <View style={styles.wrapMembers}>
           <Members />

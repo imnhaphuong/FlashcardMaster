@@ -21,7 +21,6 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import getClassById from "../../../getdata/getClassById";
 import getUserByID from "../../../getdata/getUserById";
 import Line from "../../components/Line";
@@ -33,58 +32,43 @@ const ClassDetailScreen = (props) => {
   //State
   var params = props.route.params;
   const [CLASS, setclass] = useState([]);
-  const [CREATOR, setcreator] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [toggleMore, settoggleMore] = useState(false);
   let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
   let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
 
+  //minor data
+  const [members, setMembers] = useState([]);
+  const [units, setUnits] = useState([]);
+  const [creator, setCreator] = useState([]);
   //useEffect
   useEffect(() => {
-    getUserByID(setcreator, params.creator);
     getClassById(setclass, params._id, setLoading);
+    if (typeof CLASS.members !== "undefined") {
+      setMembers(CLASS.members);
+    }
+    if (typeof CLASS.units !== "undefined") {
+      setUnits(CLASS.units);
+    }
+    if (typeof CLASS.creator !== "undefined") {
+      setCreator(CLASS.creator);
+    }
     console.log("call use effect in class detail");
   }, [isLoading]);
 
-  const UNITS = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      unit_name: "Bài 1",
-      number_of_cards: "0",
-      username: "user0",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      unit_name: "Bài 2",
-      number_of_cards: "10",
-      username: "user 1231323",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      unit_name: "Bài 3",
-      username: "user 112313",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      unit_name: "Bài 4: this is a long unit name",
-      username: "nguyen van a",
-    },
-  ];
-
-  const MEMBERS = ["HI"];
-
   const renderUnitItem = ({ item }) => (
     <UnitCard
-      unit_name={item.unit_name}
-      username={item.username}
-      number_of_cards={item.number_of_cards}
+      id={item._id}
+      unit_name={item.unitName}
+      username={creator.fullname}
+      number_of_cards={
+        typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+      }
       navigation={props.navigation}
     />
   );
   const renderUserItem = (item) => <UserCard isCreator={true} />;
 
-  const numberOfMembers = MEMBERS.length;
-  const numberOfUnits = UNITS.length;
   // For custom SegmentedControlTab
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -92,7 +76,10 @@ const ClassDetailScreen = (props) => {
     //handle tab selection for custom Tab Selection SegmentedControlTab
     setSelectedIndex(index);
   };
-
+  //imp unit
+  const onImpUnit = () => {
+    props.navigation.navigate("imp_unit");
+  };
   // share
   const onShare = async () => {
     try {
@@ -178,6 +165,10 @@ const ClassDetailScreen = (props) => {
           {/* Options */}
           {toggleMore ? (
             <View style={[styles.wrapOptions, { zIndex: 10 }]}>
+              <TouchableOpacity onPress={onImpUnit} style={styles.option}>
+                <Text>Thêm học phần</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
               <TouchableOpacity onPress={onShare} style={styles.option}>
                 <Text>Chia sẻ</Text>
               </TouchableOpacity>
@@ -199,14 +190,14 @@ const ClassDetailScreen = (props) => {
                 style={styles.avatar}
                 source={require("../../../assets/images/avt-default.png")}
               />
-              <Text style={styles.username}>{CREATOR.fullname} </Text>
+              <Text style={styles.username}>{creator.fullname}</Text>
             </View>
           </View>
           {/* Tabs */}
           <SegmentedControlTab
             values={[
-              `Học phần (${numberOfUnits})`,
-              `Thành viên (${numberOfMembers})`,
+              `Học phần (${units.length})`,
+              `Thành viên (${members.length})`,
             ]}
             selectedIndex={selectedIndex}
             onTabPress={handleIndexSelect}
@@ -232,7 +223,7 @@ const ClassDetailScreen = (props) => {
           {selectedIndex === 0 && (
             <View style={styles.wrapUnits}>
               <FlatList
-                data={UNITS}
+                data={units}
                 renderItem={renderUnitItem}
                 numColumns={2}
                 keyExtractor={(item) => item.id}
@@ -242,7 +233,7 @@ const ClassDetailScreen = (props) => {
           {selectedIndex === 1 && (
             <View style={styles.wrapUnits}>
               <FlatList
-                data={MEMBERS}
+                data={members}
                 renderItem={renderUserItem}
                 numColumns={1}
               />

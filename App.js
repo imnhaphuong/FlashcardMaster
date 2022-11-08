@@ -17,6 +17,7 @@ import dynamicLinks from "@react-native-firebase/dynamic-links";
 import UnitDetail from "./src/screens/unit_detail";
 import SignInOption from "./src/screens/sign_in/SignInOption";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
+import ImportUnit from "./src/screens/imp_unit";
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,8 @@ export default function App() {
         <Stack.Screen name="class_detail" component={ClassDetailScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
         <Stack.Screen name="class" component={ClassScreen} />
+
+        <Stack.Screen name="imp_unit" component={ImportUnit} />
         <Stack.Screen name="home" component={Home_Screen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />

@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./style";
 import colors from "../../../contains/colors";
 import Back from "../../../assets/images/header/back.svg";
@@ -18,12 +18,33 @@ import More from "../../../assets/images/header/more.svg";
 import Line from "../../components/Line";
 import CustomFlipCard from "../../components/CustomFlipCard";
 import SimpleCard from "../../components/SimpleCard";
+import getUnitById from "../../../getdata/getUnitById";
 
 const UnitDetail = (props) => {
+  //State
+  var params = props.route.params;
   const [toggleMore, settoggleMore] = useState(false);
-  const [UNITS, setUnits] = useState(["1", "2", "3"]);
-  const myRenderItem = () => {
-    return <CustomFlipCard />;
+  const [isLoading, setLoading] = useState(true);
+  const [UNIT, setUnit] = useState([]);
+  //minor data
+  const [flashcards, setFlashcards] = useState([]);
+
+  useEffect(() => {
+    getUnitById(params.id, setUnit, setLoading);
+    if (typeof UNIT.flashcards !== "undefined") {
+      setFlashcards(UNIT.flashcards);
+    }
+  }, [isLoading]);
+
+  const myRenderItem = (e) => {
+    return (
+      <CustomFlipCard
+        term={e.item.term}
+        define={e.item.define}
+        example={e.item.example}
+        image={e.item.image}
+      />
+    );
   };
 
   return (
@@ -77,8 +98,10 @@ const UnitDetail = (props) => {
         <ScrollView style={styles.wrapContent}>
           {/* Infor */}
           <View style={styles.inforArea}>
-            <Text style={styles.unitName}>Ten6 hooc phan</Text>
-            <Text style={styles.numberOfUnits}>Ten6 hooc phan</Text>
+            <Text style={styles.unitName}>{UNIT.unitName}</Text>
+            <Text style={styles.numberOfUnits}>
+              {flashcards.length} thuật ngữ
+            </Text>
             {/* <View style={styles.wrapUser}>
               <Image
                 style={styles.avatar}
@@ -94,9 +117,10 @@ const UnitDetail = (props) => {
             contentContainerStyle={styles.wrapFlipCards}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={UNITS}
+            data={flashcards}
             renderItem={myRenderItem}
             numColumns={1}
+            keyExtractor={(item) => item._id}
           />
           <View style={styles.wrapButtons}>
             <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
@@ -117,10 +141,16 @@ const UnitDetail = (props) => {
             >
               Thẻ
             </Text>
-            <SimpleCard />
-            <SimpleCard />
-            <SimpleCard />
-            <SimpleCard />
+            {flashcards.map((e) => {
+              return (
+                <SimpleCard
+                  term={e.term}
+                  define={e.define}
+                  example={e.example}
+                  image={e.image}
+                />
+              );
+            })}
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
