@@ -59,7 +59,7 @@ export default function NavigationBar() {
   }
   if (userId !== '') {
     fetchData();
-    if (type === 1) {
+    if (type !== 0) {
       return (
         <Tab.Navigator screenOptions={
           {
