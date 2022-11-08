@@ -32,7 +32,7 @@ export default function NavigationBar() {
     AsyncStorage.getItem('userId').then(result => {
       setUserId(result);
     })
-    if(userId !== ''){
+    if (userId !== '') {
       fetchData();
     }
   }, [userId])
@@ -58,26 +58,27 @@ export default function NavigationBar() {
       console.log(err);
     }
   }
-  
-  if (type === 1) {
-    return (
-      <Tab.Navigator screenOptions={
-        {
-          tabBarStyle: { height: 80 },
-        }
-      }>
-        <Tab.Screen
-          name="home" component={Home_Screen} options={{
-            tabBarShowLabel: false,
-            //tabBarStyle: {width: 100},
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <HomeFocus /> : <Home />}
-              </View>
-            ),
-          }}
-        />
+
+
+  <Tab.Navigator screenOptions={
+    {
+      tabBarStyle: { height: 80 },
+    }
+  }>
+    <Tab.Screen
+      name="home" component={Home_Screen} options={{
+        tabBarShowLabel: false,
+        //tabBarStyle: {width: 100},
+        headerShown: false,
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.view}>
+            {focused ? <HomeFocus /> : <Home />}
+          </View>
+        ),
+      }}
+    />
+    if (type === 1) {
+      (
         <Tab.Screen
           name="class"
           component={ClassScreen}
@@ -96,150 +97,70 @@ export default function NavigationBar() {
             },
           })}
         />
-        <Tab.Screen
-          name="create_unit"
-          component={CreateUnitScreen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <NewFocus /> : <New />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              // setcurrentScreen(route.name);
-              navigation.navigate('CreateUnit');
-            },
-          })}
-        />
-        <Tab.Screen
-          name="noti"
-          component={Home_Screen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
+      )}
+    <Tab.Screen
+      name="create_unit"
+      component={CreateUnitScreen}
+      options={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.view}>
+            {focused ? <NewFocus /> : <New />}
+          </View>
+        ),
+      }}
+      listeners={({ navigation, route }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          // setcurrentScreen(route.name);
+          navigation.navigate('CreateUnit');
+        },
+      })}
+    />
+    <Tab.Screen
+      name="noti"
+      component={Home_Screen}
+      options={{
+        headerShown: false,
+        tabBarShowLabel: false,
 
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <NotiFocus /> : <Noti />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
-        <Tab.Screen
-          name="profile"
-          component={Home_Screen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.view}>
+            {focused ? <NotiFocus /> : <Noti />}
+          </View>
+        ),
+      }}
+      listeners={({ navigation, route }) => ({
+        focus: (e) => {
+          setcurrentScreen(route.name);
+        },
+      })}
+    />
+    <Tab.Screen
+      name="profile"
+      component={Home_Screen}
+      options={{
+        headerShown: false,
+        tabBarShowLabel: false,
 
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <ProfileFocus /> : <Profile />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
-      </Tab.Navigator>
-    );
-  } else {
-    return (
-      <Tab.Navigator screenOptions={
-        {
-          tabBarStyle: { height: 80 },
-        }
-      }>
-        <Tab.Screen
-          name="home" component={Home_Screen} options={{
-            tabBarShowLabel: false,
-            //tabBarStyle: {width: 100},
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <HomeFocus /> : <Home />}
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="create_unit"
-          component={CreateUnitScreen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <NewFocus /> : <New />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              // setcurrentScreen(route.name);
-              navigation.navigate('CreateUnit');
-            },
-          })}
-        />
-        <Tab.Screen
-          name="noti"
-          component={Home_Screen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <NotiFocus /> : <Noti />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
-        <Tab.Screen
-          name="profile"
-          component={Home_Screen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <ProfileFocus /> : <Profile />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
-      </Tab.Navigator>
-    );
-  }
-
-
-
-
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.view}>
+            {focused ? <ProfileFocus /> : <Profile />}
+          </View>
+        ),
+      }}
+      listeners={({ navigation, route }) => ({
+        focus: (e) => {
+          setcurrentScreen(route.name);
+        },
+      })}
+    />
+  </Tab.Navigator>
 
 }
+
+
+
+
+

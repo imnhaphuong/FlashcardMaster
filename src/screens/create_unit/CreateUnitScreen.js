@@ -17,10 +17,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
 import SysModal from '../../components/SysModal/SysModal';
 // import ImagePicker from 'react-native-image-picker'
-import { launchImageLibrary } from 'react-native-image-picker';
+// import { launchImageLibrary } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
-/* toggle includeExtra */
-const includeExtra = true;
+import * as FileSystem from 'expo-file-system'
+
+
 const CreateUnitScreen = ({ navigation }) => {
   const label = 'Tên học phần';
   const term = 'Thuật ngữ'
@@ -41,9 +42,7 @@ const CreateUnitScreen = ({ navigation }) => {
       console.log("userId");
     })
   }, [])
-  // useEffect(() => {
 
-  // },[images])
   const showModa = () => {
     setTimeout(() => {
       setShowModal(false);
@@ -60,40 +59,112 @@ const CreateUnitScreen = ({ navigation }) => {
 
     },
   }
+  //Kiem tra dung luong file
+  const getFileInfo = async (fileURI) => {
+    const fileInfo = await FileSystem.getInfoAsync(fileURI)
+    return fileInfo
+  }
+
+  const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
+    const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB
+    return isOk
+  }
   const onUploadImage = async (i) => {
     console.log("onUploadImage");
+    setLoading(true)
     // const image = await launchImageLibrary(options);
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true
     });
+    const { uri, type } = result
+    const file = { uri, type }
+    console.log("file", file);
 
-    console.log(result);
-    console.log("result", i)
+    if (result.cancelled) return
+    const fileInfo = await getFileInfo(uri)
+    console.log("fileInfo", fileInfo);
     if (!result.cancelled) {
-      images.splice(i, 0, result.uri);
-    }
-    console.log("index ", images[i]);
+      //Kiểm tra kích thước
+      if (!fileInfo.size) {
+        setMess("Không thể chọn hình ảnh với kích thước không phù hợp")
+        setShowModal(true)
+        showModa();
+        return
+      }
+      if (type === 'image') {
+        const isLt3MB = isLessThanTheMB(fileInfo.size, 3)
+        if (!isLt3MB) {
+          setMess("Hình ảnh phải có kích thước bé hơn 3MB!")
+          setShowModal(true)
+          showModa();
+          return
+        }
+      }
+      if(images[i] !==""){
+        let base64Img = `data:image/jpg;base64,${result.base64}`
+        let oldData = {
+          "file": base64Img,
+          "upload_preset": "_FlashcardMaster"
+        }
+        await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/destroy', {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+      }
+      //Upload imgage to cloudinary
+      let base64Img = `data:image/jpg;base64,${result.base64}`
+      let data = {
+        "file": base64Img,
+        "upload_preset": "_FlashcardMaster"
+      }
+      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/upload', {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json())
+        .then(data => {
+          showModa();
+          images[i] = data.url;
+          setImages([...images])
+          console.log("data", data);
+        }).catch(err => {
+          setMess(err)
+          setShowModal(true)
+          showModa();
+        })
 
+    }
   };
   const onDeleteImage = (i) => {
     console.log("onDelete");
-    images.splice(i, 1);
+    images[i] = undefined;
+    setImages([...images])
+
   }
 
 
   const createUnit = async (values) => {
     let verified = true;
     setLoading(true)
-    console.log("values", values);
     console.log("fullname", fullname);
     values.flashcards.map((item, index) => {
       if (item.define === "" && item.term === "" && item.example === "" && item.image === "") {
         if (flashcards.length > 1) {
           values.flashcards.splice(index, 1);
+          setMess("Không được để trống ")
+          setShowModal(true)
+          showModa()
+          return
         }
       } else if (item.define === "" || item.term === "" || (item.define === "" && item.term === "")) {
         setMess("Không được để trống Thuật ngữ hoặc Định nghĩa")
@@ -103,37 +174,35 @@ const CreateUnitScreen = ({ navigation }) => {
       }
     })
 
-    // if (verified) {
-    //   const data = {
-    //     unitName: values.unitName,
-    //     userId: "6364d755c81e389f1f8c508a",
-    //     fullname: "user1709",
-    //     flashcards: values.flashcards,
-    //     mode: values.mode
+    if (verified) {
+      const data = {
+        unitName: values.unitName,
+        userId: "6364d755c81e389f1f8c508a",
+        fullname: "user1709",
+        flashcards: values.flashcards,
+        mode: values.mode
 
-    //   }
-    //   try {
-    //     await fetch(`${url}/create`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //       },
-    //       body: JSON.stringify(data),
-    //     }).then(res => res.json()
-    //     )
-    //     setLoading(false)
-    //     // setShowOptions(false);
-    //     // setTimeout(() => {
-    //     //   navigation.replace("nav")
-    //     // }, 1000);
-    //   } catch (err) {
-
-    //     console.log(err);
-    //     // setShowModal(true);
-    showModa();
-    //   }
-    // }
+      }
+      try {
+        await fetch(`${url}/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then(res => res.json()
+        )
+        setLoading(false)
+        // setTimeout(() => {
+        //   navigation.replace("nav")
+        // }, 1000);
+      } catch (err) {
+        console.log(err);
+        setShowModal(true);
+        showModa();
+      }
+    }
 
 
   }
@@ -241,10 +310,10 @@ const CreateUnitScreen = ({ navigation }) => {
                                     <CustomButton name={im} type="CHANGE_IMAGE" text="Thay đổi" onPress={() =>
                                       onUploadImage(i)
                                     } hide="hide" />
-                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={()=>onDeleteImage(i)} hide="hide" />
+                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i)} hide="hide" />
                                   </View>
                                 </View>
-                                : <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={()=>
+                                : <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
                                   onUploadImage(i)
                                 } hide="hide" />}
 
