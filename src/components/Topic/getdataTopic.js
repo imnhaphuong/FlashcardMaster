@@ -1,7 +1,7 @@
 //import { useState } from "react";
 
 const getDataTopic = async (setdata) => {
-    fetch("http://192.168.1.89:3000/api/topics", {
+    fetch("http://localhost:3000/api/topics", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -10,7 +10,7 @@ const getDataTopic = async (setdata) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        //console.log(resJson)
+        console.log(resJson)
         setdata(resJson)
       })
       .catch((error) => {

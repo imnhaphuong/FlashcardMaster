@@ -21,7 +21,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="SignUp"
+        initialRouteName="Navi"
       >
         <Stack.Screen name="Navi" component={NavigationBar} />
         <Stack.Screen name="Home" component={Home_Screen} />

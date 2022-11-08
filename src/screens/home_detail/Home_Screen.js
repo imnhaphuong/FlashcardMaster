@@ -52,7 +52,7 @@ const Home_Screen = (props) => {
           </View>
         </View>
         <View>
-          <Topic/>
+          <Topic />
         </View>
       </ScrollView>
       <View style={styles.search}>
