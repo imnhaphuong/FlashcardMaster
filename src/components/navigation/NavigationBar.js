@@ -77,7 +77,7 @@ export default function NavigationBar() {
         ),
       }}
     />
-    if (type === 1) {
+    {/* if (type === 1) {
       (
         <Tab.Screen
           name="class"
@@ -97,7 +97,7 @@ export default function NavigationBar() {
             },
           })}
         />
-      )}
+      )} */}
     <Tab.Screen
       name="create_unit"
       component={CreateUnitScreen}

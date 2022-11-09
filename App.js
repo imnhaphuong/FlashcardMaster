@@ -8,22 +8,17 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
-import NavigationBar from "./src/components/navigation/NavigationBar";
+import NavigationBar from "./src/components/Navigation/NavigationBar";
 import { Text } from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import { Provider } from "react-redux";
 import { store } from './src/redux/store'
-import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
-import { FontAwesome } from '@expo/vector-icons';
-import { useCallback } from "react";
 import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
-import SignInOption from "./src/screens/sign_in/SignInOption";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
 
@@ -108,13 +103,14 @@ export default function App() {
 
 
   return (
+    <Provider store={store}>
     <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
       <Stack.Navigator
         screenOptions={{
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="nav"
+        initialRouteName="home"
       >
         <Stack.Screen name="class_detail" component={ClassDetailScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
@@ -132,5 +128,6 @@ export default function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
