@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     width: "100%",
-    height: 100,
+    height: 120,
     justifyContent: "space-between",
     backgroundColor: colors.white,
     borderRadius: 5,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   wrapText: {
-    width: "70%",
+    width: "65%",
     justifyContent: "center",
   },
   label: {
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   img: {
-    height: "80%",
-    width: "30%",
+    height: "100%",
+    width: "35%",
     resizeMode: "contain",
   },
   listenButton: {
@@ -47,7 +47,23 @@ const styles = StyleSheet.create({
     zIndex: 20,
     top: 0,
     right: 0,
-    padding: 8,
+    paddingTop: 8,
+    paddingBottom: 10,
+    paddingRight: 8,
+    paddingLeft: 16,
+    backgroundColor: colors.white,
+    borderBottomLeftRadius: 30,
+    borderTopRightRadius: 5,
+    shadowColor: colors.black,
+    shadowOpacity: "25%",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    elevation: 2,
+  },
+  listenButtonActived: {
+    backgroundColor: colors.yellow,
   },
 });
 

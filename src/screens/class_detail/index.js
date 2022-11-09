@@ -31,6 +31,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 const ClassDetailScreen = (props) => {
   //State
   var params = props.route.params;
+  
   const [CLASS, setclass] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [toggleMore, settoggleMore] = useState(false);

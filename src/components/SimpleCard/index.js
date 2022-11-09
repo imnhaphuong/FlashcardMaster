@@ -19,6 +19,10 @@ export default class SimpleCard extends Component {
     this.card = React.createRef();
     this.state = {
       activeListen: false,
+      term: props.term,
+      define: props.define,
+      example: props.example,
+      image: props.image,
     };
   }
   onSpeak(thingToSay) {
@@ -41,22 +45,22 @@ export default class SimpleCard extends Component {
     return (
       <View style={styles.card}>
         <View style={styles.wrapText}>
-          <Text style={styles.label}>Carrot</Text>
-          <Text style={styles.define}>Cà rốt</Text>
-          <Text style={styles.example}>Ex: I fond of carrotEx</Text>
+          <Text style={styles.label}>{this.state.term}</Text>
+          <Text style={styles.define}>{this.state.define}</Text>
+          <Text style={styles.example}>{this.state.example}</Text>
         </View>
         <Pressable
-          style={styles.listenButton}
+          style={[
+            styles.listenButton,
+            this.state.activeListen ? styles.listenButtonActived : null,
+          ]}
           onPress={() => {
-            this.onSpeak("Carrot");
+            this.onSpeak(this.state.term);
           }}
         >
           {this.state.activeListen ? <ActiveListen /> : <Listen />}
         </Pressable>
-        <Image
-          style={styles.img}
-          source={require("../../../assets/images/flashcard/carrots.jpg")}
-        />
+        <Image style={styles.img} source={{ uri: this.state.image }} />
       </View>
     );
   }
