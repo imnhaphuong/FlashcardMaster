@@ -110,12 +110,11 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="home"
+        initialRouteName="nav"
       >
         <Stack.Screen name="class_detail" component={ClassDetailScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
         <Stack.Screen name="class" component={ClassScreen} />
-
         <Stack.Screen name="imp_unit" component={ImportUnit} />
         <Stack.Screen name="home" component={Home_Screen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
