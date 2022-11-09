@@ -1,12 +1,13 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
   wrapClassCard: {
+    position: "relative",
     flex: 1,
     borderRadius: 10,
-    paddingHorizontal: 20,
     paddingVertical: 8,
+    paddingHorizontal: 20,
     borderColor: colors.text,
     borderWidth: 1,
     backgroundColor: colors.white,
@@ -49,6 +50,14 @@ const styles = StyleSheet.create({
     color: colors.violet,
     marginLeft: 4,
   },
+  tagMode: {
+    position: "absolute",
+    right: 0,
+    top:0,
+    width: 56,
+    height: 56,
+    resizeMode: "contain",
+  }
 });
 
 export default styles;

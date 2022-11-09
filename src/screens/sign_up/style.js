@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         lineHeight: 35.84,
+        fontFamily: 'WorkSans',
     },
     subTitle: {
         height:'100%',
@@ -23,6 +24,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 16.42,
+        fontFamily: 'WorkSans',
+        
     },
     formInput: {
         flexDirection: 'row', alignItems: 'center', height: 50,

@@ -1,15 +1,9 @@
 import React from "react";
-import { Text, TextInput, View, SafeAreaView, TouchableOpacity } from "react-native";
-import Back from "../../../assets/images/back_green.svg"
+import { Text, TextInput, View, StatusBar, ScrollView, SafeAreaView, placeholder, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import Back from "../../../assets/images/header/back_green.svg"
 import styles from "./styles";
-import Search from "../../../assets/images/Search_green.svg";
-import UnitCard from "../../components/UnitCard";
-//import SwitchSelector from "react-native-switch-selector";
-import colors from "../../../contains/colors";
-import SegmentedControlTab from "react-native-segmented-control-tab";
-import { useState } from "react";
-import { FlatList } from "react-native";
-
+import Search from "../../../assets/images/nab/Search_green.svg";
+import Topic from "../../components/Topic";
 
 
 const Search_Screen = (props) => {

@@ -6,7 +6,6 @@ const CustomInputOTP = ({ onChangeText, value, keyboardType, autoFocus, returnKe
     return (
         <View>
             <View style={styles.formInput} >
-                <View style={{ flex: 1, marginLeft: 5 }} >
                     <TextInput style={styles.textInput}
                         forwardRef={forwardRef}
                         autoFocus={autoFocus}
@@ -15,9 +14,8 @@ const CustomInputOTP = ({ onChangeText, value, keyboardType, autoFocus, returnKe
                         value={value}
                         // onSubmitEditing={onSubmitEditing}
                         keyboardType={keyboardType}
-                        maxLength={1}
+                        maxLength={4}
                     />
-                </View>
             </View>
         </View>
     )
@@ -25,14 +23,13 @@ const CustomInputOTP = ({ onChangeText, value, keyboardType, autoFocus, returnKe
 const styles = StyleSheet.create({
     formInput: {
         flexDirection: 'row', alignItems: 'center', height: 66,
-        width: 66,
-        borderColor: colors.graySecondary,
+        width: '100%',
+        borderColor: colors.text,
         borderWidth: 1,
-        borderStyle: 'solid',
         padding: 10,
         color: colors.text,
         borderRadius: 10,
-        backgroundColor: colors.graySecondary
+        backgroundColor: colors.white
     },
     textInput: {
         fontSize: 24,

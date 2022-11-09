@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors'
 import CustomInput from '../../components/CustomInput/CustomInput'
@@ -8,32 +8,58 @@ import { Formik, } from 'formik'
 import { SignupSchema } from '../../../contains/validation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { useNavigation } from '@react-navigation/core'
 import SysModal from '../../components/SysModal/SysModal'
-import BgSignUp from '../../../assets/images/bgSignUp.svg'
-import LockIcon from '../../../assets/images/lock.svg'
-import EnvelopeIcon from '../../../assets/images/message.svg'
-import EyeIcon from '../../../assets/images/eye.svg'
-import EyeSlashIcon from '../../../assets/images/no-eye.svg'
+import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
+import LockIcon from '../../../assets/images/sign_up/lock.svg'
+import EnvelopeIcon from '../../../assets/images/sign_up/message.svg'
+import EyeIcon from '../../../assets/images/sign_up/eye.svg'
+import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 
 
+
+// WebBrowser.maybeCompleteAuthSession();
 
 export default SignUpScreen = ({ navigation }) => {
 
-  const navi = useNavigation();
+
   const [isLoading, setLoading] = useState(false);
   const [signUp, setSignUp] = useState(false)
   const [hide, setHide] = useState(true);
   const [reHide, setReHide] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState('');
-
+  const [user, setUser] = useState(null)
   const lock = <LockIcon />
   const envelope = <EnvelopeIcon />
   const eye = <EyeIcon />
   const eyeSlash = <EyeSlashIcon />
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
+  const [accessToken, setAccessToken] = useState(null);
+  // const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+  //   clientId: process.env.CLIENT_ID,
+  //   androidClientId: process.env.ANDOID_CLIENT_ID,
+  //   iosClientId: process.env.IOS_CLIENT_ID,
+  // });
+  // useEffect(()=>{
+  //   if(response?.type === "success"){
+  //     setAccessToken(response.authentication.accessToken);
+  //     accessToken && fetchUserInfo();
+  //   }
+  // },[response,accessToken]);
+  // const [googleSubmitting, setGoogleSubmitting] = useState(false)
+  // const request = new Google.AuthRequest({  });
+  async function fetchUserInfo(){
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me",{
+      headers: { 
+        Authorization: `Bear ${accessToken}`
+      }
+    })
+    const userInfo = await response.json();
+    setUser(userInfo);
+    AsyncStorage.setItem('userGG',JSON.stringify(userInfo));
+    
+  }
   const showModa = () => {
     setTimeout(() => {
       setShowModal(false);
@@ -41,9 +67,30 @@ export default SignUpScreen = ({ navigation }) => {
     }, 2000);
   };
 
-  const onSignUpGoogle = () => {
-    console.log("Sign Up Google");
-  }
+  // const onSignUpGoogle = () => {
+  //   console.log("Sign Up Google");
+  //   setGoogleSubmitting(true);
+  //   const config = {
+
+  //     scopes: ['profile', 'email']
+  //   };
+  //   // Google.promptAsync()
+  //   request.promptAsync(discovery, { useProxy: true }).then((result) => {
+  //     const { type, user } = result;
+  //     const { email, displayName, photoUrl } = user;
+  //     if (type === 'success') {
+  //       handleMessage("Google signin succeeful", 'SUCCESS');
+  //       setTimeout(() => navigation.navigate('Navi', { email, displayName, photoUrl }))
+  //     } else {
+  //       handleMessage("Google signin was cancelled");
+  //     }
+  //     setGoogleSubmitting(false);
+  //   }).catch(err => {
+  //     console.log(err);
+  //     handleMessage("An error occurred. Check your network and try again");
+  //     setGoogleSubmitting(false);
+  //   })
+  // }
   const changeSecureText = () => {
     if (hide == true) {
       setHide(false);
@@ -66,7 +113,6 @@ export default SignUpScreen = ({ navigation }) => {
       showModa();
       return;
     } else {
-      console.log("values", values.email);
       const result = await fetch("http://192.168.43.158:3000/api/users/create", {
         method: "POST",
         headers: {
@@ -78,12 +124,11 @@ export default SignUpScreen = ({ navigation }) => {
       console.log("status", result);
       if (result.status === 'ok') {
         // everythign went fine
-        setMess('Đăng ký thành công');
-        setShowModal(true);
-        showModa();
-        AsyncStorage.setItem('userId', result.userId);
-        setTimeout(() => {
 
+        AsyncStorage.setItem('userId', result.user._id);
+        AsyncStorage.setItem('userInfo', JSON.stringify(result.user));
+
+        setTimeout(() => {
           navigation.push("VerifyEmail")
         }, 1000);
       } else {
@@ -97,7 +142,14 @@ export default SignUpScreen = ({ navigation }) => {
 
 
   };
-
+  const ShowUserInfo = () => {
+    if(user) {
+      return(
+        <Text style={styles.subTitle}>{user.name}
+            </Text>
+      )
+    }
+  } 
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -129,6 +181,8 @@ export default SignUpScreen = ({ navigation }) => {
           }}>
             <Text style={styles.subTitle}>Chào mừng bạn đến với Flashcard Master
             </Text>
+            {user && <ShowUserInfo />}
+           
           </View>
         </View>
         {/* Form */}
@@ -156,7 +210,7 @@ export default SignUpScreen = ({ navigation }) => {
                   onBlur={handleBlur('password')} onPress={changeSecureText} secureTextEntry={hide} value={values.password} keyboardType="password" placeholder="Mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.password} touched={touched.password} isEye={true} />
                 <CustomInput onChangeText={handleChange('rePassword')} changeIcon={reHide}
                   onBlur={handleBlur('rePassword')} secureTextEntry={reHide} onPress={changeReSecureText} value={values.rePassword} keyboardType="password" placeholder="Nhập lại mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.rePassword} touched={touched.rePassword} isEye={true} />
-                {/* BottomForm */}
+           
                 <View style={{ top: 10 }}>
                   <CustomButton text="Đăng ký" onPress={handleSubmit} hide="hide" />
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
@@ -167,11 +221,18 @@ export default SignUpScreen = ({ navigation }) => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  <CustomButton text="Đăng ký bằng Google" onPress={onSignUpGoogle} type="GG" />
+                  {/* {!googleSubmitting && ( */}
+                  <CustomButton text="Đăng ký bằng Google" onPress={()=>{
+                    promptAsync();
+                  }} type="GG" />
+
+                  {/* )} */}
+
                 </View>
               </View>
             )}
           </Formik>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

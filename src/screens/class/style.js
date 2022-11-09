@@ -42,14 +42,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.9,
   },
+  
   joinBtn: {
     backgroundColor: colors.violet,
   },
+
   textBtn: {
     fontSize: 16,
     color: colors.pastelPurple,
     fontWeight: "600",
   },
+  
   input: {
     borderWidth: 1,
     borderColor: colors.text,
@@ -87,6 +90,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.darkGray,
     width: 172,
+  },
+  textCreate: {
+    color: colors.text
   },
   line: { flex: 1, height: 1, backgroundColor: colors.darkGray },
 });

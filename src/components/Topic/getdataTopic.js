@@ -1,7 +1,7 @@
 //import { useState } from "react";
 
 const getDataTopic = async (setdata) => {
-    fetch("http://localhost:3000/api/topics", {
+    fetch("https://flashcard-master.vercel.app/api/topics", {
       method: "get",
       headers: {
         "Content-Type": "application/json",

@@ -1,7 +1,7 @@
-import { View, Text, Modal, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Modal} from 'react-native'
+import React from 'react'
 import colors from '../../../contains/colors'
-import { LinearGradient } from 'react-native-svg'
+
 
 const SysModal = ({ message, visible, onClose }) => {
     
@@ -43,28 +43,7 @@ const SysModal = ({ message, visible, onClose }) => {
                         alignItems: "center",
                         marginTop: 20,
                     }}>
-                        {/* <TouchableOpacity >
-                            <View style={{
-                                alignItems: 'center',
-                                justifyContent: "center",
-                                paddingLeft: 15,
-                                paddingRight: 15,
-                                width: "100%",
-                                height: 40,
-                                borderRadius: 10,
-                                backgroundColor:colors.violet,
-                            }}
-                            >
-                                <Text style={{
-                                    fontSize: 16,
-                                    // fontWeight: 'bold',
-                                    color: colors.white,
-                                }} onPress={onClose}>
-                                    Thoát
-                                </Text>
-
-                            </View>
-                        </TouchableOpacity> */}
+                        
                     </View>
                 </View>
             </View>

@@ -1,14 +1,13 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../../../contains/colors'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import GoogleLogo from '../../../assets/images/_Google.svg'
+import GoogleLogo from '../../../assets/images/sign_up/_Google.svg'
 
-const CustomButton = ({ onPress, text, type = 'SIGNIN', hide }) => {
+const CustomButton = ({ name,onPress, text, type = 'SIGNIN', hide }) => {
 
 
     return (
-        <TouchableOpacity onPress={onPress}  >
+        <TouchableOpacity name={name} onPress={onPress}  >
             <View style={[styles.btnDangKy, styles[`btnDangKy_${type}`]]}>
                 <View style={styles[`${hide}`]} >
                     <GoogleLogo />
@@ -37,11 +36,25 @@ const styles = StyleSheet.create({
         zIndex:1000,
         marginVertical: 20,
     },
+    btnDangKy_ADD:{
+        marginTop:5,
+        backgroundColor: colors.pink,
+    },
+    btnDangKy_CHANGE_IMAGE:{
+        height: 40,
+        backgroundColor: colors.pink,
+        width:"100%"
+    },
+    btnDangKy_DE_IMAGE:{
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: colors.violet,
+        width:"100%"
+    },
     btnText: {
-        fontWeight: '500',
         fontSize: 16,
         letterSpacing: 0.2,
-
+        fontFamily: 'WorkSans-SemiBold',
     },
     btnText_SIGNIN: {
         color: colors.pastelPurple,
@@ -49,6 +62,17 @@ const styles = StyleSheet.create({
     btnText_GG: {
         color: colors.text,
         marginLeft: 5
+    },
+    btnText_ADD:{
+        color: colors.text,       
+    },
+    btnText_CHANGE_IMAGE:{
+        color: colors.text,  
+        fontSize: 14,
+    },
+    btnText_DE_IMAGE:{
+        fontSize: 14,
+        color: colors.white,  
     },
     hide:{
         display:'none',

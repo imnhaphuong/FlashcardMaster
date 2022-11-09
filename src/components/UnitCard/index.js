@@ -1,17 +1,23 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./style";
 
 const UnitCard = (props) => {
-  const unit_name = props.unit_name ? props.unit_name : "Bài 2";
-  const number_of_cards = props.number_of_cards
-    ? `${props.number_of_cards} thẻ`
-    : "12 thẻ";
+  const id = props.id;
+  const unit_name = props.unit_name ? props.unit_name : "unit name";
+  const number_of_cards = `${props.number_of_cards} thẻ`;
   // const avatar = props.avatar ? :
-  const username = props.username ? props.username : "user100233";
+  const username = props.username ? props.username : "user";
 
   return (
-    <View style={styles.wrapUnitCard}>
+    <Pressable
+      style={styles.wrapUnitCard}
+      onPress={() => {
+        props.navigation.navigate("unit_detail", {
+          id: id,
+        });
+      }}
+    >
       <Text style={styles.unitName}>{unit_name}</Text>
       <Text style={styles.numberOfCards}>{number_of_cards}</Text>
       <View style={styles.wrapUser}>
@@ -21,7 +27,7 @@ const UnitCard = (props) => {
         />
         <Text style={styles.username}>{username}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

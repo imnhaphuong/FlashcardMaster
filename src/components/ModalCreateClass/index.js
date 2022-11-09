@@ -13,13 +13,39 @@ import styles from "./style";
 import { createClassSchema } from "./validation";
 import { Formik, Field, Form } from "formik";
 import CheckBox from "react-native-checkbox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ModalCreateClass = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const ModalCreateClass = (props) => {
+  ///State
+  //get user id when logged to fill in creator id
+  const [userId, setuserId] = useState("");
+  AsyncStorage.getItem("userId").then((result) => {
+    setuserId(result);
+  });
+  //loading
+  const setLoading = props.setLoading ? props.setLoading : null;
+  //visible modal
+  const visible = props.visible ? props.visible : false;
+  const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : false;
+
   const textHolder = `Tên lớp của bạn là?`;
+  const className = props.name ? props.name : "";
+  const myMode = props.mode == 0 ? false : true;
+  const _id = props._id ? props._id : null;
+  //url
+  const url =
+    props.event === "update"
+      ? "https://flashcard-master.vercel.app/api/classes/update"
+      : "https://flashcard-master.vercel.app/api/classes/create";
 
+  //submit form create class
   const submitData = async (values) => {
-    fetch("http://flashcard-master.vercel.app/api/class/create", {
+    console.log(url);
+    if (typeof setLoading == "function") {
+      setLoading(true);
+    }
+    values.creator = userId;
+    fetch(url, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -29,25 +55,31 @@ const ModalCreateClass = () => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        console.log(resJson);
-        setModalVisible(!modalVisible);
-        Keyboard.dismiss;
+        console.log(values);
       })
       .catch((error) => {
         console.log(error);
       });
+    setVisibleModal(false);
+    if (typeof setLoading == "function") {
+      setLoading(false);
+    }
+    if (typeof props.settoggleMore == "function") {
+      props.settoggleMore(false);
+    }
   };
 
+  //UI
   return (
     <View>
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible}
+          visible={visible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
+            setVisibleModal(!visible);
           }}
         >
           <View style={styles.centeredView}>
@@ -57,9 +89,9 @@ const ModalCreateClass = () => {
               <Formik
                 style={styles.form}
                 initialValues={{
-                  name: "",
-                  creator: "nhaphuong",
-                  mode: true,
+                  id: _id,
+                  name: className,
+                  mode: myMode,
                 }}
                 onSubmit={(values) => submitData(values)}
                 validationSchema={createClassSchema}
@@ -106,7 +138,9 @@ const ModalCreateClass = () => {
                       <View style={styles.wrapButtons}>
                         <Pressable
                           style={[styles.buttonCancel]}
-                          onPress={() => setModalVisible(!modalVisible)}
+                          onPress={() => {
+                            setVisibleModal(false);
+                          }}
                         >
                           <Text style={[styles.textButton, styles.textCancel]}>
                             Hủy
@@ -117,7 +151,7 @@ const ModalCreateClass = () => {
                           onPress={handleSubmit}
                         >
                           <Text style={[styles.textButton, styles.textCreate]}>
-                            Tạo
+                            {props.event === "update" ? "Cập nhật" : "Tạo"}
                           </Text>
                         </Pressable>
                       </View>
@@ -129,11 +163,6 @@ const ModalCreateClass = () => {
           </View>
         </Modal>
       </View>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <View style={[styles.createBtn]}>
-          <Text style={[styles.textBtn]}>+ Tạo lớp mới</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
