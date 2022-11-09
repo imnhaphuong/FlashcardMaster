@@ -5,7 +5,6 @@ import {
   FlatList,
   StatusBar,
   KeyboardAvoidingView,
-  Pressable,
   TouchableOpacity,
   Image,
   Share,
@@ -31,7 +30,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 const ClassDetailScreen = (props) => {
   //State
   var params = props.route.params;
-  
+
   const [CLASS, setclass] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [toggleMore, settoggleMore] = useState(false);
@@ -155,6 +154,15 @@ const ClassDetailScreen = (props) => {
           onPress={() => {
             settoggleMore(!toggleMore);
           }}
+          style={
+            toggleMore
+              ? {
+                  borderColor: colors.violet,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }
+              : null
+          }
         >
           <More />
         </TouchableOpacity>
@@ -167,19 +175,27 @@ const ClassDetailScreen = (props) => {
           {toggleMore ? (
             <View style={[styles.wrapOptions, { zIndex: 10 }]}>
               <TouchableOpacity onPress={onImpUnit} style={styles.option}>
-                <Text>Thêm học phần</Text>
+                <View>
+                  <Text>Thêm học phần</Text>
+                </View>
               </TouchableOpacity>
               <Line backgroundColor={colors.violet} opacity={0.2} />
               <TouchableOpacity onPress={onShare} style={styles.option}>
-                <Text>Chia sẻ</Text>
+                <View>
+                  <Text>Chia sẻ</Text>
+                </View>
               </TouchableOpacity>
               <Line backgroundColor={colors.violet} opacity={0.2} />
               <TouchableOpacity onPress={onUpdate} style={styles.option}>
-                <Text>Chỉnh sửa</Text>
+                <View>
+                  <Text>Chỉnh sửa</Text>
+                </View>
               </TouchableOpacity>
               <Line backgroundColor={colors.violet} opacity={0.2} />
               <TouchableOpacity onPress={onDelete} style={styles.option}>
-                <Text>Xóa lớp học</Text>
+                <View>
+                  <Text>Xoá lớp học</Text>
+                </View>
               </TouchableOpacity>
             </View>
           ) : null}

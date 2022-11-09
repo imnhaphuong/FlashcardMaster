@@ -38,6 +38,9 @@ export default class SimpleCard extends Component {
       onDone: () => {
         this.setState({ activeListen: false });
       },
+      onStopped: () => {
+        this.setState({ activeListen: false });
+      },
     });
   }
 

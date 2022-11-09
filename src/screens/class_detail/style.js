@@ -46,8 +46,10 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   option: {
-    justifyContent: "center",
+    width: '100%',
     height: 40,
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 16,
   },
   inforArea: {
