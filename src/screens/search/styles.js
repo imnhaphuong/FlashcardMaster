@@ -6,7 +6,7 @@ header:{
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 15
+    paddingVertical: 10
 },
 input:{
     height: 45,
