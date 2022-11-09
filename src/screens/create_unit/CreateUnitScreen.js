@@ -126,7 +126,7 @@ const CreateUnitScreen = ({ navigation }) => {
         "file": base64Img,
         "upload_preset": "_FlashcardMaster"
       }
-      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/flashcard/image/upload', {
+      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/upload', {
         method: "POST",
         headers: {
           'content-type': 'application/json'
@@ -157,7 +157,7 @@ const CreateUnitScreen = ({ navigation }) => {
   const createUnit = async (values) => {
     let verified = true;
     setLoading(true)
-    console.log("fullname", fullname);
+    console.log("fullname", values);
     values.flashcards.map((item, index) => {
       if (item.define === "" && item.term === "" && item.example === "" && item.image === "") {
         if (flashcards.length > 1) {
@@ -268,25 +268,28 @@ const CreateUnitScreen = ({ navigation }) => {
                   <View style={styles.content}>
                     <CustomInputUnit onChangeText={handleChange('unitName')}
                       onBlur={handleBlur('unitName')} value={values.unitName} errors={errors.unitName} touched={touched.unitName} label={label} />
+                    <View style={{flexDirection: 'row',alignItems: 'center'}}>
                     <Checkbox
                       status={values.mode ? 'checked' : 'unchecked'}
                       onPress={() => {
                         setFieldValue("mode", !values.mode);
                       }}
                       uncheckedColor={colors.violet}
-                      theme={styles.checkbox}
+                      color={colors.violet} 
                       // style={styles.containerCB}
                       // checkboxStyle={styles.checkbox}
                       // labelStyle={styles.labelCheckbox}
                       // checkedImage={require("../../../assets/images/checkbox/checked.png")}
                       // uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
-                      label="Công khai học phần"
+                      // label="Công khai học phần"
                       // checked={values.mode}
                       // onChange={() => {
                       //   setFieldValue("mode", !values.mode);
                       //   console.log("mode", values.mode);
                       // }}
                     />
+                    <Text style={styles.text}>Công khai học phần</Text>
+                    </View>         
                     <View style={styles.createCard}>
                       {
                         values.flashcards.map((item, i) => {

@@ -1,6 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
-
+import fonts from "../../../contains/fonts"
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: colors.text,
-    fontFamily: 'WorkSans',
+    fontFamily: 'WorkSans-SemiBold',
    
   },
   label: {
@@ -77,6 +77,10 @@ const styles = StyleSheet.create({
     padding: 10,
     height: "100%",
     borderRadius: 10,
+  },
+  text: {
+    fontFamily:fonts.semibold,
+    fontSize:16,
   }
 
 });
