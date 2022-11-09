@@ -44,7 +44,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log(data);
         try {
-            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
+            const result = await fetch("http://192.168.43.158:3000/api/users/verify-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log("email",email);
         try {
-            const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
+            const result = await fetch("http://192.168.43.158:3000/api/users/send-verification", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

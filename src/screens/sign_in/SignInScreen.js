@@ -25,7 +25,7 @@ export default SignInScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [showOptions, setShowOptions] = useState(true);
   const [email, setEmail] = useState(null);
-
+  const url = "http://192.168.43.158:3000/api/users"
 
   const [mess, setMess] = useState('');
 
@@ -62,7 +62,7 @@ export default SignInScreen = ({ navigation }) => {
   const submitData = async (values) => {
     setLoading(true)
     try {
-      const result = await fetch("https://flashcard-master.vercel.app/api/users/signin", {
+      const result = await fetch(`${url}/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,6 +88,7 @@ export default SignInScreen = ({ navigation }) => {
         setLoading(false)
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
+        AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);
@@ -112,7 +113,7 @@ export default SignInScreen = ({ navigation }) => {
       email: email,
     }
     try {
-      await fetch("https://flashcard-master.vercel.app/api/users/type-class", {
+      await fetch(`${url}/type-class`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +137,7 @@ export default SignInScreen = ({ navigation }) => {
       email: email,
     }
     try {
-      await fetch("https://flashcard-master.vercel.app/api/users/type-personal", {
+      await fetch(`${url}/type-personal`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -177,9 +178,7 @@ export default SignInScreen = ({ navigation }) => {
         </View>
         {/* Title */}
         <View style={{ top: 130, marginLeft: 20 }}>
-          <View >
             <Text style={styles.title}>Đăng Nhập</Text>
-          </View>
           <View style={{
             width: 271,
             height: 16,
