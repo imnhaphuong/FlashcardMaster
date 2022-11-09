@@ -10,7 +10,7 @@ const getDataTopic = async (setdata) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        //console.log(resJson)
+        console.log(resJson)
         setdata(resJson)
       })
       .catch((error) => {
