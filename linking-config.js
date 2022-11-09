@@ -3,7 +3,12 @@ const linking_config = {
     NavigationBar: {
       path: "nav",
       screens: {
-        Home: "home",
+        Class: {
+          path: 'home/:jcode?',
+          parse: {
+            jcode : String
+          }
+        },
         Class: {
           path: 'class/:jcode',
           parse: {

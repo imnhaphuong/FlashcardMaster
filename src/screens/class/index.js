@@ -7,28 +7,28 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   StatusBar,
-  ScrollView,
   FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./style";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import colors from "../../../contains/colors";
 import ClassCard from "../../components/ClassCard";
-import getData from "./data";
+import getAllClasses from "../../../getdata/getAllClasses";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const ClassScreen = (props) => {
-
-  const [loadingState, setloadingState] = useState(true)
-  const popupModal = () => {
-    setvisible(true);
-    return true;
-  };
-
+  //State
+  const [visible, setvisible] = useState(false);
+  const [CLASSES, setClasses] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const onRefreshData = () => {
+    getAllClasses(setClasses, setLoading);
+  }
   const myRenderItem = ({ item }) => (
     <ClassCard
-      mode = {item.mode}
-      id={item._id}
+      mode={item.mode}
+      _id={item._id}
       name={item.name}
       creator={item.creator}
       number_of_members={item.members.length}
@@ -36,11 +36,21 @@ const ClassScreen = (props) => {
     />
   );
 
-  const [CLASSES_DATA, setdata] = useState([]);
-  getData(setdata);
-  
+
+  //useEffect
+  useEffect(() => {
+    onRefreshData()
+    const focusHandler = props.navigation.addListener("focus", () => {
+      onRefreshData()
+    });
+    return focusHandler;
+  }, [isLoading, props.navigation]);
+
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner color={colors.violet} visible={isLoading} />
+
+      {/* Status Bar & Header*/}
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -55,10 +65,11 @@ const ClassScreen = (props) => {
           <Text style={styles.textHeader}>Lớp học</Text>
         </View>
       </KeyboardAvoidingView>
+      {/* Content */}
       <FlatList
-        style={styles.wrapFlatList}
+        contentContainerStyle={styles.wrapFlatList}
         showsVerticalScrollIndicator={false}
-        data={CLASSES_DATA.reverse()}
+        data={CLASSES}
         renderItem={myRenderItem}
         numColumns={1}
         keyExtractor={(item) => item._id}
@@ -69,11 +80,7 @@ const ClassScreen = (props) => {
               placeholder="Nhập mã lớp học"
               onSubmitEditing={Keyboard.dismiss}
             />
-            <TouchableOpacity
-              onPress={() => {
-                console.log(CLASSES_DATA);
-              }}
-            >
+            <TouchableOpacity>
               <View style={[styles.btn, styles.joinBtn]}>
                 <Text style={[styles.textBtn, styles.textJoin]}>Tham gia</Text>
               </View>
@@ -86,7 +93,22 @@ const ClassScreen = (props) => {
               </View>
               <View style={styles.line} />
             </View>
-            <ModalCreateClass />
+
+            <TouchableOpacity onPress={() => setvisible(!visible)}>
+              <View style={[styles.btn, styles.createBtn]}>
+                <Text style={[styles.textBtn, styles.textCreate]}>
+                  + Tạo lớp mới
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            {visible ? (
+              <ModalCreateClass
+                visible={visible}
+                setLoading={setLoading}
+                setVisibleModal={setvisible}
+              />
+            ) : null}
 
             <View style={[styles.wrapOr]}>
               <View style={styles.line} />
@@ -97,7 +119,6 @@ const ClassScreen = (props) => {
             </View>
           </View>
         }
-        ListFooterComponent={<View style={{ height: 28 }} />}
       />
     </SafeAreaView>
   );

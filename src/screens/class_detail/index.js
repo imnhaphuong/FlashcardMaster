@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Share,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -16,54 +17,58 @@ import colors from "../../../contains/colors";
 import UnitCard from "../../components/UnitCard";
 import Back from "../../../assets/images/header/back.svg";
 import More from "../../../assets/images/header/more.svg";
-import getData from "./data";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
+import getClassById from "../../../getdata/getClassById";
+import getUserByID from "../../../getdata/getUserById";
+import Line from "../../components/Line";
+import ModalCreateClass from "../../components/ModalCreateClass";
+import ConfirmForm from "../../components/ConfirmForm";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const ClassDetailScreen = (props) => {
+  //State
   var params = props.route.params;
-  const [CLASS, setdata] = useState([]);
-  getData(setdata, params.id);
+  const [CLASS, setclass] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [toggleMore, settoggleMore] = useState(false);
+  let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
+  let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
 
-  const UNITS = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      unit_name: "Bài 1",
-      number_of_cards: "0",
-      username: "user0",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      unit_name: "Bài 2",
-      number_of_cards: "10",
-      username: "user 1231323",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      unit_name: "Bài 3",
-      username: "user 112313",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      unit_name: "Bài 4: this is a long unit name",
-      username: "nguyen van a",
-    },
-  ];
-  const MEMBERS = ["HI"];
+  //minor data
+  const [members, setMembers] = useState([]);
+  const [units, setUnits] = useState([]);
+  const [creator, setCreator] = useState([]);
+  //useEffect
+  useEffect(() => {
+    getClassById(setclass, params._id, setLoading);
+    if (typeof CLASS.members !== "undefined") {
+      setMembers(CLASS.members);
+    }
+    if (typeof CLASS.units !== "undefined") {
+      setUnits(CLASS.units);
+    }
+    if (typeof CLASS.creator !== "undefined") {
+      setCreator(CLASS.creator);
+    }
+    console.log("call use effect in class detail");
+  }, [isLoading]);
 
   const renderUnitItem = ({ item }) => (
     <UnitCard
-      unit_name={item.unit_name}
-      username={item.username}
-      number_of_cards={item.number_of_cards}
+      id={item._id}
+      unit_name={item.unitName}
+      username={creator.fullname}
+      number_of_cards={
+        typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+      }
+      navigation={props.navigation}
     />
   );
   const renderUserItem = (item) => <UserCard isCreator={true} />;
 
-  const numberOfMembers = MEMBERS.length;
-  const numberOfUnits = UNITS.length;
   // For custom SegmentedControlTab
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -71,8 +76,10 @@ const ClassDetailScreen = (props) => {
     //handle tab selection for custom Tab Selection SegmentedControlTab
     setSelectedIndex(index);
   };
-  const [data, setabc] = useState([]);
-
+  //imp unit
+  const onImpUnit = () => {
+    props.navigation.navigate("imp_unit");
+  };
   // share
   const onShare = async () => {
     try {
@@ -99,9 +106,7 @@ const ClassDetailScreen = (props) => {
         },
         body: JSON.stringify(payload),
       });
-
       const json = await res.json();
-
       const result = await Share.share({
         message: `Join the class ${json.shortLink}`,
         url: json.shortLink,
@@ -115,9 +120,17 @@ const ClassDetailScreen = (props) => {
       console.log(err);
     }
   };
-
+  //update
+  const onUpdate = () => {
+    setVisibleUpdateModal(true);
+  };
+  //delete
+  const onDelete = () => {
+    setVisibleDeleteModal(true);
+  };
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -137,78 +150,120 @@ const ClassDetailScreen = (props) => {
           <Back />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Lớp học</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            settoggleMore(!toggleMore);
+          }}
+        >
           <More />
         </TouchableOpacity>
       </KeyboardAvoidingView>
 
       {/* Content */}
-      <View style={styles.wrapContent}>
-        {/* Options */}
-        <View style={[styles.wrapOptions, { zIndex: 10 }]}>
-          <TouchableOpacity onPress={onShare}>
-            <Text style={styles.option}>Chia sẻ</Text>
-          </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={() => settoggleMore(false)}>
+        <View style={styles.wrapContent}>
+          {/* Options */}
+          {toggleMore ? (
+            <View style={[styles.wrapOptions, { zIndex: 10 }]}>
+              <TouchableOpacity onPress={onImpUnit} style={styles.option}>
+                <Text>Thêm học phần</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
+              <TouchableOpacity onPress={onShare} style={styles.option}>
+                <Text>Chia sẻ</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
+              <TouchableOpacity onPress={onUpdate} style={styles.option}>
+                <Text>Chỉnh sửa</Text>
+              </TouchableOpacity>
+              <Line backgroundColor={colors.violet} opacity={0.2} />
+              <TouchableOpacity onPress={onDelete} style={styles.option}>
+                <Text>Xóa lớp học</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
-          {/* <Text style={styles.option}>Options</Text> */}
-        </View>
-        <View style={styles.inforArea}>
-          <Text style={styles.className}>{CLASS.name} </Text>
-          <View style={styles.wrapUser}>
-            <Image
-              style={styles.avatar}
-              source={require("../../../assets/images/avt-default.png")}
-            />
-            <Text style={styles.username}>{CLASS.creator}</Text>
+          <View style={styles.inforArea}>
+            <Text style={styles.className}>{CLASS.name} </Text>
+            <View style={styles.wrapUser}>
+              <Image
+                style={styles.avatar}
+                source={require("../../../assets/images/avt-default.png")}
+              />
+              <Text style={styles.username}>{creator.fullname}</Text>
+            </View>
           </View>
+          {/* Tabs */}
+          <SegmentedControlTab
+            values={[
+              `Học phần (${units.length})`,
+              `Thành viên (${members.length})`,
+            ]}
+            selectedIndex={selectedIndex}
+            onTabPress={handleIndexSelect}
+            tabsContainerStyle={{
+              height: 60,
+              backgroundColor: colors.pastelPurple,
+            }}
+            tabStyle={{
+              backgroundColor: colors.pastelPurple,
+              borderColor: "transparent",
+              borderBottomColor: colors.graySecondary,
+              borderWidth: 1,
+            }}
+            activeTabStyle={{
+              backgroundColor: "#deddfa",
+              borderBottomColor: colors.violet,
+              borderWidth: 2,
+            }}
+            tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
+            activeTabTextStyle={{ color: colors.violet }}
+          />
+
+          {selectedIndex === 0 && (
+            <View style={styles.wrapUnits}>
+              <FlatList
+                data={units}
+                renderItem={renderUnitItem}
+                numColumns={2}
+                keyExtractor={(item) => item.id}
+              />
+            </View>
+          )}
+          {selectedIndex === 1 && (
+            <View style={styles.wrapUnits}>
+              <FlatList
+                data={members}
+                renderItem={renderUserItem}
+                numColumns={1}
+              />
+            </View>
+          )}
         </View>
-        {/* Tabs */}
-        <SegmentedControlTab
-          values={[
-            `Học phần (${numberOfUnits})`,
-            `Thành viên (${numberOfMembers})`,
-          ]}
-          selectedIndex={selectedIndex}
-          onTabPress={handleIndexSelect}
-          tabsContainerStyle={{
-            height: 60,
-            backgroundColor: colors.pastelPurple,
-          }}
-          tabStyle={{
-            backgroundColor: colors.pastelPurple,
-            borderColor: "transparent",
-            borderBottomColor: colors.graySecondary,
-            borderWidth: 1,
-          }}
-          activeTabStyle={{
-            backgroundColor: "#deddfa",
-            borderBottomColor: colors.violet,
-            borderWidth: 2,
-          }}
-          tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
-          activeTabTextStyle={{ color: colors.violet }}
+      </TouchableWithoutFeedback>
+
+      <ModalCreateClass
+        visible={visibleUpdateModal}
+        _id={CLASS._id}
+        name={CLASS.name}
+        mode={CLASS.mode}
+        event={"update"}
+        setLoading={setLoading}
+        setVisibleModal={setVisibleUpdateModal}
+        settoggleMore={settoggleMore}
+      />
+
+      {visibleDeleteModal && CLASS ? (
+        <ConfirmForm
+          visible={visibleDeleteModal}
+          _id={CLASS._id}
+          name={CLASS.name}
+          event={"delete"}
+          setVisibleModal={setVisibleDeleteModal}
+          setLoading={setLoading}
+          navigation={props.navigation}
         />
-
-        {selectedIndex === 0 && (
-          <View style={styles.wrapUnits}>
-            <FlatList
-              data={UNITS}
-              renderItem={renderUnitItem}
-              numColumns={2}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
-        )}
-        {selectedIndex === 1 && (
-          <View style={styles.wrapUnits}>
-            <FlatList
-              data={MEMBERS}
-              renderItem={renderUserItem}
-              numColumns={1}
-            />
-          </View>
-        )}
-      </View>
+      ) : null}
     </SafeAreaView>
   );
 };

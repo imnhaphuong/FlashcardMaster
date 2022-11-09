@@ -9,7 +9,7 @@ import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
 import NavigationBar from "./src/components/navigation/NavigationBar";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
@@ -22,6 +22,11 @@ import * as Font from 'expo-font';
 import { FontAwesome } from '@expo/vector-icons';
 import { useCallback } from "react";
 import AppLoading from "expo-app-loading";
+import UnitDetail from "./src/screens/unit_detail";
+import SignInOption from "./src/screens/sign_in/SignInOption";
+import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
+import ImportUnit from "./src/screens/imp_unit";
+
 const Stack = createNativeStackNavigator();
 
 const loadAssets = async () =>
@@ -38,7 +43,7 @@ const loadAssets = async () =>
 
 export default function App() {
   const linking = {
-    prefixes: ['https://flashcardmaster.page.link', Linking.createURL("/")],
+    prefixes: ["https://flashcardmaster.page.link", Linking.createURL("/")],
     linking_config,
   };
 
@@ -103,31 +108,29 @@ export default function App() {
 
 
   return (
+    <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+      <Stack.Navigator
+        screenOptions={{
+          // tắt header
+          headerShown: false,
+        }}
+        initialRouteName="nav"
+      >
+        <Stack.Screen name="class_detail" component={ClassDetailScreen} />
+        <Stack.Screen name="nav" component={NavigationBar} />
+        <Stack.Screen name="class" component={ClassScreen} />
 
-    <Provider store={store}>
-      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
-        <Stack.Navigator
+        <Stack.Screen name="imp_unit" component={ImportUnit} />
+        <Stack.Screen name="home" component={Home_Screen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="unit_detail" component={UnitDetail} />
+        <Stack.Screen name="Search" component={Search_Screen} />
+        <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
+        <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
+        <Stack.Screen name="CreateUnit" component={CreateUnitScreen} />
 
-          screenOptions={{
-            // tắt header
-            headerShown: false,
-          }}
-          initialRouteName="CreateUnit"
-        >
-          <Stack.Screen name="class" component={ClassScreen} />
-          <Stack.Screen name="nav" component={NavigationBar} />
-          <Stack.Screen name="home" component={Home_Screen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="ClassDetail" component={ClassDetailScreen} />
-          <Stack.Screen name="Search" component={Search_Screen} />
-          <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
-          <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-          <Stack.Screen name="CreateUnit" component={CreateUnitScreen} />
-
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-
-  )
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }

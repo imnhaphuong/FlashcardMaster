@@ -1,7 +1,15 @@
 import React from "react";
-import { View } from "react-native"
+import { View, Text } from "react-native"
 
-const TopicReadMore = (props) =>{
-<View>Hello</View>
+const TopicReadMore = () => {
+    return (
+        <View>
+            <Text>Helloooooooooooooooooooooooo</Text>
+            <Text>Helloooooooooooooooooooooooo</Text>
+            <Text>Helloooooooooooooooooooooooo</Text>
+            <Text>Helloooooooooooooooooooooooo</Text>
+            <Text>Helloooooooooooooooooooooooo</Text>
+        </View>
+    )
 }
-export default TopicReadMore
+export default TopicReadMore;
