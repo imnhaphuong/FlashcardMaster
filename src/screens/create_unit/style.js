@@ -1,6 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
-
+import fonts from "../../../contains/fonts"
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,17 +24,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: colors.text,
+    fontFamily: 'WorkSans-SemiBold',
+   
   },
-  label:{
+  label: {
     flex: 1,
   },
   content: {
-    flex:2,
-    margin:20,
+    flex: 2,
+    margin: 20,
   },
   textInput: {
     backgroundColor: colors.white,
-    height:64,
+    height: 64,
+    fontFamily: 'WorkSans',
   },
   containerCB: {
     marginTop: 10,
@@ -49,35 +52,35 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 16,
     fontWeight: "500",
+    fontFamily: 'WorkSans',
   },
-  createCard:{
-    marginTop:10,
+  createCard: {
+    marginTop: 10,
   },
-  search:{
+  add: {
     position: 'absolute',
     bottom: '8%',
     right: '5%'
   },
-  searchicon:{
+  addIcon: {
     backgroundColor: colors.violet,
     borderRadius: 50,
-    width: 48,
-    height: 48,
+    width: 52,
+    height: 52,
     justifyContent: 'space-evenly',
     alignItems: 'center'
-  } ,
-  search:{
-    position: 'absolute',
-    bottom: '8%',
-    right: '5%'
   },
-  searchicon:{
-    backgroundColor: colors.violet,
-    borderRadius: 50,
-    width: 48,
-    height: 48,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
+  formCard: {
+    flex: 1,
+    marginVertical: 10,
+    backgroundColor: colors.white,
+    padding: 10,
+    height: "100%",
+    borderRadius: 10,
+  },
+  text: {
+    fontFamily:fonts.semibold,
+    fontSize:16,
   }
 
 });
