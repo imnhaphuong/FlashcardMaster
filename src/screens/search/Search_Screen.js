@@ -7,7 +7,26 @@ import Topic from "../../components/Topic";
 
 
 const Search_Screen = (props) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const handleIndexChange = (index) => {
+        //handle tab selection for custom Tab Selection SegmentedControlTab
+        setSelectedIndex(index);
+    };
+
+    const [units, setUnits] = useState([]);
+    const renderUnitItem = ({ item }) => (
+        <UnitCard
+            id={item._id}
+            unit_name={item.unitName}
+            username={creator.fullname}
+            number_of_cards={
+                typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+            }
+            navigation={props.navigation}
+        />
+    );
     return (
+
         <SafeAreaView>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => {
@@ -19,12 +38,45 @@ const Search_Screen = (props) => {
                 </TextInput>
                 <Search style={styles.icon} />
             </View>
-            <View style={styles.content}>
+            <View>
                 <SegmentedControlTab
-                values={["Học phần", "Lớp học", "Người dùng"]}
-                >
-                </SegmentedControlTab>
+                    values={[
+                        `Học phần`,
+                        `Lớp học`,
+                        `Người dùng`,
+                    ]}
+                    selectedIndex={selectedIndex}
+                    onTabPress={handleIndexChange}
+                    tabsContainerStyle={{
+                        height: 60,
+                        backgroundColor: colors.pastelPurple,
+                    }}
+                    tabStyle={{
+                        backgroundColor: colors.pastelPurple,
+                        borderColor: "transparent",
+                        borderBottomColor: colors.graySecondary,
+                        borderWidth: 1,
+                    }}
+                    activeTabStyle={{
+                        backgroundColor: "#deddfa",
+                        borderBottomColor: colors.violet,
+                        borderWidth: 2,
+                    }}
+                    tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
+                    activeTabTextStyle={{ color: colors.violet }}
+                />
+                {selectedIndex === 0 && (
+                    <View style={styles.wrapUnits}>
+                        <FlatList
+                            data={units}
+                            renderItem={renderUnitItem}
+                            numColumns={2}
+                            keyExtractor={(item) => item.id}
+                        />
+                    </View>
+                )}
             </View>
+
         </SafeAreaView>
     );
 }
