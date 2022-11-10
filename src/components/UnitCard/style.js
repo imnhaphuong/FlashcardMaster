@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   wrapUnitCard: {
@@ -20,15 +21,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   unitName: {
+    fontFamily: fonts.semibold,
     fontSize: 14,
-    fontWeight: "bold",
     color: colors.text,
-    lineHeight: 17,
   },
   numberOfCards: {
-    fontSize: 10,
+    fontFamily: fonts.regular,
+    fontSize: 12,
     color: colors.darkGray,
-    lineHeight: 12,
   },
   wrapUser: {
     flexDirection: "row",
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   username: {
+    fontFamily: fonts.regular,
     fontSize: 12,
     color: colors.violet,
   },

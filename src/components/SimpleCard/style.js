@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   card: {
@@ -24,16 +25,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   label: {
+    fontFamily: fonts.semibold,
     fontSize: 16,
     fontFamily: "System",
     color: colors.text,
     backgroundColor: "transparent",
   },
   define: {
+    fontFamily: fonts.regular,
     color: colors.darkGray,
   },
   example: {
-    fontStyle: "italic",
+    fontFamily: fonts.italic,
     color: colors.highlight,
     fontSize: 13,
   },

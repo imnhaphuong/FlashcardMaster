@@ -32,7 +32,6 @@ const loadAssets = async () =>
     'WorkSans-Italic': require('./assets/fonts/WorkSans-Italic.ttf'),
     'WorkSans-SemiBold': require('./assets/fonts/WorkSans-SemiBold.ttf'),//fontWeight:500
     'WorkSans-Thin': require('./assets/fonts/WorkSans-Thin.ttf'),
-
   });
 
 
@@ -110,7 +109,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="nav"
+        initialRouteName="class"
       >
         <Stack.Screen name="class_detail" component={ClassDetailScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />

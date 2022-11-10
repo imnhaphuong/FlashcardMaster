@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,15 +29,15 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   label: {
+    fontFamily: fonts.semibold,
     textAlign: "center",
     fontSize: 20,
-    fontFamily: "System",
     color: colors.text,
     paddingBottom: 8,
     paddingTop: 0
   },
   example: {
-    fontStyle: "italic",
+    fontFamily: fonts.italic,
     color: colors.highlight
   },
   img: {

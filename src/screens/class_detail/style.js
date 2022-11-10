@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     textAlign: "center",
+    fontFamily: fonts.regular,
     fontSize: 20,
     color: colors.text,
   },
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   className: {
-    fontWeight: "bold",
+    fontFamily: fonts.bold,
     fontSize: 20,
     color: colors.text,
   },
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   username: {
-    fontSize: 15,
+    fontFamily: fonts.regular,
+    fontSize: 16,
     color: colors.violet,
   },
   numberOfUnits: {

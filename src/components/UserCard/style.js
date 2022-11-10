@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   wrapUserCard: {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   username: {
+    fontFamily: fonts.regular,
     fontSize: 14,
     color: colors.text,
   },
