@@ -43,7 +43,7 @@ const ClassDetailScreen = (props) => {
   const [creator, setCreator] = useState([]);
   //useEffect
   useEffect(() => {
-    getClassById(setclass, params._id, setLoading);
+    getClassById(setclass,params._id, setLoading);
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
     }

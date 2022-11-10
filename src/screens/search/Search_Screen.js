@@ -1,15 +1,18 @@
 import React from "react";
-import { Text, TextInput, View, StatusBar, ScrollView, SafeAreaView, placeholder, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Text, TextInput, View, ScrollView, SafeAreaView,FlatList, TouchableOpacity } from "react-native";
+import UnitCard from "../../components/UnitCard";
+import ClassCard from "../../components/ClassCard";
 import Back from "../../../assets/images/header/back_green.svg"
 import styles from "./styles";
+import { useState } from "react";
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import colors from "../../../contains/colors";
 import Search from "../../../assets/images/nab/Search_green.svg";
-import Topic from "../../components/Topic";
 
 
 const Search_Screen = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const handleIndexChange = (index) => {
-        //handle tab selection for custom Tab Selection SegmentedControlTab
         setSelectedIndex(index);
     };
 
@@ -34,7 +37,7 @@ const Search_Screen = (props) => {
                 }}>
                     <Back />
                 </TouchableOpacity>
-                <TextInput style={styles.input} placeholder="Tìm Kiếm" placeholderTextColor="#405655">
+                <TextInput style={styles.input} placeholder="Tìm Kiếm" placeholderTextColor="#405655" id="search">
                 </TextInput>
                 <Search style={styles.icon} />
             </View>
