@@ -1,7 +1,5 @@
-//import { useState } from "react";
-
-const getDataUnit = async (setdata) => {
-    fetch("https://flashcard-master.vercel.app/api/units", {
+const getUserByEmail = async (setdata) => {
+    fetch("https://flashcard-master.vercel.app/api/users/search/keyword?", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -10,7 +8,7 @@ const getDataUnit = async (setdata) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        //console.log(resJson)
+        console.log(resJson)
         setdata(resJson)
       })
       .catch((error) => {
@@ -18,5 +16,4 @@ const getDataUnit = async (setdata) => {
       });
   };
 
-  module.exports = getDataUnit;
-  
+  module.exports = getUserByEmail;

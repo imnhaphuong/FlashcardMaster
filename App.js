@@ -14,16 +14,15 @@ import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import { Provider } from "react-redux";
 import { store } from './src/redux/store'
-import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
-import { FontAwesome } from '@expo/vector-icons';
-import { useCallback } from "react";
 import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
+import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
+import UnitCard from "./src/components/UnitCard";
+import getALLTopic from "./getdata/getAllTopics";
 
 const Stack = createNativeStackNavigator();
 

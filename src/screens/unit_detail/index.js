@@ -19,6 +19,7 @@ import Line from "../../components/Line";
 import CustomFlipCard from "../../components/CustomFlipCard";
 import SimpleCard from "../../components/SimpleCard";
 import getUnitById from "../../../getdata/getUnitById";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const UnitDetail = (props) => {
   //State
@@ -50,6 +51,7 @@ const UnitDetail = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -97,7 +99,7 @@ const UnitDetail = (props) => {
       {/* </View> */}
       {/* Content */}
       <TouchableWithoutFeedback>
-        <ScrollView style={styles.wrapContent}>
+        <ScrollView style={styles.wrapContent} horizontal={false}>
           {/* Infor */}
           <View style={styles.inforArea}>
             <Text style={styles.unitName}>{UNIT.unitName}</Text>
@@ -114,7 +116,6 @@ const UnitDetail = (props) => {
           </View>
 
           {/* Flip Cards */}
-
           <FlatList
             contentContainerStyle={styles.wrapFlipCards}
             showsHorizontalScrollIndicator={false}
@@ -122,7 +123,9 @@ const UnitDetail = (props) => {
             data={flashcards}
             renderItem={myRenderItem}
             numColumns={1}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => {
+              return item._id;
+            }}
           />
           <View style={styles.wrapButtons}>
             <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
