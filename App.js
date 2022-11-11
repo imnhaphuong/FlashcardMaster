@@ -113,7 +113,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="create_unit"
+          initialRouteName="unit_detail"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />

@@ -21,6 +21,7 @@ import * as FileSystem from 'expo-file-system'
 import { Checkbox, Provider } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import fonts from '../../../contains/fonts';
+import getTopic from "./getTopic";
 const CreateUnitScreen = ({ navigation }) => {
   const label = 'Tên học phần';
   const term = 'Thuật ngữ'
@@ -34,8 +35,7 @@ const CreateUnitScreen = ({ navigation }) => {
   const [images, setImages] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [items, setItems] = useState([
-  ]);
+  const [items, setItems] = useState([]);
   const url = "http://192.168.43.158:3000/api/units"
   useEffect(() => {
     AsyncStorage.getItem('userInfo').then(result => {
@@ -44,29 +44,8 @@ const CreateUnitScreen = ({ navigation }) => {
       setUserId(_id);
       console.log("userId");
     })
-    async function getTopic() {
-      try {
-        const url = "http://192.168.43.158:3000/api/topics/";
-        // const url ="https://flashcard-master.vercel.app/api/users/id";
-        await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }).then(res => res.json()
-        ).then(data => {
-          data.map((item, i) => {
-            items.push({ label: item.name, value: item._id });
-            setItems([...items])
-          })
-        });
-      } catch (err) {
 
-        console.log(err);
-      }
-    }
-    getTopic()
+    getTopic(items, setItems)
   }, [])
 
   const showModa = () => {
@@ -90,7 +69,6 @@ const CreateUnitScreen = ({ navigation }) => {
     const fileInfo = await FileSystem.getInfoAsync(fileURI)
     return fileInfo
   }
-
   const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
     const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB
     return isOk
@@ -112,7 +90,7 @@ const CreateUnitScreen = ({ navigation }) => {
     console.log("file", file);
 
     if (result.cancelled) return setLoading(false)
-   
+
     if (!result.cancelled) {
       const fileInfo = await getFileInfo(uri)
       console.log("fileInfo", fileInfo);
@@ -166,7 +144,6 @@ const CreateUnitScreen = ({ navigation }) => {
     setImages([...images])
 
   }
-
   const createUnit = async (values) => {
     let verified = true;
     setLoading(true)
@@ -207,15 +184,19 @@ const CreateUnitScreen = ({ navigation }) => {
           body: JSON.stringify(data),
         }).then(res => res.json()
         )
+        console.log(result);
         if (result.status === 'error') {
           setMess(result.error)
           setShowModal(true);
           showModa();
+          return
         }
         setLoading(false)
-        // setTimeout(() => {
-        //   navigation.replace("unit_detail")
-        // }, 1000);
+        setTimeout(() => {
+          navigation.navigate("unit_detail", {
+            id: result._id,
+          })
+        },1000)
       } catch (error) {
         setMess(error.message)
         console.log(error);
@@ -225,7 +206,6 @@ const CreateUnitScreen = ({ navigation }) => {
     }
   }
   return (
-
     <Formik
       style={styles.form}
       initialValues={{
@@ -312,11 +292,6 @@ const CreateUnitScreen = ({ navigation }) => {
                       // multiple={true}
                       mode="BADGE"
                       badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
-                      onChangeSearchText={(text) => {
-                        // Show the loading animation
-                        // setLoading(true);
-                        console.log("text", text);
-                      }}
                       autoScroll={true}
                       searchPlaceholderTextColor={colors.text}
                       searchPlaceholder="Tìm kiếm"
@@ -339,7 +314,6 @@ const CreateUnitScreen = ({ navigation }) => {
                         borderWidth: 1,
                         borderColor: colors.violet,
                         borderTopColor: colors.graySecondary,
-
                       }}
                       tickIconStyle={{
                         width: 20,
@@ -392,16 +366,12 @@ const CreateUnitScreen = ({ navigation }) => {
                                 : <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
                                   onUploadImage(i)
                                 } hide="hide" />}
-
                             </View>
                           )
                         })
                       }
-
                     </View>
-
                   </View>
-
                 </ScrollView>
                 <TouchableOpacity
                   activeOpacity={0.9}
@@ -427,18 +397,10 @@ const CreateUnitScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </SafeAreaView>
             )}
-
           </FieldArray>
-
-
         </>
       )}
     </Formik>
-
-
-
-
   )
 }
-
 export default CreateUnitScreen
