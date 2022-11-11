@@ -3,6 +3,7 @@ import colors from "../../../contains/colors";
 
 const styles = StyleSheet.create({
   container: {
+
     flex: 1,
     backgroundColor: colors.pastelPurple,
     flexDirection: "column",
@@ -44,13 +45,15 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   option: {
+    color: colors.text,
     justifyContent: "center",
-    height: 40,
+    height: 45,
     fontSize: 16,
   },
   wrapContent: {
     position: "relative",
-    paddingTop: 20,
+    paddingTop: 15,
+    backgroundColor: colors.yellow
   },
   inforArea: {
     justifyContent: "center",

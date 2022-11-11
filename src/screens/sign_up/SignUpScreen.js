@@ -129,7 +129,7 @@ export default SignUpScreen = ({ navigation }) => {
         AsyncStorage.setItem('userInfo', JSON.stringify(result.user));
 
         setTimeout(() => {
-          navigation.push("VerifyEmail")
+          navigation.push("verify_email")
         }, 1000);
       } else {
         console.log(result.error);
@@ -215,7 +215,7 @@ export default SignUpScreen = ({ navigation }) => {
                   <CustomButton text="Đăng ký" onPress={handleSubmit} hide="hide" />
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                     <Text style={styles.btnText}>Bạn đã có tài khoản?</Text>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("SignIn")}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("sign_in")}>
                       <Text style={styles.textSignIn}>
                         Đăng nhập
                       </Text>

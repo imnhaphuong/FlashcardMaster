@@ -31,7 +31,8 @@ const UnitDetail = (props) => {
   const [flashcards, setFlashcards] = useState([]);
 
   useEffect(() => {
-    getUnitById(params.id, setUnit, setLoading);
+    
+    getUnitById('636a899ea63abd0261109b72', setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
       setFlashcards(UNIT.flashcards);
     }
@@ -79,22 +80,23 @@ const UnitDetail = (props) => {
       </KeyboardAvoidingView>
 
       {/* Options */}
-      {toggleMore ? (
-        <View style={[styles.wrapOptions, { zIndex: 10 }]}>
-          <TouchableOpacity style={styles.option}>
+      {/* <View style={styles.wrapContent}> */}
+        {toggleMore ? (
+          <View style={[styles.wrapOptions, { zIndex: 100 }]}>
+            {/* <TouchableOpacity style={styles.option}>
             <Text>Option</Text>
-          </TouchableOpacity>
-          <Line backgroundColor={colors.violet} opacity={0.2} />
-          <TouchableOpacity style={styles.option}>
-            <Text>Option</Text>
-          </TouchableOpacity>
-          <Line backgroundColor={colors.violet} opacity={0.2} />
-          <TouchableOpacity style={styles.option}>
-            <Text>Option</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null}
-
+          </TouchableOpacity> */}
+            {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
+            <TouchableOpacity onPress={() => console.log("hdasjd")} style={styles.option}>
+              <Text>Sửa học phần</Text>
+            </TouchableOpacity>
+            <Line backgroundColor={colors.violet} opacity={0.2} />
+            <TouchableOpacity style={styles.option}>
+              <Text>Xóa học phần</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      {/* </View> */}
       {/* Content */}
       <TouchableWithoutFeedback>
         <ScrollView style={styles.wrapContent} horizontal={false}>

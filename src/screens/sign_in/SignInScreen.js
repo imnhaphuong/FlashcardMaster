@@ -82,7 +82,7 @@ export default SignInScreen = ({ navigation }) => {
         setShowModal(true);
         showModa();
         setTimeout(() => {
-          navigation.replace("VerifyEmail")
+          navigation.replace("verify_email")
         }, 1000);
       } else {
         setLoading(false)
