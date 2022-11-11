@@ -5,13 +5,11 @@ import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Check from "../../../assets/images/header/check.svg";
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CheckBox from "react-native-checkbox";
 import { FieldArray, Formik, getIn } from 'formik';
 import CustomInputUnit from '../../components/CustomInputUnit/CustomInputUnit';
 import Add from "../../../assets/images/checkbox/add.svg";
 import { UnitSchema } from '../../../contains/validation'
 import CustomButton from '../../components/CustomButton/CustomButton';
-import uuid from 'react-native-uuid';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
@@ -20,9 +18,9 @@ import SysModal from '../../components/SysModal/SysModal';
 // import { launchImageLibrary } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system'
-import { Checkbox } from 'react-native-paper';
-
-
+import { Checkbox, Provider } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
+import fonts from '../../../contains/fonts';
 const CreateUnitScreen = ({ navigation }) => {
   const label = 'Tên học phần';
   const term = 'Thuật ngữ'
@@ -34,6 +32,10 @@ const CreateUnitScreen = ({ navigation }) => {
   const [userId, setUserId] = useState(null);
   const [fullname, setFullname] = useState("")
   const [images, setImages] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [items, setItems] = useState([
+  ]);
   const url = "http://192.168.43.158:3000/api/units"
   useEffect(() => {
     AsyncStorage.getItem('userInfo').then(result => {
@@ -42,6 +44,29 @@ const CreateUnitScreen = ({ navigation }) => {
       setUserId(_id);
       console.log("userId");
     })
+    async function getTopic() {
+      try {
+        const url = "http://192.168.43.158:3000/api/topics/";
+        // const url ="https://flashcard-master.vercel.app/api/users/id";
+        await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }).then(res => res.json()
+        ).then(data => {
+          data.map((item, i) => {
+            items.push({ label: item.name, value: item._id });
+            setItems([...items])
+          })
+        });
+      } catch (err) {
+
+        console.log(err);
+      }
+    }
+    getTopic()
   }, [])
 
   const showModa = () => {
@@ -86,10 +111,11 @@ const CreateUnitScreen = ({ navigation }) => {
     const file = { uri, type }
     console.log("file", file);
 
-    if (result.cancelled) return
-    const fileInfo = await getFileInfo(uri)
-    console.log("fileInfo", fileInfo);
+    if (result.cancelled) return setLoading(false)
+   
     if (!result.cancelled) {
+      const fileInfo = await getFileInfo(uri)
+      console.log("fileInfo", fileInfo);
       //Kiểm tra kích thước file
       if (!fileInfo.size) {
         setMess("Không thể chọn hình ảnh với kích thước không phù hợp")
@@ -106,20 +132,7 @@ const CreateUnitScreen = ({ navigation }) => {
           return
         }
       }
-      // if (images[i] !== "") {
-      //   let base64Img = `data:image/jpg;base64,${result.base64}`
-      //   let oldData = {
-      //     "file": base64Img,
-      //     "upload_preset": "_FlashcardMaster"
-      //   }
-      //   await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/destroy', {
-      //     method: "POST",
-      //     headers: {
-      //       'content-type': 'application/json'
-      //     },
-      //     body: JSON.stringify(data),
-      //   })
-      // }
+
       //Upload imgage to cloudinary
       let base64Img = `data:image/jpg;base64,${result.base64}`
       let data = {
@@ -141,10 +154,11 @@ const CreateUnitScreen = ({ navigation }) => {
         }).catch(err => {
           setMess(err)
           setShowModal(true)
-          showModa();
+
         })
 
     }
+
   };
   const onDeleteImage = (i) => {
     console.log("onDelete");
@@ -152,7 +166,6 @@ const CreateUnitScreen = ({ navigation }) => {
     setImages([...images])
 
   }
-
 
   const createUnit = async (values) => {
     let verified = true;
@@ -181,11 +194,11 @@ const CreateUnitScreen = ({ navigation }) => {
         userId: "6364d755c81e389f1f8c508a",
         fullname: "user1709",
         flashcards: values.flashcards,
-        mode: values.mode
-
+        mode: values.mode,
+        topic: values.topic
       }
       try {
-        await fetch(`${url}/create`, {
+        const result = await fetch(`${url}/create`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -194,31 +207,36 @@ const CreateUnitScreen = ({ navigation }) => {
           body: JSON.stringify(data),
         }).then(res => res.json()
         )
+        if (result.status === 'error') {
+          setMess(result.error)
+          setShowModal(true);
+          showModa();
+        }
         setLoading(false)
         // setTimeout(() => {
-        //   navigation.replace("nav")
+        //   navigation.replace("unit_detail")
         // }, 1000);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        setMess(error.message)
+        console.log(error);
         setShowModal(true);
         showModa();
       }
     }
-
-
   }
   return (
+
     <Formik
       style={styles.form}
       initialValues={{
         unitName: "",
         flashcards: [{
-          id: uuid.v4(),
           term: "",
           define: "",
           example: "",
           image: "",
         }],
+        topic: "",
         mode: false,
       }}
       onSubmit={(values) => createUnit(values)}
@@ -264,32 +282,80 @@ const CreateUnitScreen = ({ navigation }) => {
                     <Check />
                   </TouchableOpacity>
                 </KeyboardAvoidingView>
-                <ScrollView >
+                <ScrollView style={{ flex: 1 }} >
                   <View style={styles.content}>
                     <CustomInputUnit onChangeText={handleChange('unitName')}
                       onBlur={handleBlur('unitName')} value={values.unitName} errors={errors.unitName} touched={touched.unitName} label={label} />
-                    <View style={{flexDirection: 'row',alignItems: 'center'}}>
-                    <Checkbox
-                      status={values.mode ? 'checked' : 'unchecked'}
-                      onPress={() => {
-                        setFieldValue("mode", !values.mode);
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Checkbox
+                        status={values.mode ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          setFieldValue("mode", !values.mode);
+                        }}
+                        uncheckedColor={colors.violet}
+                        color={colors.violet}
+
+                      />
+                      <Text style={styles.text}>Công khai học phần</Text>
+                    </View>
+                    <DropDownPicker
+                      placeholder="Chọn chủ đề"
+                      open={open}
+                      value={values.topic = value}
+                      items={items}
+                      setOpen={setOpen}
+                      setValue={setValue}
+                      setItems={setItems}
+                      stickyHeader={true}
+                      searchable={true}
+                      listMode="SCROLLVIEW"
+                      // multiple={true}
+                      mode="BADGE"
+                      badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                      onChangeSearchText={(text) => {
+                        // Show the loading animation
+                        // setLoading(true);
+                        console.log("text", text);
                       }}
-                      uncheckedColor={colors.violet}
-                      color={colors.violet} 
-                      // style={styles.containerCB}
-                      // checkboxStyle={styles.checkbox}
-                      // labelStyle={styles.labelCheckbox}
-                      // checkedImage={require("../../../assets/images/checkbox/checked.png")}
-                      // uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
-                      // label="Công khai học phần"
-                      // checked={values.mode}
-                      // onChange={() => {
-                      //   setFieldValue("mode", !values.mode);
-                      //   console.log("mode", values.mode);
-                      // }}
+                      autoScroll={true}
+                      searchPlaceholderTextColor={colors.text}
+                      searchPlaceholder="Tìm kiếm"
+                      style={{
+                        marginTop: 10,
+                        borderColor: colors.violet,
+                        backgroundColor: colors.white,
+                        borderWidth: 1,
+                      }}
+                      searchTextInputStyle={{
+                        fontFamily: fonts.regular,
+                        backgroundColor: colors.yellow,
+                        borderColor: colors.yellow,
+
+                      }}
+                      searchContainerStyle={{
+                        borderBottomColor: colors.graySecondary
+                      }}
+                      dropDownContainerStyle={{
+                        borderWidth: 1,
+                        borderColor: colors.violet,
+                        borderTopColor: colors.graySecondary,
+
+                      }}
+                      tickIconStyle={{
+                        width: 20,
+                        height: 20,
+                        backgroundColor: colors.yellow,
+                      }}
+                      textStyle={{
+                        fontSize: 16,
+                        fontFamily: fonts.regular,
+                        color: colors.violet,
+                      }}
+                      placeholderStyle={{
+                        color: colors.text,
+                        fontFamily: fonts.regular
+                      }}
                     />
-                    <Text style={styles.text}>Công khai học phần</Text>
-                    </View>         
                     <View style={styles.createCard}>
                       {
                         values.flashcards.map((item, i) => {
@@ -309,9 +375,10 @@ const CreateUnitScreen = ({ navigation }) => {
                                 onBlur={handleBlur(de)} errors={errDefine} touched={item.define} label={defi} />
                               <CustomInputUnit name={ex} onChangeText={handleChange(ex)} value={values.flashcards[i].example}
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
+                              <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i].image = images[i]} name={im} />
+
                               {images[i] !== undefined ?
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                                  <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i].image = images[i]} name={im} />
                                   <Image
                                     style={{ height: 100, width: 100, marginRight: 20 }}
                                     source={{ uri: images[i] }} />
@@ -367,6 +434,8 @@ const CreateUnitScreen = ({ navigation }) => {
         </>
       )}
     </Formik>
+
+
 
 
   )

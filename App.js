@@ -23,8 +23,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useCallback } from "react";
 import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
-import SignInOption from "./src/screens/sign_in/SignInOption";
-import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
 
 const Stack = createNativeStackNavigator();
@@ -108,29 +106,31 @@ export default function App() {
 
 
   return (
-    <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
-      <Stack.Navigator
-        screenOptions={{
-          // tắt header
-          headerShown: false,
-        }}
-        initialRouteName="nav"
-      >
-        <Stack.Screen name="class_detail" component={ClassDetailScreen} />
-        <Stack.Screen name="nav" component={NavigationBar} />
-        <Stack.Screen name="class" component={ClassScreen} />
+    <Provider store={store}>
+      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+        <Stack.Navigator
+          screenOptions={{
+            // tắt header
+            headerShown: false,
+          }}
+          initialRouteName="create_unit"
+        >
+          <Stack.Screen name="class_detail" component={ClassDetailScreen} />
+          <Stack.Screen name="nav" component={NavigationBar} />
+          <Stack.Screen name="class" component={ClassScreen} />
+          <Stack.Screen name="imp_unit" component={ImportUnit} />
+          <Stack.Screen name="home" component={Home_Screen} />
+          <Stack.Screen name="sign_up" component={SignUpScreen} />
+          <Stack.Screen name="sign_in" component={SignInScreen} />
+          <Stack.Screen name="unit_detail" component={UnitDetail} />
+          <Stack.Screen name="Search" component={Search_Screen} />
+          <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
+          <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
+          <Stack.Screen name="create_unit" component={CreateUnitScreen} />
 
-        <Stack.Screen name="imp_unit" component={ImportUnit} />
-        <Stack.Screen name="home" component={Home_Screen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="unit_detail" component={UnitDetail} />
-        <Stack.Screen name="Search" component={Search_Screen} />
-        <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
-        <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-        <Stack.Screen name="CreateUnit" component={CreateUnitScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
 
-      </Stack.Navigator>
-    </NavigationContainer>
   );
 }

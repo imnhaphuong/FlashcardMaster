@@ -28,7 +28,7 @@ export const OTPSchema = Yup.object().shape({
 //UnitSchema
 export const UnitSchema = Yup.object().shape({
   unitName: Yup.string().required('Tên học phần không được để trống'),
-  flashCard: Yup.array().of(
+  flashcards: Yup.array().of(
     Yup.object().shape({
       term: Yup.string()
         .min(2, ({ min }) => `Thuật ngữ ít nhất ${min} ký tự!`)

@@ -57,7 +57,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
             if (result.status === 'success') {
                 setLoading(false)
                 setTimeout(() => {
-                    navigation.push("SignIn")
+                    navigation.push("sign_in")
                 }, 1000);
             } else {
                 console.log(result.message);
