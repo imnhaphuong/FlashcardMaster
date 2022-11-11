@@ -98,9 +98,9 @@ const ClassScreen = (props) => {
               style={styles.input}
               placeholder="Nhập mã lớp học"
               onSubmitEditing={Keyboard.dismiss}
-              value={jcodeValue}
+              value={jcodeValue.trim()}
               onChangeText={(value) => {
-                setJcodeValue(value);
+                setJcodeValue(value.trim());
                 getClassByJCode(value, setTemp, setLoading);
               }}
             />

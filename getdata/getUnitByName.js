@@ -1,7 +1,5 @@
-//import { useState } from "react";
-
-const getDataTopic = async (setdata) => {
-    fetch("https://flashcard-master.vercel.app/api/topics", {
+const getUnitByName = async (setdata) => {
+    fetch("https://flashcard-master.vercel.app/api/units/search/keyword?", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -18,4 +16,4 @@ const getDataTopic = async (setdata) => {
       });
   };
 
-  module.exports = getDataTopic;
+  module.exports = getUnitByName;

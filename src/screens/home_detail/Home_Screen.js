@@ -12,55 +12,64 @@ import {
 import styles from "./style";
 import Coin from "../../../assets/images/header/coin.svg";
 import Thegirl from "../../../assets/images/welcome/Thegirl.svg";
-import Topic from "../../components/Topic";
+import TopicCard from "../../components/TopicCard";
+import UnitCard from "../../components/UnitCard";
 import Search from "../../../assets/images/nab/Search.svg";
 import colors from "../../../contains/colors";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
+import getAllTopics from "./../../../getdata/getAllTopics";
+import getAllClasses from "../../../getdata/getAllClasses";
 
 const Home_Screen = (props) => {
-  const [data, setdata] = useState([])
-  function handleDeepLink(event) {
-    let data = Linking.parse(event.url);
-    setdata(data);
-  }
-  const url = Linking.useURL();
 
-  console.log("url"+url );
+  const [TOPIC, settopic] = useState([]);
+  getAllTopics(settopic);
+  console.log(TOPIC +" data")
 
-  useEffect(() => {
-    async function getInitalURL() {
-      const initialURL = await Linking.getInitialURL();
-      if (initialURL) setdata(Linking.parse(initialURL));
-    }
+  
+  const myRenderTopicItem = ({ item }) => (
+    <TopicCard
+      name={item.name}
+    />
+  )
+  // const [data, setdata] = useState([])
+  // function handleDeepLink(event) {
+  //   let data = Linking.parse(event.url);
+  //   setdata(data);
+  // }
+  // const url = Linking.useURL();
 
-    Linking.addEventListener("url", handleDeepLink);
-    if (!data) {
-      getInitalURL();
-    }
+  // console.log("url"+url );
 
-    return () => {
-      Linking.removeEventListener("click", handleDeepLink);
-    };
-  }, []);
-  AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
+  // useEffect(() => {
+  //   async function getInitalURL() {
+  //     const initialURL = await Linking.getInitialURL();
+  //     if (initialURL) setdata(Linking.parse(initialURL));
+  //   }
+
+  //   Linking.addEventListener("url", handleDeepLink);
+  //   if (!data) {
+  //     getInitalURL();
+  //   }
+
+  //   return () => {
+  //     Linking.removeEventListener("click", handleDeepLink);
+  //   };
+  // }, []);
+  //AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
  
-  console.log(data);
-  const [visible, setvisible] = useState(false);
-  const popupModal = () => {
-    setvisible(true);
-    return true;
-  };
-
-  const myRenderItem = ({ item }) => {
-    <Topic topicname={item.topicname} />;
-  };
+  // console.log(data);
+  // const [visible, setvisible] = useState(false);
+  // const popupModal = () => {
+  //   setvisible(true);
+  //   return true;
+  // };
 
   const coinPrice = "200";
   return (
     <SafeAreaView style={styles.container}>
-      <Text>{} </Text>
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -89,7 +98,12 @@ const Home_Screen = (props) => {
           </View>
         </View>
         <View>
-          <Topic />
+        {/* <FlatList
+            data={TOPIC_DATA}
+            renderItem={myRenderTopicItem}
+            numColumns={1}
+            keyExtractor={(item) => item.id}
+          /> */}
         </View>
       </ScrollView>
       <View style={styles.search}>

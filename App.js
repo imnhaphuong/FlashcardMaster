@@ -21,6 +21,8 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
+import UnitCard from "./src/components/UnitCard";
+import getALLTopic from "./getdata/getAllTopics";
 
 const Stack = createNativeStackNavigator();
 
@@ -109,7 +111,7 @@ export default function App() {
           // tắt header
           headerShown: false,
         }}
-        initialRouteName="class"
+        initialRouteName="nav"
       >
         <Stack.Screen name="class_detail" component={ClassDetailScreen} />
         <Stack.Screen name="nav" component={NavigationBar} />
