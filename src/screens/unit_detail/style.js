@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   wrapOptions: {
     position: "absolute",
     top: 0,
-    right: "1%",
+    right: "3%",
     width: "50%",
     backgroundColor: colors.white,
     borderRadius: 10,
@@ -49,11 +50,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 45,
     fontSize: 16,
+    
+  },
+  wrap:{
+    position: "relative",
+    top:0,
+    backgroundColor: colors.yellow,
   },
   wrapContent: {
-    position: "relative",
-    paddingTop: 15,
-    backgroundColor: colors.yellow
+    paddingTop: 20,
   },
   inforArea: {
     justifyContent: "center",
@@ -94,6 +99,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   wrapFlipCards: {
+    flexGrow: 1,
     paddingLeft: 20,
     paddingVertical: 20,
   },

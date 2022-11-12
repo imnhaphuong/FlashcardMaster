@@ -20,6 +20,7 @@ import CustomFlipCard from "../../components/CustomFlipCard";
 import SimpleCard from "../../components/SimpleCard";
 import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
+import fonts from "../../../contains/fonts";
 
 const UnitDetail = (props) => {
   //State
@@ -31,7 +32,7 @@ const UnitDetail = (props) => {
   const [flashcards, setFlashcards] = useState([]);
 
   useEffect(() => {
-    
+
     getUnitById('636a899ea63abd0261109b72', setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
       setFlashcards(UNIT.flashcards);
@@ -80,7 +81,7 @@ const UnitDetail = (props) => {
       </KeyboardAvoidingView>
 
       {/* Options */}
-      {/* <View style={styles.wrapContent}> */}
+      <View style={styles.wrap}>
         {toggleMore ? (
           <View style={[styles.wrapOptions, { zIndex: 100 }]}>
             {/* <TouchableOpacity style={styles.option}>
@@ -88,15 +89,15 @@ const UnitDetail = (props) => {
           </TouchableOpacity> */}
             {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
             <TouchableOpacity onPress={() => console.log("hdasjd")} style={styles.option}>
-              <Text>Sửa học phần</Text>
+              <Text style={{ fontFamily: fonts.semibold }}>Sửa học phần</Text>
             </TouchableOpacity>
             <Line backgroundColor={colors.violet} opacity={0.2} />
             <TouchableOpacity style={styles.option}>
-              <Text>Xóa học phần</Text>
+              <Text style={{ fontFamily: fonts.semibold }}>Xóa học phần</Text>
             </TouchableOpacity>
           </View>
         ) : null}
-      {/* </View> */}
+      </View>
       {/* Content */}
       <TouchableWithoutFeedback>
         <ScrollView style={styles.wrapContent} horizontal={false}>
@@ -114,19 +115,23 @@ const UnitDetail = (props) => {
               <Text style={styles.username}>user 11231</Text>
             </View> */}
           </View>
+          <ScrollView  scrollEnabled={false}>
+            {/* Flip Cards */}
+            <FlatList
+              nestedScrollEnabled={true}
+              contentContainerStyle={styles.wrapFlipCards}
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              data={flashcards}
+              renderItem={myRenderItem}
+              numColumns={1}
+              // maxHeight={300}
+              keyExtractor={(item) => {
+                return item._id;
+              }}
+            />
+          </ScrollView>
 
-          {/* Flip Cards */}
-          <FlatList
-            contentContainerStyle={styles.wrapFlipCards}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={flashcards}
-            renderItem={myRenderItem}
-            numColumns={1}
-            keyExtractor={(item) => {
-              return item._id;
-            }}
-          />
           <View style={styles.wrapButtons}>
             <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
