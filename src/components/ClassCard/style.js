@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   wrapClassCard: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   className: {
-    fontWeight: "bold",
+    fontFamily: fonts.semibold,
     color: colors.text,
     fontSize: 16,
   },
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   numberOfMembers: {
+    fontFamily: fonts.regular,
     fontSize: 12,
     color: colors.darkGray,
     marginLeft: 4,
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   usernameCreator: {
+    fontFamily: fonts.regular,
     fontSize: 12,
     color: colors.violet,
     marginLeft: 4,
@@ -53,11 +56,11 @@ const styles = StyleSheet.create({
   tagMode: {
     position: "absolute",
     right: 0,
-    top:0,
+    top: 0,
     width: 56,
     height: 56,
     resizeMode: "contain",
-  }
+  },
 });
 
 export default styles;

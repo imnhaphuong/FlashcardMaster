@@ -20,6 +20,7 @@ import CustomFlipCard from "../../components/CustomFlipCard";
 import SimpleCard from "../../components/SimpleCard";
 import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
+import fonts from "../../../contains/fonts";
 
 const UnitDetail = (props) => {
   //State
@@ -142,7 +143,12 @@ const UnitDetail = (props) => {
           {/* List Cards */}
           <View style={styles.wrapListCardsArea}>
             <Text
-              style={{ fontSize: 16, fontWeight: "500", paddingBottom: 20 }}
+              style={{
+                fontSize: 16,
+                fontFamily: fonts.regular,
+                paddingTop: 8,
+                paddingBottom: 20,
+              }}
             >
               Thẻ
             </Text>

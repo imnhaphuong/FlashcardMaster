@@ -1,9 +1,9 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
-
     flex: 1,
     backgroundColor: colors.pastelPurple,
     flexDirection: "column",
@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   textHeader: {
+    fontFamily: fonts.semibold,
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 30,
     color: colors.text,
   },
 
@@ -53,14 +54,13 @@ const styles = StyleSheet.create({
   wrapContent: {
     position: "relative",
     paddingTop: 15,
-    backgroundColor: colors.yellow
-  },
+    backgroundColor: colors.pastelPurple  },
   inforArea: {
     justifyContent: "center",
     paddingHorizontal: 20,
   },
   unitName: {
-    fontWeight: "bold",
+    fontFamily: fonts.semibold,
     fontSize: 20,
     color: colors.text,
     paddingBottom: 8,
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   numberOfUnits: {
+    fontFamily: fonts.regular,
     fontSize: 14,
     color: colors.text,
   },
@@ -116,8 +117,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.pink,
   },
   textBtn: {
+    fontFamily: fonts.regular,
     fontSize: 16,
-    fontWeight: "600",
   },
   textLearn: {
     color: colors.pastelPurple,
