@@ -46,6 +46,7 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-checkbox": "^2.0.0",
+    "react-native-dropdown-picker": "^5.4.2",
     "react-native-flip-card-plus": "^2.0.0",
     "react-native-image-picker": "^4.10.0",
     "react-native-loading-spinner-overlay": "^3.0.1",
@@ -69,7 +70,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@redux-devtools/core": "^3.13.1"
+    "@redux-devtools/core": "^3.13.1",
+    "@types/react-native": "^0.70.6"
   },
   "rnpm": {
     "assets": [

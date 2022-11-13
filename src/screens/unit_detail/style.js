@@ -46,14 +46,15 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   option: {
+    color: colors.text,
     justifyContent: "center",
-    height: 40,
+    height: 45,
     fontSize: 16,
   },
   wrapContent: {
     position: "relative",
-    paddingTop: 20,
-  },
+    paddingTop: 15,
+    backgroundColor: colors.pastelPurple  },
   inforArea: {
     justifyContent: "center",
     paddingHorizontal: 20,

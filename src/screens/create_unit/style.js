@@ -81,6 +81,15 @@ const styles = StyleSheet.create({
   text: {
     fontFamily:fonts.semibold,
     fontSize:16,
+  },
+  dropdownStyle: {
+    color:colors.violet,
+    backgroundColor:colors.yellow,
+    
+  },
+  dropDownItemStyle:{
+    backgroundColor:colors.pastelPurple,
+    
   }
 
 });

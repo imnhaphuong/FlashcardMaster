@@ -57,7 +57,6 @@ export default function NavigationBar() {
       console.log(err);
     }
   }
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -78,8 +77,7 @@ export default function NavigationBar() {
           ),
         }}
       />
-      {type !== 1 ?  
-      (
+      {type === 1 ? (
         <Tab.Screen
           name="class"
           component={ClassScreen}
@@ -98,7 +96,7 @@ export default function NavigationBar() {
             },
           })}
         />
-      ):null}
+      ) : null}
       <Tab.Screen
         name="create_unit"
         component={CreateUnitScreen}
@@ -113,7 +111,7 @@ export default function NavigationBar() {
           tabPress: (e) => {
             e.preventDefault();
             // setcurrentScreen(route.name);
-            navigation.navigate("CreateUnit");
+            navigation.navigate("create_unit");
           },
         })}
       />
