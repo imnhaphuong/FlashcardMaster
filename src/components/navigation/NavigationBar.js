@@ -77,7 +77,7 @@ export default function NavigationBar() {
           ),
         }}
       />
-      {type === 1 ? (
+      {type !== 1 ? (
         <Tab.Screen
           name="class"
           component={ClassScreen}

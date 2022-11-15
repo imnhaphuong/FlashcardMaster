@@ -9,6 +9,7 @@ import {
   Image,
   Share,
   TouchableWithoutFeedback,
+  ToastAndroid,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -16,6 +17,7 @@ import colors from "../../../contains/colors";
 import UnitCard from "../../components/UnitCard";
 import Back from "../../../assets/images/header/back.svg";
 import More from "../../../assets/images/header/more.svg";
+import Copy from "../../../assets/images/copy.svg";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
@@ -26,6 +28,7 @@ import ModalCreateClass from "../../components/ModalCreateClass";
 import ConfirmForm from "../../components/ConfirmForm";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
+import * as Clipboard from "expo-clipboard";
 
 const ClassDetailScreen = (props) => {
   //State
@@ -40,8 +43,8 @@ const ClassDetailScreen = (props) => {
   const [members, setMembers] = useState([]);
   const [units, setUnits] = useState([]);
   const [creator, setCreator] = useState([]);
-  //useEffect
-  useEffect(() => {
+
+  const onRefreshData = () => {
     getClassByJCode(params.jcode, setclass, setLoading);
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
@@ -52,14 +55,23 @@ const ClassDetailScreen = (props) => {
     if (typeof CLASS.creator !== "undefined") {
       setCreator(CLASS.creator);
     }
-    console.log("call use effect in class detail");
-  }, [isLoading]);
+  };
+
+  //useEffect
+  useEffect(() => {
+    onRefreshData();
+    const focusHandler = props.navigation.addListener("focus", () => {
+      setLoading(true);
+      onRefreshData();
+    });
+    return focusHandler;
+  }, [isLoading, props.navigation]);
 
   const renderUnitItem = ({ item }) => (
     <UnitCard
       id={item._id}
       unit_name={item.unitName}
-      username={creator.fullname}
+      creator={creator}
       number_of_cards={
         typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
       }
@@ -77,7 +89,11 @@ const ClassDetailScreen = (props) => {
   };
   //imp unit
   const onImpUnit = () => {
-    props.navigation.navigate("imp_unit");
+    props.navigation.navigate("imp_unit", {
+      mode: CLASS.mode,
+      id: CLASS._id,
+      units: CLASS.units,
+    });
   };
   // share
   const onShare = async () => {
@@ -200,13 +216,37 @@ const ClassDetailScreen = (props) => {
           ) : null}
 
           <View style={styles.inforArea}>
+            {CLASS.mode ? (
+              <Image
+                style={styles.tagMode}
+                source={require("../../../assets/images/classmode/public.png")}
+              />
+            ) : (
+              <Image
+                style={styles.tagMode}
+                source={require("../../../assets/images/classmode/private.png")}
+              />
+            )}
             <Text style={styles.className}>{CLASS.name} </Text>
             <View style={styles.wrapUser}>
-              <Image
-                style={styles.avatar}
-                source={require("../../../assets/images/avt-default.png")}
-              />
+              <Image style={styles.avatar} source={{ uri: creator.avatar }} />
               <Text style={styles.username}>{creator.fullname}</Text>
+            </View>
+            <View style={styles.wrapJcode}>
+              <Text style={styles.jcode}>
+                Mã: <Text style={{ color: colors.violet }}>{CLASS.jcode} </Text>
+              </Text>
+              <TouchableOpacity
+                onPress={async () => {
+                  await Clipboard.setStringAsync(CLASS.jcode);
+                  ToastAndroid.show(
+                    "Đã copy mã lớp vào Clipboard!",
+                    ToastAndroid.CENTER
+                  );
+                }}
+              >
+                <Copy />
+              </TouchableOpacity>
             </View>
           </View>
           {/* Tabs */}

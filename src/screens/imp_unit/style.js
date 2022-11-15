@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +28,21 @@ const styles = StyleSheet.create({
   },
   wrapContent: {
     position: "relative",
+  },
+  wrapUnits: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    paddingHorizontal: 12,
+    paddingTop: 20,
+  },
+  note: {
+    paddingHorizontal: 20,
+    paddingTop: 12
+  },
+  textNote: {
+    color: colors.highlight,
+     fontFamily: fonts.italic
   }
-  })
-  export default styles;
+});
+export default styles;
