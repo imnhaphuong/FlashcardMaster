@@ -20,18 +20,17 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
-import getAllClasses from "../../../getdata/getAllClasses";
 
 const Home_Screen = (props) => {
 
   const [TOPIC, settopic] = useState([]);
   getAllTopics(settopic);
-  // console.log(TOPIC +" data")
 
-  
   const myRenderTopicItem = ({ item }) => (
     <TopicCard
       name={item.name}
+      units={item.units}
+      navigation={props.navigation}
     />
   )
   // const [data, setdata] = useState([])
@@ -58,8 +57,8 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  // AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
- 
+  //AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
+
   // console.log(data);
   // const [visible, setvisible] = useState(false);
   // const popupModal = () => {
@@ -98,12 +97,12 @@ const Home_Screen = (props) => {
           </View>
         </View>
         <View>
-        {/* <FlatList
-            data={TOPIC_DATA}
+          <FlatList
+            data={TOPIC}
             renderItem={myRenderTopicItem}
             numColumns={1}
             keyExtractor={(item) => item.id}
-          /> */}
+          />
         </View>
       </ScrollView>
       <View style={styles.search}>

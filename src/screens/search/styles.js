@@ -29,7 +29,15 @@ content:{
     borderBottomWidth: 2,
     borderColor: colors.darkGray,
     paddingVertical: 10
-}
+},
+wrapUnits: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    paddingHorizontal: 12,
+    paddingTop: 20,
+  },
 
 })
 export default styles

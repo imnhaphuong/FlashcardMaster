@@ -2,15 +2,12 @@ import React from "react";
 import UnitCard from "../UnitCard";
 import { Text, View, SafeAreaView, TouchableOpacity, FlatList } from "react-native";
 import Styles from "./styles";
-import getALLUnit from "./../../../getdata/getAllUnits";
-import { useState } from "react";
+
 
 const TopicCard = (props) => {
   const topic_title = props.name ? props.name : "Topic";
   const readmore = "Xem thêm";
-
-  const [UNIT_DATA, setdata] = useState([]);
-  getALLUnit(setdata);
+  const UNIT_DATA = props.units;
 
   const myRenderItem = ({ item }) => (
     <UnitCard
@@ -25,7 +22,7 @@ const TopicCard = (props) => {
         <View style={Styles.topic}>
           <Text style={Styles.titletopic}>{topic_title}</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('TopicReadMore')}
+            onPress={() => props.navigation.navigate('TopicReadMore',{name: props.name})}
           >
             <Text style={Styles.readmore}>{readmore}</Text>
           </TouchableOpacity>
