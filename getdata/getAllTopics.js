@@ -9,7 +9,6 @@ const getAllTopics = async (setData) => {
       .then((res) => res.json())
       .then((resJson) => {
         setData(resJson);
-        console.log("datatopic")
       })
       .catch((error) => {
         console.log(error);

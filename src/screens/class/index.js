@@ -8,7 +8,6 @@ import {
   Keyboard,
   StatusBar,
   FlatList,
-  Alert,
   ToastAndroid,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -31,6 +30,7 @@ const ClassScreen = (props) => {
   const onRefreshData = () => {
     getAllClasses(setClasses, setLoading);
   };
+
   const myRenderItem = ({ item }) => (
     <ClassCard
       mode={item.mode}

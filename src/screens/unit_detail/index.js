@@ -6,7 +6,6 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image,
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
@@ -32,8 +31,7 @@ const UnitDetail = (props) => {
   const [flashcards, setFlashcards] = useState([]);
 
   useEffect(() => {
-    
-    getUnitById('636a899ea63abd0261109b72', setUnit, setLoading);
+    getUnitById(params.id, setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
       setFlashcards(UNIT.flashcards);
     }
@@ -82,21 +80,24 @@ const UnitDetail = (props) => {
 
       {/* Options */}
       {/* <View style={styles.wrapContent}> */}
-        {toggleMore ? (
-          <View style={[styles.wrapOptions, { zIndex: 100 }]}>
-            {/* <TouchableOpacity style={styles.option}>
+      {toggleMore ? (
+        <View style={[styles.wrapOptions, { zIndex: 100 }]}>
+          {/* <TouchableOpacity style={styles.option}>
             <Text>Option</Text>
           </TouchableOpacity> */}
-            {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
-            <TouchableOpacity onPress={() => console.log("hdasjd")} style={styles.option}>
-              <Text>Sửa học phần</Text>
-            </TouchableOpacity>
-            <Line backgroundColor={colors.violet} opacity={0.2} />
-            <TouchableOpacity style={styles.option}>
-              <Text>Xóa học phần</Text>
-            </TouchableOpacity>
-          </View>
-        ) : null}
+          {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
+          <TouchableOpacity
+            onPress={() => console.log("hdasjd")}
+            style={styles.option}
+          >
+            <Text>Sửa học phần</Text>
+          </TouchableOpacity>
+          <Line backgroundColor={colors.violet} opacity={0.2} />
+          <TouchableOpacity style={styles.option}>
+            <Text>Xóa học phần</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
       {/* </View> */}
       {/* Content */}
       <TouchableWithoutFeedback>

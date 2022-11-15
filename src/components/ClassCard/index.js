@@ -32,11 +32,11 @@ const ClassCard = (props) => {
             source={require("../../../assets/images/classmode/private.png")}
           />
         )}
-        <Text style={styles.className}>{props.jcode}</Text>
+        <Text style={styles.className}>{props.name}</Text>
         <View style={styles.wrapCreator}>
           <Image
             style={styles.avatarCreator}
-            source={require("../../../assets/images/avt-default.png")}
+            source={{uri: props.creator.avatar}}
           />
           <Text style={styles.usernameCreator}>{props.creator.fullname}</Text>
         </View>

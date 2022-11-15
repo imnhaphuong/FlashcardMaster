@@ -26,7 +26,7 @@ const Home_Screen = (props) => {
 
   const [TOPIC, settopic] = useState([]);
   getAllTopics(settopic);
-  console.log(TOPIC +" data")
+  // console.log(TOPIC +" data")
 
   
   const myRenderTopicItem = ({ item }) => (
@@ -58,7 +58,7 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  //AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
+  // AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
  
   // console.log(data);
   // const [visible, setvisible] = useState(false);
