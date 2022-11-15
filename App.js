@@ -8,7 +8,7 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
-import NavigationBar from "./src/components/Navigation/NavigationBar";
+import NavigationBar from "./src/components/navigation/NavigationBar";
 import { Text } from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
@@ -33,7 +33,6 @@ const loadAssets = async () =>
     'WorkSans-Italic': require('./assets/fonts/WorkSans-Italic.ttf'),
     'WorkSans-SemiBold': require('./assets/fonts/WorkSans-SemiBold.ttf'),//fontWeight:500
     'WorkSans-Thin': require('./assets/fonts/WorkSans-Thin.ttf'),
-
   });
 
 
@@ -105,30 +104,30 @@ export default function App() {
 
   return (
     <Provider store={store}>
-    <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
-      <Stack.Navigator
-        screenOptions={{
-          // tắt header
-          headerShown: false,
-        }}
-        initialRouteName="home"
-      >
-        <Stack.Screen name="class_detail" component={ClassDetailScreen} />
-        <Stack.Screen name="nav" component={NavigationBar} />
-        <Stack.Screen name="class" component={ClassScreen} />
-        <Stack.Screen name="imp_unit" component={ImportUnit} />
-        <Stack.Screen name="home" component={Home_Screen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="unit_detail" component={UnitDetail} />
-        <Stack.Screen name="Search" component={Search_Screen} />
-        <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
-        <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-        <Stack.Screen name="CreateUnit" component={CreateUnitScreen} />
+      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+        <Stack.Navigator
+          screenOptions={{
+            // tắt header
+            headerShown: false,
+          }}
+          initialRouteName="nav"
+        >
+          <Stack.Screen name="class_detail" component={ClassDetailScreen} />
+          <Stack.Screen name="nav" component={NavigationBar} />
+          <Stack.Screen name="class" component={ClassScreen} />
+          <Stack.Screen name="imp_unit" component={ImportUnit} />
+          <Stack.Screen name="home" component={Home_Screen} />
+          <Stack.Screen name="sign_up" component={SignUpScreen} />
+          <Stack.Screen name="sign_in" component={SignInScreen} />
+          <Stack.Screen name="unit_detail" component={UnitDetail} />
+          <Stack.Screen name="Search" component={Search_Screen} />
+          <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
+          <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
+          <Stack.Screen name="create_unit" component={CreateUnitScreen} />
 
-
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
+
   );
 }

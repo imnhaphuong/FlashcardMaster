@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     textAlign: "center",
+    fontFamily: fonts.regular,
     fontSize: 20,
     color: colors.text,
   },
@@ -42,17 +44,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.9,
   },
-  
+
   joinBtn: {
     backgroundColor: colors.violet,
   },
 
   textBtn: {
+    fontFamily: fonts.regular,
     fontSize: 16,
     color: colors.pastelPurple,
-    fontWeight: "600",
   },
-  
+
   input: {
     borderWidth: 1,
     borderColor: colors.text,
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
     height: 48,
     paddingHorizontal: 16,
     textAlign: "center",
+    fontFamily: fonts.regular,
     fontSize: 16,
     marginBottom: 8,
     color: colors.text,
@@ -80,21 +83,21 @@ const styles = StyleSheet.create({
   or: {
     textAlign: "center",
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: fonts.semibold,
     color: colors.darkGray,
     width: 48,
   },
   joined: {
     textAlign: "center",
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: fonts.semibold,
     color: colors.darkGray,
     width: 172,
   },
   textCreate: {
-    color: colors.text
+    color: colors.text,
   },
-  line: { flex: 1, height: 1, backgroundColor: colors.darkGray },
+  line: { flex: 1, height: 1, backgroundColor: colors.graySecondary },
 });
 
 export default styles;

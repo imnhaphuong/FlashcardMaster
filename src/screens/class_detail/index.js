@@ -20,17 +20,16 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
-import getClassById from "../../../getdata/getClassById";
-import getUserByID from "../../../getdata/getUserById";
+import getClassByJCode from "../../../getdata/getClassByJCode";
 import Line from "../../components/Line";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import ConfirmForm from "../../components/ConfirmForm";
 import Spinner from "react-native-loading-spinner-overlay";
+import fonts from "../../../contains/fonts";
 
 const ClassDetailScreen = (props) => {
   //State
   var params = props.route.params;
-
   const [CLASS, setclass] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [toggleMore, settoggleMore] = useState(false);
@@ -43,7 +42,7 @@ const ClassDetailScreen = (props) => {
   const [creator, setCreator] = useState([]);
   //useEffect
   useEffect(() => {
-    getClassById(setclass,params._id, setLoading);
+    getClassByJCode(params.jcode, setclass, setLoading);
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
     }
@@ -233,8 +232,15 @@ const ClassDetailScreen = (props) => {
               borderBottomColor: colors.violet,
               borderWidth: 2,
             }}
-            tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
-            activeTabTextStyle={{ color: colors.violet }}
+            tabTextStyle={{
+              fontFamily: fonts.regular,
+              fontSize: 14,
+              color: colors.graySecondary,
+            }}
+            activeTabTextStyle={{
+              fontFamily: fonts.semibold,
+              color: colors.violet,
+            }}
           />
 
           {selectedIndex === 0 && (
