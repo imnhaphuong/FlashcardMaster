@@ -1,5 +1,5 @@
-const getAllTopics = async (setData) => {
-    fetch("https://flashcard-master.vercel.app/api/topics", {
+const getTopicById = async (setData, _id) => {
+    fetch("http://flashcard-master.vercel.app/api/topics/" + _id, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -16,4 +16,4 @@ const getAllTopics = async (setData) => {
       });
   };
   
-  module.exports = getAllTopics;
+  module.exports = getTopicById;
