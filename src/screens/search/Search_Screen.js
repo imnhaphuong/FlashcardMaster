@@ -55,9 +55,9 @@ const Search_Screen = (props) => {
         <UserCard_Search
             id={item._id}
             fullname={item.fullname}
-            number_of_class={
-                typeof item.
-            }
+            // number_of_class={
+            //     typeof item.
+            // }
             navigation={props.navigation}
         />
     );
