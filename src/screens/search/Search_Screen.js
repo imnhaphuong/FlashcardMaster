@@ -37,7 +37,7 @@ const Search_Screen = (props) => {
             number_of_cards={
                 typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
             }
-            navigation={props.navigation}
+            //navigation={props.navigation}
         />
     );
 
@@ -47,7 +47,7 @@ const Search_Screen = (props) => {
             number_of_members={
                 typeof item.members !== "undefined" ? item.members.length : 0
             }
-            navigation={props.navigation}
+            //navigation={props.navigation}
         />
     );
 
@@ -58,7 +58,7 @@ const Search_Screen = (props) => {
             // number_of_class={
             //     typeof item.
             // }
-            navigation={props.navigation}
+            //navigation={props.navigation}
         />
     );
     return (
@@ -109,17 +109,20 @@ const Search_Screen = (props) => {
                     {selectedIndex === 0 && (
                         <View style={styles.wrapUnits}>
                             <Text>Units</Text>
+                            <Text>{keyword}</Text>
                             <FlatList
                                 data={units}
                                 renderItem={renderUnitItem}
                                 numColumns={2}
                                 keyExtractor={(item) => item.id}
                             />
+                            
                         </View>
                     )}
                     {selectedIndex === 1 && (
                         <View style={styles.wrapClasses}>
                             <Text>Class</Text>
+                            <Text>{keyword}</Text>
                             <FlatList
                                 data={classes}
                                 renderItem={renderClassItem}
@@ -131,6 +134,7 @@ const Search_Screen = (props) => {
                     {selectedIndex === 2 && (
                         <View style={styles.wrapUsers}>
                             <Text>User</Text>
+                            <Text>{keyword}</Text>
                             <FlatList
                                 data={users}
                                 renderItem={renderUserItem}
