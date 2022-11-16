@@ -20,6 +20,7 @@ import ClassScreen from "../../screens/class";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreateUnitScreen from "../../screens/create_unit/CreateUnitScreen";
 import { useDispatch, useSelector } from "react-redux";
+import Profile_Screen from "../../screens/profile/Profile_Screen";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -136,7 +137,7 @@ export default function NavigationBar() {
       />
       <Tab.Screen
         name="profile"
-        component={Home_Screen}
+        component={Profile_Screen}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
