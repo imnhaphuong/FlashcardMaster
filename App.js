@@ -21,6 +21,9 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
+import UnitCard from "./src/components/UnitCard";
+import getALLTopic from "./getdata/getAllTopics";
+import UpdateUnitScreen from "./src/screens/update_unit/UpdateUnitScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
 import Setting_Screen from "./src/screens/Setting"
 
@@ -126,6 +129,8 @@ export default function App() {
           <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
           <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
           <Stack.Screen name="create_unit" component={CreateUnitScreen} />
+          <Stack.Screen name="update_unit" component={UpdateUnitScreen} />
+
           <Stack.Screen name="profile" component={Profile_Screen} />
           <Stack.Screen name="Setting" component={Setting_Screen} />
 

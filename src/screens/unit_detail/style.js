@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 
   wrapOptions: {
     position: "absolute",
-    top: 0,
-    right: "1%",
+    top: "8%",
+    right: "3%",
     width: "50%",
     backgroundColor: colors.white,
     borderRadius: 10,
@@ -50,7 +50,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 45,
     fontSize: 16,
+    
   },
+  // wrap:{
+  //   zIndex:1000,
+  //   position: "absolute",
+  //   top:"9%",
+  //   right:"5%",
+
+  //   backgroundColor: colors.yellow,
+  // },
   wrapContent: {
     position: "relative",
     paddingTop: 15,
@@ -95,6 +104,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   wrapFlipCards: {
+    flexGrow: 1,
     paddingLeft: 20,
     paddingVertical: 20,
   },

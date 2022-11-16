@@ -20,6 +20,7 @@ import SimpleCard from "../../components/SimpleCard";
 import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
+import SysModal from "../../components/SysModal/SysModal";
 
 const UnitDetail = (props) => {
   //State
@@ -29,14 +30,46 @@ const UnitDetail = (props) => {
   const [UNIT, setUnit] = useState([]);
   //minor data
   const [flashcards, setFlashcards] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [mess, setMess] = useState('');
+  const url = "http://192.168.43.158:3000/api/units"
 
+  const onClose = () => {
+    setShowModal(false);
+
+  }
   useEffect(() => {
     getUnitById(params.id, setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
       setFlashcards(UNIT.flashcards);
     }
   }, [isLoading]);
-
+  const message = () => {
+    setMess("Bạn có muốn xóa học phần này không?")
+    setShowModal(true)
+  }
+  const deleteUnit = async (id) => {
+    try {
+      console.log("deleteUnit", id);
+      const data = { _id: id }
+      await fetch('http://192.168.43.158:3000/api/units/deleted', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      ).then(data => console.log("delaste", data))
+      setTimeout(() => {
+        setShowModal(false)
+        props.navigation.navigate("home")
+      }, 1000)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // console.log("unit_detail",UNIT.flashcards);
   const myRenderItem = (e) => {
     return (
       <CustomFlipCard
@@ -50,6 +83,7 @@ const UnitDetail = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <SysModal visible={showModal} message={mess} type="OPTION" onClose={onClose} onPress={() => deleteUnit(UNIT._id)} />
       <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
@@ -86,15 +120,17 @@ const UnitDetail = (props) => {
             <Text>Option</Text>
           </TouchableOpacity> */}
           {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
-          <TouchableOpacity
-            onPress={() => console.log("hdasjd")}
-            style={styles.option}
-          >
-            <Text>Sửa học phần</Text>
+          <TouchableOpacity onPress={() => {
+            props.navigation.replace("create_unit", {
+              id: params.id,
+            });
+          }} style={styles.option}>
+            <Text style={{ fontFamily: fonts.semibold }}>Sửa học phần</Text>
           </TouchableOpacity>
           <Line backgroundColor={colors.violet} opacity={0.2} />
-          <TouchableOpacity style={styles.option}>
-            <Text>Xóa học phần</Text>
+          <TouchableOpacity onPress={() => message()}
+            style={styles.option}>
+            <Text style={{ fontFamily: fonts.semibold }}>Xóa học phần</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -119,16 +155,20 @@ const UnitDetail = (props) => {
 
           {/* Flip Cards */}
           <FlatList
+            nestedScrollEnabled={true}
             contentContainerStyle={styles.wrapFlipCards}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
             data={flashcards}
             renderItem={myRenderItem}
             numColumns={1}
+            // maxHeight={300}
             keyExtractor={(item) => {
               return item._id;
             }}
           />
+
+
           <View style={styles.wrapButtons}>
             <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>

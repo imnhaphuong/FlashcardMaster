@@ -3,7 +3,7 @@ const getUnitById = async (_id, setData, setLoading) => {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify({
       id: _id,
@@ -11,7 +11,10 @@ const getUnitById = async (_id, setData, setLoading) => {
   })
     .then((res) => res.json())
     .then((resJson) => {
-      setData(resJson);
+      setData(
+        resJson
+      );
+      console.log("resJson", resJson);
       setLoading(false);
     })
     .catch((error) => {

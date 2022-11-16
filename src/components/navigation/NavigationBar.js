@@ -29,35 +29,36 @@ export default function NavigationBar() {
   const [type, setType] = useState("");
   const info = useSelector((state) => state.infoUser);
 
-  useEffect(() => {
-    AsyncStorage.getItem("userId").then((result) => {
-      setUserId(result);
-    });
-    if (userId !== "") {
-      fetchData();
-    }
-  }, [userId]);
-  async function fetchData() {
-    const data = {
-      _id: userId,
-    };
-    console.log("userId2345", userId);
-    try {
-      const url = "http://192.168.43.158:3000/api/users/id";
-      // const url ="https://flashcard-master.vercel.app/api/users/id";
-      const result = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      }).then((res) => res.json());
-      setType(result.type);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // useEffect(() => {
+  //   AsyncStorage.getItem('userId').then(result => {
+  //     setUserId(result);
+  //   })
+  //   if (userId !== '') {
+  //     fetchData();
+  //   }
+  // }, [userId])
+  // async function fetchData() {
+  //   const data = {
+  //     _id: userId
+  //   }
+  //   console.log("userId2345", userId);
+  //   try {
+  //     const url = "http://192.168.43.158:3000/api/users/id";
+  //     // const url ="https://flashcard-master.vercel.app/api/users/id";
+  //     const result = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Accept": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     }).then(res => res.json()
+  //     )
+  //     setType(result.type);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
   return (
     <Tab.Navigator
       screenOptions={{
@@ -78,7 +79,8 @@ export default function NavigationBar() {
           ),
         }}
       />
-      {type !== 1 ? (
+      {/* if (type === 1) {
+      ( */}
         <Tab.Screen
           name="class"
           component={ClassScreen}
@@ -97,7 +99,7 @@ export default function NavigationBar() {
             },
           })}
         />
-      ) : null}
+      {/* )} */}
       <Tab.Screen
         name="create_unit"
         component={CreateUnitScreen}
@@ -112,7 +114,7 @@ export default function NavigationBar() {
           tabPress: (e) => {
             e.preventDefault();
             // setcurrentScreen(route.name);
-            navigation.navigate("create_unit");
+            navigation.push('create_unit');
           },
         })}
       />
