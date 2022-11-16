@@ -8,7 +8,7 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
-import NavigationBar from "./src/components/navigation/NavigationBar";
+import NavigationBar from "./src/components/Navigation/NavigationBar";
 import { Text } from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
