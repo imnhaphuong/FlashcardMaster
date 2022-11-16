@@ -32,7 +32,7 @@ const TopicCard = (props) => {
             data={UNIT_DATA}
             renderItem={myRenderItem}
             numColumns={2}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
           />
         </View>
       </View>

@@ -24,9 +24,7 @@ const ImportUnit = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [UNITS, setUnits] = useState([]);
   const units_of_class = props.route.params.units;
-  var [selectedArray, setSelectedArray] = useState([
-    "636a87f7a63abd0261109b6c",
-  ]);
+  var [selectedArray, setSelectedArray] = useState([]);
 
   //set data for selected array
   const pushItemToSelectedArray = (id) => {

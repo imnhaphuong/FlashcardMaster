@@ -29,6 +29,7 @@ import ConfirmForm from "../../components/ConfirmForm";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
 import * as Clipboard from "expo-clipboard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ClassDetailScreen = (props) => {
   //State
@@ -38,6 +39,11 @@ const ClassDetailScreen = (props) => {
   const [toggleMore, settoggleMore] = useState(false);
   let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
   let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
+  //get user id when logged to fill in creator id
+  const [userId, setuserId] = useState("");
+  AsyncStorage.getItem("userId").then((result) => {
+    setuserId(result);
+  });
 
   //minor data
   const [members, setMembers] = useState([]);
@@ -46,14 +52,14 @@ const ClassDetailScreen = (props) => {
 
   const onRefreshData = () => {
     getClassByJCode(params.jcode, setclass, setLoading);
+    if (typeof CLASS.creator !== "undefined") {
+      setCreator(CLASS.creator);
+    }
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
     }
     if (typeof CLASS.units !== "undefined") {
       setUnits(CLASS.units);
-    }
-    if (typeof CLASS.creator !== "undefined") {
-      setCreator(CLASS.creator);
     }
   };
 
@@ -65,7 +71,7 @@ const ClassDetailScreen = (props) => {
       onRefreshData();
     });
     return focusHandler;
-  }, [isLoading, props.navigation]);
+  }, [isLoading]);
 
   const renderUnitItem = ({ item }) => (
     <UnitCard
@@ -78,7 +84,10 @@ const ClassDetailScreen = (props) => {
       navigation={props.navigation}
     />
   );
-  const renderUserItem = (item) => <UserCard isCreator={true} />;
+  const renderUserItem = (item) => {
+    console.log(item);
+    return <UserCard isCreator={true} />;
+  };
 
   // For custom SegmentedControlTab
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -189,29 +198,42 @@ const ClassDetailScreen = (props) => {
           {/* Options */}
           {toggleMore ? (
             <View style={[styles.wrapOptions, { zIndex: 10 }]}>
-              <TouchableOpacity onPress={onImpUnit} style={styles.option}>
-                <View>
-                  <Text>Thêm học phần</Text>
-                </View>
-              </TouchableOpacity>
-              <Line backgroundColor={colors.violet} opacity={0.2} />
               <TouchableOpacity onPress={onShare} style={styles.option}>
                 <View>
                   <Text>Chia sẻ</Text>
                 </View>
               </TouchableOpacity>
               <Line backgroundColor={colors.violet} opacity={0.2} />
-              <TouchableOpacity onPress={onUpdate} style={styles.option}>
-                <View>
-                  <Text>Chỉnh sửa</Text>
-                </View>
-              </TouchableOpacity>
-              <Line backgroundColor={colors.violet} opacity={0.2} />
-              <TouchableOpacity onPress={onDelete} style={styles.option}>
-                <View>
-                  <Text>Xoá lớp học</Text>
-                </View>
-              </TouchableOpacity>
+              {userId == creator._id ? (
+                <>
+                  <TouchableOpacity onPress={onImpUnit} style={styles.option}>
+                    <View>
+                      <Text>Thêm học phần</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <Line backgroundColor={colors.violet} opacity={0.2} />
+
+                  <TouchableOpacity onPress={onUpdate} style={styles.option}>
+                    <View>
+                      <Text>Chỉnh sửa</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <Line backgroundColor={colors.violet} opacity={0.2} />
+                  <TouchableOpacity onPress={onDelete} style={styles.option}>
+                    <View>
+                      <Text>Xoá lớp học</Text>
+                    </View>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity onPress={onDelete} style={styles.option}>
+                    <View>
+                      <Text>Rời lớp học</Text>
+                    </View>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           ) : null}
 

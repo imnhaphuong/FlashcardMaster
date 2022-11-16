@@ -57,7 +57,7 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  //AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
+  AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
 
   // console.log(data);
   // const [visible, setvisible] = useState(false);
@@ -97,12 +97,12 @@ const Home_Screen = (props) => {
           </View>
         </View>
         <View>
-          <FlatList
+          {/* <FlatList
             data={TOPIC}
             renderItem={myRenderTopicItem}
             numColumns={1}
-            keyExtractor={(item) => item.id}
-          />
+            keyExtractor={(item) => item._id}
+          /> */}
         </View>
       </ScrollView>
       <View style={styles.search}>

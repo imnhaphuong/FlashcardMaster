@@ -1,5 +1,5 @@
 const getUnitById = async (_id, setData, setLoading) => {
-  fetch("https://flashcard-master.vercel.app/api/units", {
+  fetch("https://flashcard-master.vercel.app/api/units/id", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
