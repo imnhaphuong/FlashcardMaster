@@ -1,5 +1,5 @@
 import { View, Text, StatusBar, KeyboardAvoidingView, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import colors from '../../../contains/colors'
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
@@ -22,7 +22,9 @@ import { Checkbox, Provider } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import fonts from '../../../contains/fonts';
 import getTopic from "./getTopic";
-const CreateUnitScreen = ({ navigation }) => {
+import getUnitById from "../../../getdata/getUnitById";
+const CreateUnitScreen = (props) => {
+  var params = props.route.params;
   const label = 'Tên học phần';
   const term = 'Thuật ngữ'
   const defi = 'Định nghĩa'
@@ -36,18 +38,42 @@ const CreateUnitScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
+  const [load, setLoad] = useState(true);
+  const [flashcards, setFlashcards] = useState([]);
+  const [unit, setUnit] = useState("")
+  const [create, setCreate] = useState(true)
+  const [initialValue, setInitialValue] = useState({
+    unitName: "",
+    flashcards: [{
+      _id:"",
+      term: "",
+      define: "",
+      example: "",
+      image: "",
+    }],
+    topic: "",
+    mode: false,
+  })
+
   const url = "http://192.168.43.158:3000/api/units"
   useEffect(() => {
     AsyncStorage.getItem('userInfo').then(result => {
       const { fullname, _id } = JSON.parse(result)
       setFullname(fullname);
       setUserId(_id);
-      console.log("userId");
     })
-
     getTopic(items, setItems)
-  }, [])
-
+    if ( params !== undefined) {
+      setLoading(true)
+      setCreate(false)
+      getUnitById(params.id, setUnit, setLoading);
+    
+      if (typeof unit.flashcards !== 'undefined') {
+        setLoad(false)
+        // setValue(unit.topic)
+      }
+    }
+  }, [load])
   const showModa = () => {
     setTimeout(() => {
       setShowModal(false);
@@ -87,13 +113,11 @@ const CreateUnitScreen = ({ navigation }) => {
     });
     const { uri, type } = result
     const file = { uri, type }
-    console.log("file", file);
 
     if (result.cancelled) return setLoading(false)
 
     if (!result.cancelled) {
       const fileInfo = await getFileInfo(uri)
-      console.log("fileInfo", fileInfo);
       //Kiểm tra kích thước file
       if (!fileInfo.size) {
         setMess("Không thể chọn hình ảnh với kích thước không phù hợp")
@@ -128,7 +152,6 @@ const CreateUnitScreen = ({ navigation }) => {
           showModa();
           images[i] = data.url;
           setImages([...images])
-          console.log("data", data);
         }).catch(err => {
           setMess(err)
           setShowModal(true)
@@ -138,16 +161,21 @@ const CreateUnitScreen = ({ navigation }) => {
     }
 
   };
-  const onDeleteImage = (i) => {
+  const onDeleteImage = (i,values) => {
     console.log("onDelete");
+    if (unit !== "") {          
+
+      console.log("fds", values.flashcards[i].image);
+      values.flashcards[i].image = ""
+      console.log("after",values.flashcards[i].image);
+    }
     images[i] = undefined;
     setImages([...images])
 
   }
-  const createUnit = async (values) => {
-    let verified = true;
+  let verif = true;
+  const verified = (values, verif) => {
     setLoading(true)
-    console.log("fullname", values);
     values.flashcards.map((item, index) => {
       if (item.define === "" && item.term === "" && item.example === "" && item.image === "") {
         if (flashcards.length > 1) {
@@ -161,19 +189,24 @@ const CreateUnitScreen = ({ navigation }) => {
         setMess("Không được để trống Thuật ngữ hoặc Định nghĩa")
         setShowModal(true)
         showModa()
-        verified = false;
+        verif = false;
+        return
       }
     })
-
-    if (verified) {
+  }
+  const createUnit = async (values) => {
+   
+    verified(values, verif)
+    if (verif) {
       const data = {
         unitName: values.unitName,
-        userId: "6364d755c81e389f1f8c508a",
-        fullname: "user1709",
+        userId: "636229a664e39686c4afa67f",
+        fullname: "FlashcardMaster",
         flashcards: values.flashcards,
         mode: values.mode,
         topic: values.topic
       }
+      console.log("data",data);
       try {
         const result = await fetch(`${url}/create`, {
           method: "POST",
@@ -193,10 +226,47 @@ const CreateUnitScreen = ({ navigation }) => {
         }
         setLoading(false)
         setTimeout(() => {
-          navigation.navigate("unit_detail", {
+          props.navigation.navigate("unit_detail", {
             id: result._id,
           })
-        },1000)
+        }, 1000)
+      } catch (error) {
+        setMess(error.message)
+        console.log(error);
+        setShowModal(true);
+        showModa();
+      }
+    }
+  }
+  const updateUnit = async (values) => {
+    console.log("updateUnit", values);
+    verified(values, verif)
+    if (verif) {
+      try {
+        const data = {
+          _id:params.id,
+          unitName: values.unitName,
+          flashcards: values.flashcards,
+          mode: values.mode,
+          topic: values.topic
+        }
+        console.log("result",data);
+        const result = await fetch(`${url}/update`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then(res => res.json()
+        )
+        
+        setLoading(false)
+        setTimeout(() => {
+          props.navigation.replace("unit_detail", {
+            id: params.id,
+          })
+        }, 1000)
       } catch (error) {
         setMess(error.message)
         console.log(error);
@@ -206,20 +276,12 @@ const CreateUnitScreen = ({ navigation }) => {
     }
   }
   return (
+
     <Formik
+      enableReinitialize
       style={styles.form}
-      initialValues={{
-        unitName: "",
-        flashcards: [{
-          term: "",
-          define: "",
-          example: "",
-          image: "",
-        }],
-        topic: "",
-        mode: false,
-      }}
-      onSubmit={(values) => createUnit(values)}
+      initialValues={unit === "" ? initialValue : unit}
+      onSubmit={(values) => { params === undefined ? createUnit(values) : updateUnit(values) }}
       validationSchema={UnitSchema}
     >
       {({
@@ -233,7 +295,7 @@ const CreateUnitScreen = ({ navigation }) => {
       }) => (
         <>
           <Spinner color={colors.violet} visible={isLoading} />
-          <SysModal visible={showModal} message={mess} />
+          <SysModal visible={showModal} message={mess}  />
           <FieldArray
             name='flashcards'
           >
@@ -252,7 +314,7 @@ const CreateUnitScreen = ({ navigation }) => {
                 >
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.goBack();
+                      props.navigation.goBack();
                     }}
                   >
                     <Back />
@@ -268,20 +330,26 @@ const CreateUnitScreen = ({ navigation }) => {
                       onBlur={handleBlur('unitName')} value={values.unitName} errors={errors.unitName} touched={touched.unitName} label={label} />
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Checkbox
-                        status={values.mode ? 'checked' : 'unchecked'}
+                        status={values.mode === true ? 'checked' : 'unchecked'}
                         onPress={() => {
                           setFieldValue("mode", !values.mode);
                         }}
                         uncheckedColor={colors.violet}
                         color={colors.violet}
-
                       />
                       <Text style={styles.text}>Công khai học phần</Text>
                     </View>
+                    {
+                      items.map((item, i) => {
+                        if (unit.topic === item.value) {
+                          setValue(item);
+                        }
+                      })
+                    }
                     <DropDownPicker
-                      placeholder="Chọn chủ đề"
+                      placeholder={value === "" ? "Chọn chủ đề" : value.label}
                       open={open}
-                      value={values.topic = value}
+                      value={values.topic=value}
                       items={items}
                       setOpen={setOpen}
                       setValue={setValue}
@@ -290,8 +358,8 @@ const CreateUnitScreen = ({ navigation }) => {
                       searchable={true}
                       listMode="SCROLLVIEW"
                       // multiple={true}
-                      mode="BADGE"
-                      badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+                      // mode="BADGE"
+                      // badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
                       autoScroll={true}
                       searchPlaceholderTextColor={colors.text}
                       searchPlaceholder="Tìm kiếm"
@@ -333,6 +401,7 @@ const CreateUnitScreen = ({ navigation }) => {
                     <View style={styles.createCard}>
                       {
                         values.flashcards.map((item, i) => {
+                          const id = `flashcards[${i}]._id`
                           const te = `flashcards[${i}].term`
                           const errTerm = getIn(errors, te);
                           const de = `flashcards[${i}].define`
@@ -342,6 +411,10 @@ const CreateUnitScreen = ({ navigation }) => {
                           const im = `flashcards[${i}].image`
                           return (
                             <View key={i} style={styles.formCard}>
+                              {                     
+                              values.flashcards[i]._id!==undefined?<TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id} name={id} />:<TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id=""} name={id} />
+                              }
+                              
                               <CustomInputUnit name={te} onChangeText={handleChange(te)
                               } value={values.flashcards[i].term}
                                 onBlur={handleBlur(te)} errors={errTerm} touched={item.term} label={term} />
@@ -349,18 +422,18 @@ const CreateUnitScreen = ({ navigation }) => {
                                 onBlur={handleBlur(de)} errors={errDefine} touched={item.define} label={defi} />
                               <CustomInputUnit name={ex} onChangeText={handleChange(ex)} value={values.flashcards[i].example}
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
-                              <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i].image = images[i]} name={im} />
+                              <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
 
-                              {images[i] !== undefined ?
+                              {images[i] !== undefined ||(images[i] !== undefined&& values.flashcards[i].image !== "")||values.flashcards[i].image!==""?
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                                   <Image
                                     style={{ height: 100, width: 100, marginRight: 20 }}
-                                    source={{ uri: images[i] }} />
+                                    source={{ uri: (images[i] == undefined ? values.flashcards[i].image : images[i] = values.flashcards[i].image) }} />
                                   <View style={{}}>
                                     <CustomButton name={im} type="CHANGE_IMAGE" text="Thay đổi" onPress={() =>
                                       onUploadImage(i)
                                     } hide="hide" />
-                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i)} hide="hide" />
+                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i,values)} hide="hide" />
                                   </View>
                                 </View>
                                 : <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
@@ -386,7 +459,7 @@ const CreateUnitScreen = ({ navigation }) => {
                       term: "",
                       define: "",
                       example: "",
-                      image: "",
+                      image: undefined,
                     })
                   }}
                   style={styles.add}
@@ -401,6 +474,8 @@ const CreateUnitScreen = ({ navigation }) => {
         </>
       )}
     </Formik>
+
+
   )
 }
 export default CreateUnitScreen

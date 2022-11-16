@@ -23,6 +23,7 @@ import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
 import UnitCard from "./src/components/UnitCard";
 import getALLTopic from "./getdata/getAllTopics";
+import UpdateUnitScreen from "./src/screens/update_unit/UpdateUnitScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -112,7 +113,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="unit_detail"
+          initialRouteName="nav"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
@@ -126,6 +127,8 @@ export default function App() {
           <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
           <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
           <Stack.Screen name="create_unit" component={CreateUnitScreen} />
+          <Stack.Screen name="update_unit" component={UpdateUnitScreen} />
+
 
         </Stack.Navigator>
       </NavigationContainer>

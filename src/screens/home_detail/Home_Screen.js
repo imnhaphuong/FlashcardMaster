@@ -25,8 +25,10 @@ import getAllClasses from "../../../getdata/getAllClasses";
 const Home_Screen = (props) => {
 
   const [TOPIC, settopic] = useState([]);
+  useEffect(() => {
   getAllTopics(settopic);
-  console.log(TOPIC +" data")
+  },[])
+  // console.log(TOPIC +" data")
 
   
   const myRenderTopicItem = ({ item }) => (

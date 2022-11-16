@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
   wrapOptions: {
     position: "absolute",
-    top: 0,
+    top: "8%",
     right: "3%",
     width: "50%",
     backgroundColor: colors.white,
@@ -52,11 +52,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     
   },
-  wrap:{
-    position: "relative",
-    top:0,
-    backgroundColor: colors.yellow,
-  },
+  // wrap:{
+  //   zIndex:1000,
+  //   position: "absolute",
+  //   top:"9%",
+  //   right:"5%",
+
+  //   backgroundColor: colors.yellow,
+  // },
   wrapContent: {
     paddingTop: 20,
   },

@@ -1,9 +1,9 @@
 const getUnitById = async (_id, setData, setLoading) => {
-  fetch("https://flashcard-master.vercel.app/api/units", {
+  await fetch("http://192.168.43.158:3000/api/units/id", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify({
       id: _id,
@@ -11,7 +11,10 @@ const getUnitById = async (_id, setData, setLoading) => {
   })
     .then((res) => res.json())
     .then((resJson) => {
-      setData(resJson);
+      setData(
+        resJson
+      );
+      console.log("resJson", resJson);
       setLoading(false);
     })
     .catch((error) => {
