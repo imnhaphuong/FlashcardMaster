@@ -20,11 +20,16 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Home_Screen = (props) => {
-
   const [TOPIC, settopic] = useState([]);
-  getAllTopics(settopic);
+  const [isLoading, setLoading] = useState(true);
+
+  //useEffect
+  useEffect(() => {
+    getAllTopics(settopic, setLoading);
+  }, [isLoading]);
 
   const myRenderTopicItem = ({ item }) => (
     <TopicCard
@@ -32,7 +37,7 @@ const Home_Screen = (props) => {
       units={item.units}
       navigation={props.navigation}
     />
-  )
+  );
   // const [data, setdata] = useState([])
   // function handleDeepLink(event) {
   //   let data = Linking.parse(event.url);
@@ -57,7 +62,7 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  AsyncStorage.setItem('userId', '636229a664e39686c4afa67f')
+  AsyncStorage.setItem("userId", "636229a664e39686c4afa67f");
 
   // console.log(data);
   // const [visible, setvisible] = useState(false);
@@ -69,6 +74,7 @@ const Home_Screen = (props) => {
   const coinPrice = "200";
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
         backgroundColor={colors.white}
@@ -97,12 +103,12 @@ const Home_Screen = (props) => {
           </View>
         </View>
         <View>
-          {/* <FlatList
+          <FlatList
             data={TOPIC}
             renderItem={myRenderTopicItem}
             numColumns={1}
             keyExtractor={(item) => item._id}
-          /> */}
+          />
         </View>
       </ScrollView>
       <View style={styles.search}>
