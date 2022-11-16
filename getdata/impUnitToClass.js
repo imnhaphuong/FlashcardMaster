@@ -1,14 +1,17 @@
-const getALLUnit = async (setdata, setLoading) => {
-    fetch("https://flashcard-master.vercel.app/api/units", {
-      method: "get",
+const impUnitToClass = async (id , units, setLoading) => {
+    fetch("https://flashcard-master.vercel.app/api/classes/imp", {
+      method: "post",
       headers: {
         "Content-Type": "application/json",
-        "Accept":  "application/json",
+        Accept: "application/json",
       },
+      body: JSON.stringify({
+        id: id,
+        units: units,
+      }),
     })
       .then((res) => res.json())
       .then((resJson) => {
-        setdata(resJson)
         if (typeof setLoading === "function") {
           setLoading(false);
         }
@@ -17,5 +20,6 @@ const getALLUnit = async (setdata, setLoading) => {
         console.log(error);
       });
   };
-
-  module.exports = getALLUnit;
+  
+  module.exports = impUnitToClass;
+  

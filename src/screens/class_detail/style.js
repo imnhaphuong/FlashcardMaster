@@ -55,16 +55,39 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inforArea: {
-    height: 150,
+    position: "relative",
+    height: 180,
     backgroundColor: colors.white,
     justifyContent: "center",
     paddingHorizontal: 20,
+  },
+  tagMode: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    width: 80,
+    height: 80,
+    resizeMode: "contain",
   },
   className: {
     fontFamily: fonts.bold,
     fontSize: 20,
     color: colors.text,
   },
+  wrapJcode: {
+     flexDirection: "row",
+     paddingVertical: 8
+  },
+  jcode: {
+    fontFamily: fonts.semibold,
+    fontSize: 14,
+  },
+  mode: {
+    fontFamily: fonts.semibold,
+    fontSize: 14,
+    color: colors.highlight,
+  },
+
   wrapUser: {
     flexDirection: "row",
     alignItems: "center",
@@ -94,6 +117,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 20,
   },
+
 });
 
 export default styles;

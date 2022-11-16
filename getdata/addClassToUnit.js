@@ -1,22 +1,24 @@
-const getUnitById = async (_id, setData, setLoading) => {
-  fetch("https://flashcard-master.vercel.app/api/units/id", {
+const addClassToUnit = async (id , classId, setLoading) => {
+  fetch("https://flashcard-master.vercel.app/api/units/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
     body: JSON.stringify({
-      id: _id,
+      id: id,
+      class: classId,
     }),
   })
     .then((res) => res.json())
     .then((resJson) => {
-      setData(resJson);
-      setLoading(false);
+      if (typeof setLoading === "function") {
+        setLoading(false);
+      }
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-module.exports = getUnitById;
+module.exports = addClassToUnit;

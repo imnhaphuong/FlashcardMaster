@@ -12,8 +12,9 @@ import {
 import styles from "./style";
 import { createClassSchema } from "./validation";
 import { Formik, Field, Form } from "formik";
-import CheckBox from "react-native-checkbox";
+import { Checkbox } from 'react-native-paper';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import colors from '../../../contains/colors'
 
 const ModalCreateClass = (props) => {
   ///State
@@ -113,18 +114,21 @@ const ModalCreateClass = (props) => {
                       onBlur={handleBlur("name")}
                       value={values.name}
                     />
-                    <CheckBox
-                      containerStyle={styles.containerCB}
-                      checkboxStyle={styles.checkbox}
-                      labelStyle={styles.label}
-                      checkedImage={require("../../../assets/images/checkbox/checked.png")}
-                      uncheckedImage={require("../../../assets/images/checkbox/unchecked.png")}
-                      label="Hiển thị lớp học ở chế độ công khai"
-                      checked={values.mode}
-                      onChange={() => {
-                        setFieldValue("mode", !values.mode);
-                      }}
-                    />
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Checkbox
+                        status={values.mode ? "checked" : "unchecked"}
+                        onPress={() => {
+                          setFieldValue("mode", !values.mode);
+                        }}
+                        uncheckedColor={colors.violet}
+                        color={colors.violet}
+                      />
+                      <Text style={styles.text}>
+                        Hiển thị lớp học ở chế độ công khai
+                      </Text>
+                    </View>
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
