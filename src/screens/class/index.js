@@ -8,6 +8,7 @@ import {
   Keyboard,
   StatusBar,
   FlatList,
+  ToastAndroid,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -15,6 +16,7 @@ import ModalCreateClass from "../../components/ModalCreateClass";
 import colors from "../../../contains/colors";
 import ClassCard from "../../components/ClassCard";
 import getAllClasses from "../../../getdata/getAllClasses";
+import getClassByJCode from "../../../getdata/getClassByJCode";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const ClassScreen = (props) => {
@@ -22,13 +24,18 @@ const ClassScreen = (props) => {
   const [visible, setvisible] = useState(false);
   const [CLASSES, setClasses] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [jcodeValue, setJcodeValue] = useState("");
+  const [temp, setTemp] = useState([]);
+
   const onRefreshData = () => {
     getAllClasses(setClasses, setLoading);
-  }
+  };
+
   const myRenderItem = ({ item }) => (
     <ClassCard
       mode={item.mode}
       _id={item._id}
+      jcode={item.jcode}
       name={item.name}
       creator={item.creator}
       number_of_members={item.members.length}
@@ -36,16 +43,28 @@ const ClassScreen = (props) => {
     />
   );
 
-
   //useEffect
   useEffect(() => {
-    onRefreshData()
+    onRefreshData();
     const focusHandler = props.navigation.addListener("focus", () => {
-      onRefreshData()
+      onRefreshData();
     });
     return focusHandler;
   }, [isLoading, props.navigation]);
 
+  //join
+  join = () => {
+    if (temp.length == 0) {
+      ToastAndroid.show(
+        "Không tìm thấy lớp học có mã " + jcodeValue,
+        ToastAndroid.CENTER
+      );
+    } else {
+      props.navigation.navigate("class_detail", {
+        jcode: jcodeValue,
+      });
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Spinner color={colors.violet} visible={isLoading} />
@@ -79,8 +98,13 @@ const ClassScreen = (props) => {
               style={styles.input}
               placeholder="Nhập mã lớp học"
               onSubmitEditing={Keyboard.dismiss}
+              value={jcodeValue.trim()}
+              onChangeText={(value) => {
+                setJcodeValue(value.trim());
+                getClassByJCode(value, setTemp, setLoading);
+              }}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={join}>
               <View style={[styles.btn, styles.joinBtn]}>
                 <Text style={[styles.textBtn, styles.textJoin]}>Tham gia</Text>
               </View>
@@ -109,7 +133,6 @@ const ClassScreen = (props) => {
                 setVisibleModal={setvisible}
               />
             ) : null}
-
             <View style={[styles.wrapOr]}>
               <View style={styles.line} />
               <View>

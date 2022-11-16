@@ -4,15 +4,15 @@ import styles from "./style";
 
 const UnitCard = (props) => {
   const id = props.id;
-  const unit_name = props.unit_name ? props.unit_name : "unit name";
+  const creator = props.creator 
   const number_of_cards = `${props.number_of_cards} thẻ`;
-  // const avatar = props.avatar ? :
-  const username = props.username ? props.username : "user";
+  const unit_name = props.unit_name 
 
   return (
     <Pressable
       style={styles.wrapUnitCard}
       onPress={() => {
+        console.log("press on the unit card has id = " + id);
         props.navigation.navigate("unit_detail", {
           id: id,
         });
@@ -23,9 +23,9 @@ const UnitCard = (props) => {
       <View style={styles.wrapUser}>
         <Image
           style={styles.avatar}
-          source={require("../../../assets/images/avt-default.png")}
+          source={{uri: creator.avatar}}
         />
-        <Text style={styles.username}>{username}</Text>
+        <Text style={styles.username}>{creator.fullname}</Text>
       </View>
     </Pressable>
   );

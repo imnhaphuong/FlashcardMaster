@@ -1,6 +1,6 @@
 const getTopic = async (items,setItems) => {
     try {
-        const url = "http://192.168.43.158:3000/api/topics/";
+        const url = "https://flashcard-master.vercel.app/api/topics/";
         // const url ="https://flashcard-master.vercel.app/api/users/id";
         await fetch(url, {
             method: "GET",

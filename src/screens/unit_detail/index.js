@@ -6,7 +6,6 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image,
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
@@ -114,9 +113,9 @@ const UnitDetail = (props) => {
       </KeyboardAvoidingView>
 
       {/* Options */}
-      {/* <View style={styles.wrap}> */}
+      {/* <View style={styles.wrapContent}> */}
       {toggleMore ? (
-        <View style={[styles.wrapOptions, { zIndex: 1000 }]}>
+        <View style={[styles.wrapOptions, { zIndex: 100 }]}>
           {/* <TouchableOpacity style={styles.option}>
             <Text>Option</Text>
           </TouchableOpacity> */}
@@ -185,7 +184,12 @@ const UnitDetail = (props) => {
           {/* List Cards */}
           <View style={styles.wrapListCardsArea}>
             <Text
-              style={{ fontSize: 16, fontWeight: "500", paddingBottom: 20 }}
+              style={{
+                fontSize: 16,
+                fontFamily: fonts.regular,
+                paddingTop: 8,
+                paddingBottom: 20,
+              }}
             >
               Thẻ
             </Text>

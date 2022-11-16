@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import styles from './style';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home_Screen from '../../screens/home_detail/Home_Screen';
-import colors from '../../../contains/colors';
-import Home from '../../../assets/images/nab/home.svg';
-import HomeFocus from '../../../assets/images/nab/homefocus.svg'
-import Class from '../../../assets/images/nab/class.svg';
-import ClassFocus from '../../../assets/images/nab/classfocus.svg';
-import New from '../../../assets/images/nab/new.svg';
-import NewFocus from '../../../assets/images/nab/newfocus.svg';
-import Noti from '../../../assets/images/nab/noti.svg';
-import NotiFocus from '../../../assets/images/nab/notifocus.svg';
-import Profile from '../../../assets/images/nab/profile.svg';
-import ProfileFocus from '../../../assets/images/nab/profilefocus.svg';
-import { View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import styles from "./style";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home_Screen from "../../screens/home_detail/Home_Screen";
+import colors from "../../../contains/colors";
+import Home from "../../../assets/images/nab/home.svg";
+import HomeFocus from "../../../assets/images/nab/homefocus.svg";
+import Class from "../../../assets/images/nab/class.svg";
+import ClassFocus from "../../../assets/images/nab/classfocus.svg";
+import New from "../../../assets/images/nab/new.svg";
+import NewFocus from "../../../assets/images/nab/newfocus.svg";
+import Noti from "../../../assets/images/nab/noti.svg";
+import NotiFocus from "../../../assets/images/nab/notifocus.svg";
+import Profile from "../../../assets/images/nab/profile.svg";
+import ProfileFocus from "../../../assets/images/nab/profilefocus.svg";
+import { View } from "react-native";
 // import ClassDetailScreen from '../../screens/class_detail';
-import ClassScreen from '../../screens/class';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import CreateUnitScreen from '../../screens/create_unit/CreateUnitScreen';
-import { useDispatch, useSelector } from 'react-redux'
+import ClassScreen from "../../screens/class";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CreateUnitScreen from "../../screens/create_unit/CreateUnitScreen";
+import { useDispatch, useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
   const [currentScreen, setcurrentScreen] = useState("class");
-  const [userId, setUserId] = useState('');
-  const [type, setType] = useState('');
-  const info = useSelector((state) => state.infoUser)
+  const [userId, setUserId] = useState("");
+  const [type, setType] = useState("");
+  const info = useSelector((state) => state.infoUser);
 
   // useEffect(() => {
   //   AsyncStorage.getItem('userId').then(result => {
@@ -59,13 +59,15 @@ export default function NavigationBar() {
   //   }
   // }
   return (
-    <Tab.Navigator screenOptions={
-      {
+    <Tab.Navigator
+      screenOptions={{
         tabBarStyle: { height: 80 },
-      }
-    }>
+      }}
+    >
       <Tab.Screen
-        name="home" component={Home_Screen} options={{
+        name="home"
+        component={Home_Screen}
+        options={{
           tabBarShowLabel: false,
           //tabBarStyle: {width: 100},
           headerShown: false,
@@ -104,9 +106,7 @@ export default function NavigationBar() {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>
-              {focused ? <NewFocus /> : <New />}
-            </View>
+            <View style={styles.view}>{focused ? <NewFocus /> : <New />}</View>
           ),
         }}
         listeners={({ navigation, route }) => ({
@@ -156,12 +156,5 @@ export default function NavigationBar() {
         })}
       />
     </Tab.Navigator>
-  )
-
-
-
+  );
 }
-
-
-
-

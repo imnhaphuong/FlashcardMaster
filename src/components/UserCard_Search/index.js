@@ -4,7 +4,7 @@ import styles from "./style";
 import Class from '../../../assets/images/nab/class.svg';
 import Unit from '../../../assets/images/unit.svg';
 
-const UserCard = (props) => {
+const UserCard_Search = (props) => {
   const id = props.id;
   const fullname = props.fullname ? props.fullname : "user0";
   const number_of_class = `${props.number_of_class} lớp học`;
@@ -35,4 +35,4 @@ const UserCard = (props) => {
   );
 };
 
-export default UserCard;
+export default UserCard_Search;

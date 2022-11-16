@@ -226,7 +226,7 @@ const CreateUnitScreen = (props) => {
         }
         setLoading(false)
         setTimeout(() => {
-          props.navigation.navigate("unit_detail", {
+          props.navigation.push("unit_detail", {
             id: result._id,
           })
         }, 1000)

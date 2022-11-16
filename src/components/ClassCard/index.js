@@ -9,15 +9,14 @@ import {
 import React, { useState } from "react";
 import styles from "./style";
 import Members from "../../../assets/images/members.svg";
-import getUserByID from "../../../getdata/getUserById";
 
 const ClassCard = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        console.log("press on the class card has id = " + props._id);
+        console.log("press on the class card has jcode = " + props.jcode);
         props.navigation.navigate("class_detail", {
-          _id: props._id,
+          jcode: props.jcode,
         });
       }}
     >
@@ -37,7 +36,7 @@ const ClassCard = (props) => {
         <View style={styles.wrapCreator}>
           <Image
             style={styles.avatarCreator}
-            source={require("../../../assets/images/avt-default.png")}
+            source={{uri: props.creator.avatar}}
           />
           <Text style={styles.usernameCreator}>{props.creator.fullname}</Text>
         </View>
