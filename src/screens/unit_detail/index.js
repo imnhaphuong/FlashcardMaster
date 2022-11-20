@@ -49,6 +49,7 @@ const UnitDetail = (props) => {
     setShowModal(true)
   }
   const deleteUnit = async (id) => {
+    setLoading(true)
     try {
       console.log("deleteUnit", id);
       const data = { _id: id }
@@ -61,9 +62,11 @@ const UnitDetail = (props) => {
         body: JSON.stringify(data),
       }).then(res => res.json()
       ).then(data => console.log("delaste", data))
+      setShowModal(false)
+      setLoading(false)
       setTimeout(() => {
-        setShowModal(false)
-        props.navigation.navigate("home")
+        
+        props.navigation.replace("home")
       }, 1000)
     } catch (error) {
       console.log(error);
@@ -83,7 +86,7 @@ const UnitDetail = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SysModal visible={showModal} message={mess} type="OPTION" onClose={onClose} onPress={() => deleteUnit(UNIT._id)} />
+      <SysModal visible={showModal} message={mess} type="OPTION" onClose={onClose} onPress={() =>{console.log("delete",UNIT._id); deleteUnit(UNIT._id)}} />
       <Spinner color={colors.violet} visible={isLoading} />
       <StatusBar
         animated={true}
@@ -121,7 +124,7 @@ const UnitDetail = (props) => {
           </TouchableOpacity> */}
           {/* <Line backgroundColor={colors.violet} opacity={0.2} /> */}
           <TouchableOpacity onPress={() => {
-            props.navigation.replace("create_unit", {
+            props.navigation.push("create_unit", {
               id: params.id,
             });
           }} style={styles.option}>
