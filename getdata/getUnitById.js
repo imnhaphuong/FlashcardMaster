@@ -14,7 +14,6 @@ const getUnitById = async (_id, setData, setLoading) => {
       setData(
         resJson
       );
-      console.log("resJson", resJson);
       setLoading(false);
     })
     .catch((error) => {

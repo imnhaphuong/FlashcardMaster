@@ -190,14 +190,14 @@ const CreateUnitScreen = (props) => {
         setShowModal(true)
         showModa()
         verif = false;
-        return
+        return 
       }
     })
   }
   const createUnit = async (values) => {
    
     verified(values, verif)
-    if (verif) {
+    if (verif===true) {
       const data = {
         unitName: values.unitName,
         userId: "636229a664e39686c4afa67f",
@@ -226,7 +226,7 @@ const CreateUnitScreen = (props) => {
         }
         setLoading(false)
         setTimeout(() => {
-          props.navigation.push("unit_detail", {
+          props.navigation.replace("unit_detail", {
             id: result._id,
           })
         }, 1000)
@@ -319,7 +319,7 @@ const CreateUnitScreen = (props) => {
                   >
                     <Back />
                   </TouchableOpacity>
-                  <Text style={styles.textHeader}>Tạo học phần</Text>
+                  <Text style={styles.textHeader}>{params!==undefined ?"Sửa học phần":"Tạo học phần"}</Text>
                   <TouchableOpacity onPress={handleSubmit}>
                     <Check />
                   </TouchableOpacity>
@@ -347,7 +347,7 @@ const CreateUnitScreen = (props) => {
                       })
                     }
                     <DropDownPicker
-                      placeholder={value === "" ? "Chọn chủ đề" : value.label}
+                      placeholder={values.topic === "" ? "Chọn chủ đề" : value.label}
                       open={open}
                       value={values.topic=value}
                       items={items}
@@ -424,7 +424,7 @@ const CreateUnitScreen = (props) => {
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
                               <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
 
-                              {images[i] !== undefined ||(images[i] !== undefined&& values.flashcards[i].image !== "")||values.flashcards[i].image!==""?
+                              {images[i] !== undefined ||(images[i] !== undefined&& values.flashcards[i].image !== "")||values.flashcards[0].image !== ""?
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                                   <Image
                                     style={{ height: 100, width: 100, marginRight: 20 }}
