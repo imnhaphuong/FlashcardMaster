@@ -81,24 +81,24 @@ export default function NavigationBar() {
       />
       {/* if (type === 1) {
       ( */}
-        <Tab.Screen
-          name="class"
-          component={ClassScreen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <ClassFocus /> : <Class />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
+      <Tab.Screen
+        name="class"
+        component={ClassScreen}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.view}>
+              {focused ? <ClassFocus /> : <Class />}
+            </View>
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          focus: (e) => {
+            setcurrentScreen(route.name);
+          },
+        })}
+      />
       {/* )} */}
       <Tab.Screen
         name="create_unit"
@@ -114,7 +114,7 @@ export default function NavigationBar() {
           tabPress: (e) => {
             e.preventDefault();
             // setcurrentScreen(route.name);
-            navigation.push('create_unit');
+            navigation.push("create_unit");
           },
         })}
       />
