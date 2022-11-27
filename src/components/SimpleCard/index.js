@@ -63,7 +63,8 @@ export default class SimpleCard extends Component {
         >
           {this.state.activeListen ? <ActiveListen /> : <Listen />}
         </Pressable>
-        <Image style={styles.img} source={{ uri: this.state.image }} />
+        {this.state.image != ''? <Image style={styles.img} source={{ uri: this.state.image }} />:null}
+        
       </View>
     );
   }

@@ -45,6 +45,24 @@ const styles = StyleSheet.create({
     elevation: 2,
     zIndex: 10,
   },
+
+  wrapFilter: {
+    position: "absolute",
+    top: "8%",
+    right: "10%",
+    width: "50%",
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    alignItems: "center",
+    textAlign: "center",
+    borderColor: colors.graySecondary,
+    borderWidth: 1,
+    shadowColor: colors.violet,
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
+    zIndex: 10
+  },
   option: {
     color: colors.text,
     justifyContent: "center",
@@ -139,6 +157,9 @@ const styles = StyleSheet.create({
   wrapListCardsArea: {
     marginHorizontal: 20,
   },
+  pressed: {
+    color: colors.violet
+  }
 });
 
 export default styles;

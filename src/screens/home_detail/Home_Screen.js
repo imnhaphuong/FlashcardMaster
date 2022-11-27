@@ -91,26 +91,24 @@ const Home_Screen = (props) => {
           <Text style={styles.price}>{coinPrice}</Text>
         </View>
       </View>
-      <ScrollView style={styles.scroolview}>
-        <View style={styles.welcome}>
-          <View style={styles.group21}>
-            <Text style={styles.hello}>
-              Chào cậu, <Text style={styles.helloname}>Jessica</Text>{" "}
-            </Text>
+      <FlatList
+        ListHeaderComponent={
+          <View style={styles.welcome}>
+            <View style={styles.group21}>
+              <Text style={styles.hello}>
+                Chào cậu, <Text style={styles.helloname}>Jessica</Text>{" "}
+              </Text>
+            </View>
+            <View style={styles.Thegirl}>
+              <Thegirl style={styles.ThegirlItem} />
+            </View>
           </View>
-          <View style={styles.Thegirl}>
-            <Thegirl style={styles.ThegirlItem} />
-          </View>
-        </View>
-        <View>
-          <FlatList
-            data={TOPIC}
-            renderItem={myRenderTopicItem}
-            numColumns={1}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
-      </ScrollView>
+        }
+        data={TOPIC}
+        renderItem={myRenderTopicItem}
+        numColumns={1}
+        keyExtractor={(item) => item._id}
+      />
       <View style={styles.search}>
         <View style={styles.searchicon}>
           <TouchableOpacity onPress={() => props.navigation.navigate("Search")}>

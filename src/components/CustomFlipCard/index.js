@@ -73,7 +73,7 @@ export default class CustomFlipCard extends Component {
                 {this.state.activeListen ? <ActiveListen /> : <Listen />}
               </Pressable>
             </Pressable>
-            <Image style={styles.img} source={{ uri: this.state.image }} />
+            {this.state.image != ''? <Image style={styles.img} source={{ uri: this.state.image }} />:null}
           </Pressable>
           {/* BACK */}
           <Pressable
