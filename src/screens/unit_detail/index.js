@@ -86,6 +86,7 @@ const UnitDetail = (props) => {
       />
     );
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -182,10 +183,10 @@ const UnitDetail = (props) => {
           />
 
           <View style={styles.wrapButtons}>
-            <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
+            <TouchableOpacity onPress={()=>console.log('Learn')} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.btn, styles.btnTest]}>
+            <TouchableOpacity onPress={()=>props.navigation.replace('test')} style={[styles.btn, styles.btnTest]}>
               <Text style={styles.textBtn}>Kiểm tra</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.btn, styles.btnMatch]}>

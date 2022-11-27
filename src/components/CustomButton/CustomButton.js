@@ -51,6 +51,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.violet,
         width:"100%"
     },
+    btnDangKy_CHANGE_TRUE:{
+        borderRadius: 10,
+        backgroundColor: colors.violet,
+        width:"100%"
+    },
+    btnDangKy_CHANGE_FALSE:{
+        borderRadius: 10,
+        backgroundColor: colors.pink,
+        width:"100%"
+    },
     btnText: {
         fontSize: 16,
         letterSpacing: 0.2,
@@ -72,6 +82,14 @@ const styles = StyleSheet.create({
     },
     btnText_DE_IMAGE:{
         fontSize: 14,
+        color: colors.white,  
+    },
+    btnText_CHANGE_TRUE:{
+        fontSize: 18,
+        color: colors.white,  
+    },
+    btnText_CHANGE_FALSE:{
+        fontSize: 18,
         color: colors.white,  
     },
     hide:{
