@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     textSignIn: {
         
         fontWeight: '500',
-        fontSize: 18,
+        fontSize: 20,
         lineHeight: 24,
         letterSpacing: 0.2,
         color: colors.violet,

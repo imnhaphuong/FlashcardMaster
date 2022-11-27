@@ -84,26 +84,7 @@ export default function App() {
     );
   }
 
-  // useEffect(() => {
-  //   async function loadResourcesAndDataAsync() {
-  //     try {
-  //       SplashScreen.preventAutoHideAsync();
-  //       await Font.loadAsync({
-  //         ...FontAwesome.font,
-  //         'WorkSans': require('../assets/fonts/WorkSans-Medium.ttf'),
-  //       });
-  //     } catch (e) {
-  //       console.warn(e);
-  //     } finally {
-  //       await new Promise(resolve => setTimeout(resolve, 2000));
-  //       setIsReady(true);
-  //       SplashScreen.hideAsync();
-  //     }
-  //   }
-  //   loadResourcesAndDataAsync();
-  //   // return isReady;
 
-  // }, []);
 
 
 
@@ -115,7 +96,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="nav"
+          initialRouteName="sign_in"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
