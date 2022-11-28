@@ -11,15 +11,24 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 1 },
         elevation: 2,
-        //paddingTop: "10%"
     },
     title: {
         fontSize: 30,
         justifyContent: 'center',
-        marginLeft: "27%"
+        marginLeft: "25%",
+        borderRadius: 10
     },
-    tick :{
-        marginLeft: "30%"
+    input: {
+        height: 30,
+        margin: 12,
+        borderWidth: 0.25,
+        padding: 10,
+        backgroundColor: colors.white,
+    },
+    input_title: {
+        fontSize: 15,
+        color: colors.darkGray,
+        marginLeft: 10
     }
 });
 

@@ -9,6 +9,8 @@ import {
     FlatList,
     TouchableOpacity,
     SegmentedControlTab,
+    Button,
+    Alert
 } from "react-native";
 import { useState } from "react";
 import styles from "./style";
@@ -25,15 +27,21 @@ const Setting_Screen = (props) => {
                     }}>
                         <Back_green />
                     </TouchableOpacity>
-                    
+
                     <Text style={styles.title}>Cài đặt</Text>
-                    <Tick style={styles.tick}/>
+                    <Tick style={styles.tick} />
                     {/* <TouchableOpacity onPress={() => {
                         props.navigation.goBack()
                     }}>
                         
                     </TouchableOpacity> */}
                 </View>
+            </View>
+            <View>
+                <Button
+                    title="Đổi mật khẩu"
+                    onPress={() => props.navigation.navigate("Changepassword")}
+                />
             </View>
         </SafeAreaView>
     )

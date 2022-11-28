@@ -62,7 +62,7 @@ const Search_Screen = (props) => {
         />
     );
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => {
                     props.navigation.goBack()
