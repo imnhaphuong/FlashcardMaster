@@ -10,6 +10,8 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SysModal from '../../components/SysModal/SysModal'
 import Spinner from 'react-native-loading-spinner-overlay'
+import CountDown from 'react-native-countdown-component';
+import Reload from '../../../assets/images/sign_up/reload.svg'
 
 export default VerifyEmailScreen = ({ navigation }) => {
 
@@ -28,6 +30,17 @@ export default VerifyEmailScreen = ({ navigation }) => {
             setUser(result);
         })
     }, [])
+    const [timerCount, setTimer] = useState(180)
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setTimer(lastTimerCount => {
+                lastTimerCount <= 1 && clearInterval(interval)
+                return lastTimerCount - 1
+            })
+        }, 1000) //each count lasts for a second
+        //cleanup the interval on complete
+        return () => clearInterval(interval)
+    }, []);
     const showModa = () => {
         setTimeout(() => {
             setShowModal(false);
@@ -74,15 +87,15 @@ export default VerifyEmailScreen = ({ navigation }) => {
             // showModa();
         }
     }
-    const sendVerification= async()=>{
+    const sendVerification = async () => {
         setLoading(true)
         console.log("send verification");
-        const {email} = JSON.parse(user); 
+        const { email } = JSON.parse(user);
         const data = {
-            userId:userId,
+            userId: userId,
             email: email,
         }
-        console.log("email",email);
+        console.log("email", email);
         try {
             const result = await fetch("http://192.168.43.158:3000/api/users/send-verification", {
                 method: "POST",
@@ -94,7 +107,8 @@ export default VerifyEmailScreen = ({ navigation }) => {
             }).then(res => res.json()
             )
             setLoading(false)
-        }catch(err){
+            navigation.replace("verify_email")
+        } catch (err) {
             console.log(err);
             setLoading(false)
         }
@@ -153,10 +167,21 @@ export default VerifyEmailScreen = ({ navigation }) => {
 
                             </View>
 
-                            <View style={{ marginTop: 300, marginHorizontal: 20 }}>
+                            <View style={{ marginTop: 260, marginHorizontal: 20 }}>
+                                <CountDown
+                                    until={10}
+                                    size={25}
+                                    digitStyle={{ backgroundColor: '#FFF' }}
+                                    digitTxtStyle={{ color: colors.violet }}
+                                    timeToShow={['M', 'S']}
+                                    timeLabels={{ m: null, s: null }}
+                                    showSeparator
+                                    running="false"
+                                />
                                 <TouchableOpacity style={{
-                                    alignItems: 'center', marginBottom: 30,
+                                    alignItems: 'center',justifyContent:'center' ,marginVertical: 30,  flexDirection: 'row',
                                 }} activeOpacity={0.5} onPress={sendVerification}>
+                                    <Reload />
                                     <Text style={styles.textSignIn}>
                                         Gửi lại mã
                                     </Text>

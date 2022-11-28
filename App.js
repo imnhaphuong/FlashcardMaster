@@ -83,26 +83,7 @@ export default function App() {
     );
   }
 
-  // useEffect(() => {
-  //   async function loadResourcesAndDataAsync() {
-  //     try {
-  //       SplashScreen.preventAutoHideAsync();
-  //       await Font.loadAsync({
-  //         ...FontAwesome.font,
-  //         'WorkSans': require('../assets/fonts/WorkSans-Medium.ttf'),
-  //       });
-  //     } catch (e) {
-  //       console.warn(e);
-  //     } finally {
-  //       await new Promise(resolve => setTimeout(resolve, 2000));
-  //       setIsReady(true);
-  //       SplashScreen.hideAsync();
-  //     }
-  //   }
-  //   loadResourcesAndDataAsync();
-  //   // return isReady;
 
-  // }, []);
 
 
 

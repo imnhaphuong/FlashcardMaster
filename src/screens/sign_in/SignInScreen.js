@@ -218,7 +218,7 @@ export default SignInScreen = ({ navigation }) => {
                     <Text style={[styles.btnText, { color: colors.text }]}>Bạn chưa có tài khoản?</Text>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => {
                       // useFormik().resetForm();
-                      navigation.navigate("SignUp")
+                      navigation.navigate("sign_up")
                     }}>
                       <Text style={styles.textSignIn}>
                         Đăng ký
