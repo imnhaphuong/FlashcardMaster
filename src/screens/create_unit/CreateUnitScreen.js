@@ -45,7 +45,7 @@ const CreateUnitScreen = (props) => {
   const [initialValue, setInitialValue] = useState({
     unitName: "",
     flashcards: [{
-      _id:"",
+      _id: "",
       term: "",
       define: "",
       example: "",
@@ -63,11 +63,11 @@ const CreateUnitScreen = (props) => {
       setUserId(_id);
     })
     getTopic(items, setItems)
-    if ( params !== undefined) {
+    if (params !== undefined) {
       setLoading(true)
       setCreate(false)
       getUnitById(params.id, setUnit, setLoading);
-    
+
       if (typeof unit.flashcards !== 'undefined') {
         setLoad(false)
         // setValue(unit.topic)
@@ -161,13 +161,13 @@ const CreateUnitScreen = (props) => {
     }
 
   };
-  const onDeleteImage = (i,values) => {
+  const onDeleteImage = (i, values) => {
     console.log("onDelete");
-    if (unit !== "") {          
+    if (unit !== "") {
 
       console.log("fds", values.flashcards[i].image);
       values.flashcards[i].image = ""
-      console.log("after",values.flashcards[i].image);
+      console.log("after", values.flashcards[i].image);
     }
     images[i] = undefined;
     setImages([...images])
@@ -190,14 +190,14 @@ const CreateUnitScreen = (props) => {
         setShowModal(true)
         showModa()
         verif = false;
-        return 
+        return
       }
     })
   }
   const createUnit = async (values) => {
-   
+
     verified(values, verif)
-    if (verif===true) {
+    if (verif === true) {
       const data = {
         unitName: values.unitName,
         userId: "636229a664e39686c4afa67f",
@@ -206,7 +206,7 @@ const CreateUnitScreen = (props) => {
         mode: values.mode,
         topic: values.topic
       }
-      console.log("data",data);
+      console.log("data", data);
       try {
         const result = await fetch(`${url}/create`, {
           method: "POST",
@@ -244,13 +244,13 @@ const CreateUnitScreen = (props) => {
     if (verif) {
       try {
         const data = {
-          _id:params.id,
+          _id: params.id,
           unitName: values.unitName,
           flashcards: values.flashcards,
           mode: values.mode,
           topic: values.topic
         }
-        console.log("result",data);
+        console.log("result", data);
         const result = await fetch(`${url}/update`, {
           method: "PUT",
           headers: {
@@ -260,7 +260,7 @@ const CreateUnitScreen = (props) => {
           body: JSON.stringify(data),
         }).then(res => res.json()
         )
-        
+
         setLoading(false)
         setTimeout(() => {
           props.navigation.replace("unit_detail", {
@@ -295,7 +295,7 @@ const CreateUnitScreen = (props) => {
       }) => (
         <>
           <Spinner color={colors.violet} visible={isLoading} />
-          <SysModal visible={showModal} message={mess}  />
+          <SysModal visible={showModal} message={mess} />
           <FieldArray
             name='flashcards'
           >
@@ -319,7 +319,7 @@ const CreateUnitScreen = (props) => {
                   >
                     <Back />
                   </TouchableOpacity>
-                  <Text style={styles.textHeader}>{params!==undefined ?"Sửa học phần":"Tạo học phần"}</Text>
+                  <Text style={styles.textHeader}>{params !== undefined ? "Sửa học phần" : "Tạo học phần"}</Text>
                   <TouchableOpacity onPress={handleSubmit}>
                     <Check />
                   </TouchableOpacity>
@@ -349,7 +349,7 @@ const CreateUnitScreen = (props) => {
                     <DropDownPicker
                       placeholder={values.topic === "" ? "Chọn chủ đề" : value.label}
                       open={open}
-                      value={values.topic=value}
+                      value={values.topic = value}
                       items={items}
                       setOpen={setOpen}
                       setValue={setValue}
@@ -411,10 +411,10 @@ const CreateUnitScreen = (props) => {
                           const im = `flashcards[${i}].image`
                           return (
                             <View key={i} style={styles.formCard}>
-                              {                     
-                              values.flashcards[i]._id!==undefined?<TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id} name={id} />:<TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id=""} name={id} />
+                              {
+                                values.flashcards[i]._id !== undefined ? <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id} name={id} /> : <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id = ""} name={id} />
                               }
-                              
+
                               <CustomInputUnit name={te} onChangeText={handleChange(te)
                               } value={values.flashcards[i].term}
                                 onBlur={handleBlur(te)} errors={errTerm} touched={item.term} label={term} />
@@ -424,7 +424,7 @@ const CreateUnitScreen = (props) => {
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
                               <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
 
-                              {images[i] !== undefined ||(images[i] !== undefined&& values.flashcards[i].image !== "")||values.flashcards[0].image !== ""?
+                              {images[i] !== undefined || (images[i] !== undefined && values.flashcards[i].image !== "") || values.flashcards[0].image !== "" ?
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                                   <Image
                                     style={{ height: 100, width: 100, marginRight: 20 }}
@@ -433,7 +433,7 @@ const CreateUnitScreen = (props) => {
                                     <CustomButton name={im} type="CHANGE_IMAGE" text="Thay đổi" onPress={() =>
                                       onUploadImage(i)
                                     } hide="hide" />
-                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i,values)} hide="hide" />
+                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i, values)} hide="hide" />
                                   </View>
                                 </View>
                                 : <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>

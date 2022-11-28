@@ -15,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../store/slices/userSlice'
 
 export default SignInScreen = ({ navigation }) => {
 
@@ -25,8 +27,8 @@ export default SignInScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [showOptions, setShowOptions] = useState(true);
   const [email, setEmail] = useState(null);
-  const url = "http://192.168.43.158:3000/api/users"
-
+  const url = "http://192.168.43.158:3000/api/users";
+  const dispatch = useDispatch();
   const [mess, setMess] = useState('');
 
   const lock = <LockIcon />
@@ -89,6 +91,7 @@ export default SignInScreen = ({ navigation }) => {
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
         AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
+        dispatch(setUser(result.data));
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);
