@@ -1,11 +1,10 @@
-import { StyleSheet, StatusBar } from 'react-native'
+import { StyleSheet } from 'react-native'
 import colors from '../../../contains/colors';
-import fonts from '../../../contains/fonts';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.pastelPurple,
+        backgroundColor: colors.white,
         flexDirection: "column",
     },
     header: {
@@ -24,6 +23,8 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         alignItems: "center",
+        flex: 1,
+        textAlign: "center",
         fontSize: 20,
         color: colors.text,
         fontFamily: 'WorkSans-SemiBold',
@@ -31,26 +32,58 @@ const styles = StyleSheet.create({
     userinfor: {
         flexDirection: 'row',
         alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        borderBottomWidth: 0.2,
+        paddingVertical: 5
+    },
+    counts: {
+        paddingHorizontal: 20,
+        paddingVertical: 10
     },
     avatar: {
         width: 70,
         height: 70,
         borderRadius: 100,
-        justifyContent:"flex-end",
-    },
-    counts: {
-        backgroundColor: 'red'
+        justifyContent: "flex-end",
     },
     statics: {
         flexDirection: 'row',
-        //height: '20%',
+        justifyContent: "space-around",
+        paddingVertical: 5,
     },
     count: {
-        backgroundColor: colors.violet,
+        backgroundColor: colors.pastelPurple,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 18,
     },
+    fullname: {
+        fontSize: 20,
+        fontWeight: "500",
+    },
+    wrapUnits: {
+        flex: 1,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        paddingHorizontal: 12,
+        paddingTop: 20,
+    },
+    wrapClasses: {
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        paddingHorizontal: 12,
+        paddingTop: 20,
+    },
+    wrapInsignia: {
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        paddingHorizontal: 12,
+        paddingTop: 20,
+    }
 
 });
 

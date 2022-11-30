@@ -1,53 +1,49 @@
 import {
   Text,
-  Pressable,
   View,
-  TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
+  Alert
 } from "react-native";
-
-import React, { useState } from "react";
+import React from "react";
 import styles from "./style";
-import Members from "../../../assets/images/members.svg";
+import Coin from "../../../assets/images/header/coin.svg";
 
 const InsigniaCard = (props) => {
+  const id = props.id;
+  const name = props.name ? props.name : "Tên huy hiệu ";
+  const price = props.price ? props.price : "200";
+  const insigniaImage = props.image ? props.image : "https://kynguyenlamdep.com/wp-content/uploads/2019/12/hinh-anh-hoa-hong-dep-va-y-nghia.jpg";
+
+
+  const showAlert = () =>
+  Alert.alert(
+    "",
+    "Mua huy hiệu... với giá " + price + " xu",
+    [
+      {
+        text: "Huỷ",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Mua", onPress: () => console.log("OK Pressed") }
+    ]
+  );
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        console.log("press on the class card has jcode = " + props.jcode);
-        props.navigation.navigate("class_detail", {
-          jcode: props.jcode,
-        });
-      }}
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => {showAlert()}
+    }
     >
-      <View style={styles.wrapClassCard}>
-        {props.mode ? (
-          <Image
-            style={styles.tagMode}
-            source={require("../../../assets/images/classmode/public.png")}
-          />
-        ) : (
-          <Image
-            style={styles.tagMode}
-            source={require("../../../assets/images/classmode/private.png")}
-          />
-        )}
-        <Text style={styles.className}>{props.jcode}</Text>
-        <View style={styles.wrapCreator}>
-          <Image
-            style={styles.avatarCreator}
-            source={require("../../../assets/images/avt-default.png")}
-          />
-          <Text style={styles.usernameCreator}>{props.creator.fullname}</Text>
-        </View>
-        <View style={styles.wrapMembers}>
-          <Members />
-          <Text style={styles.numberOfMembers}>
-            {props.number_of_members} thành viên
-          </Text>
+      <Image source={{uri: insigniaImage}} style={styles.image} />
+      <View style={styles.container}>
+        <Text style={styles.name}>{name}</Text>
+        <View style={styles.price}>
+          <Coin></Coin>
+          <Text style={styles.price_text}>{price}</Text>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 };
 

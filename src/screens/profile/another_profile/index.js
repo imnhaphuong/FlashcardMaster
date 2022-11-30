@@ -8,22 +8,19 @@ import {
     SafeAreaView,
     FlatList,
     TouchableOpacity,
-    KeyboardAvoidingView,
 } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import Back from "../../../../assets/images/header/back.svg"
 import { useState } from "react";
-import getProfile from "../../../../getdata/getProfile"
+import getProfile from "../../../../getdata/getProfile";
 import InsigniaCard from "../../../components/Insignia";
-import colors from "../../../../contains/colors"
+import colors from "../../../../contains/colors";
 import styles from "../style";
 import UnitCard from "../../../components/UnitCard";
 import ClassCard from "../../../components/ClassCard";
 import { useSelector } from "react-redux";
 
-const Anothe_Profile_Screen = (props) => {
-    const [toggleMore, settoggleMore] = useState(false);
-    const user = useSelector(state => state.user)
+const Other_Profile_Screen = (props) => {
+    const { user } = useSelector(state => state.user)
     console.log(user, "USER");
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -42,9 +39,8 @@ const Anothe_Profile_Screen = (props) => {
 
     const renderUnitItem = ({ item }) => (
         <UnitCard
-            id={item._id}
             unit_name={item.unitName}
-            username={creator.fullname}
+            username={item.creator.fullname}
             number_of_cards={
                 typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
             }
@@ -65,6 +61,8 @@ const Anothe_Profile_Screen = (props) => {
     const renderInsignialItem = (item) => (
         <InsigniaCard
             name={item.name}
+            price={item.price}
+            image={item.image}
         />
     );
     return (
@@ -75,36 +73,16 @@ const Anothe_Profile_Screen = (props) => {
                 barStyle={"dark-content"}
                 showHideTransition={"fade"}
             />
-            <KeyboardAvoidingView
+            <View
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.header}
             >
-               <TouchableOpacity onPress={() => {
-                        props.navigation.goBack()
-                    }}>
-                        <Back/>
-                    </TouchableOpacity>
                 <Text style={styles.textHeader}>Hồ sơ</Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        settoggleMore(!toggleMore);
-                    }}
-                    style={
-                        toggleMore
-                            ? {
-                                borderColor: colors.violet,
-                                borderWidth: 1,
-                                borderRadius: 5,
-                            }
-                            : null
-                    }
-                >
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+            </View>
             <View>
                 <View style={styles.userinfor}>
                     <View>
-                        <Text>Họ và tên</Text>
+                        <Text style={styles.fullname}>Họ và tên</Text>
                         <Text>example@gmail</Text>
                     </View>
                     <Image
@@ -113,7 +91,19 @@ const Anothe_Profile_Screen = (props) => {
                             uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
                         }} />
                 </View>
+                {/* <View style={styles.userinfor}>
+                    <View>
+                        <Text>{user.fullname}</Text>
+                        <Text>{user.email}</Text>
+                    </View>
+                    <Image
+                        style={styles.avatar}
+                        source={{
+                            uri: user.avatar,
+                        }} />
+                </View> */}
                 <View style={styles.counts}>
+                    <Text>Thống kê</Text>
                     <View style={styles.statics}>
                         <View style={styles.count}>
                             <Text>189 ngày đăng nhập</Text>
@@ -198,4 +188,4 @@ const Anothe_Profile_Screen = (props) => {
         </SafeAreaView >
     )
 };
-export default Anothe_Profile_Screen;
+export default Other_Profile_Screen;
