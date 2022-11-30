@@ -23,6 +23,7 @@ import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
 import UpdateUnitScreen from "./src/screens/update_unit/UpdateUnitScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
+import Anothe_Profile_Screen from "./src/screens/profile/another_profile";
 import Setting_Screen from "./src/screens/Setting";
 import Changepassword from "./src/screens/change_pasword";
 import { storeRoot } from "./src/store/store";
@@ -96,7 +97,7 @@ export default function App() {
               // tắt header
               headerShown: false,
             }}
-            initialRouteName="profile"
+            initialRouteName="sign_in"
           >
             <Stack.Screen name="class_detail" component={ClassDetailScreen} />
             <Stack.Screen name="nav" component={NavigationBar} />
@@ -115,6 +116,7 @@ export default function App() {
             <Stack.Screen name="profile" component={Profile_Screen} />
             <Stack.Screen name="Setting" component={Setting_Screen} />
             <Stack.Screen name="Changepassword" component={Changepassword} />
+            <Stack.Screen name="Anothe_Profile_Screen" component={Anothe_Profile_Screen} />
 
           </Stack.Navigator>
         </NavigationContainer>
