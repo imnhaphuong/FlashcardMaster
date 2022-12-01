@@ -37,6 +37,14 @@ const UnitDetail = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState("");
   const url = "http://192.168.43.158:3000/api/units";
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
   const onClose = () => {
     setShowModal(false);
   };
@@ -86,7 +94,7 @@ const UnitDetail = (props) => {
       />
     );
   };
-  
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -152,7 +160,7 @@ const UnitDetail = (props) => {
       {/* Content */}
       <TouchableWithoutFeedback>
         <ScrollView style={styles.wrapContent}
-        horizontal={false}>
+          horizontal={false}>
           {/* Infor */}
           <View style={styles.inforArea}>
             <Text style={styles.unitName}>{UNIT.unitName}</Text>
@@ -183,10 +191,15 @@ const UnitDetail = (props) => {
           />
 
           <View style={styles.wrapButtons}>
-            <TouchableOpacity onPress={()=>console.log('Learn')} style={[styles.btn, styles.btnLearn]}>
+            <TouchableOpacity onPress={() => console.log('Learn')} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>props.navigation.replace('test')} style={[styles.btn, styles.btnTest]}>
+            <TouchableOpacity onPress={() => {
+              shuffleArray(flashcards)
+              props.navigation.replace('test', {
+                 flashcards: flashcards
+              })
+            }} style={[styles.btn, styles.btnTest]}>
               <Text style={styles.textBtn}>Kiểm tra</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.btn, styles.btnMatch]}>

@@ -27,6 +27,8 @@ import Profile_Screen from "./src/screens/profile/Profile_Screen";
 import Setting_Screen from "./src/screens/Setting"
 import TestScreen from "./src/screens/test/TestScreen"
 import TestResultScreen from "./src/screens/test_result/TestResultScreen";
+import TrueFalseScreen from "./src/screens/test/TrueFalseScreen";
+import MutipleChoiceScreen from "./src/screens/test/MutipleChoiceScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -99,7 +101,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="test_result"
+          initialRouteName="nav"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
@@ -117,6 +119,9 @@ export default function App() {
           <Stack.Screen name="Setting" component={Setting_Screen} />
           <Stack.Screen name="test" component={TestScreen} />
           <Stack.Screen name="test_result" component={TestResultScreen} />
+          <Stack.Screen name="truefalse" component={TrueFalseScreen} />
+          <Stack.Screen name="mutiple_choice" component={MutipleChoiceScreen} />
+
 
 
         </Stack.Navigator>

@@ -15,9 +15,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
-
+import { createUser } from "../../redux/actions/actionUser"
+import { useDispatch, useSelector } from 'react-redux';
 export default SignInScreen = ({ navigation }) => {
-
+  const dispatch = useDispatch();
 
   const [hide, setHide] = useState(true);
   const [isLoading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ export default SignInScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [showOptions, setShowOptions] = useState(true);
   const [email, setEmail] = useState(null);
-  const url = "http://192.168.43.158:3000/api/users"
+  const url = "https://flashcard-master.vercel.app/api/users/"
 
   const [mess, setMess] = useState('');
 
@@ -89,6 +90,7 @@ export default SignInScreen = ({ navigation }) => {
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
         AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
+        dispatch(createUser(result.data))
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);

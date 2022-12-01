@@ -7,11 +7,36 @@ import Check from "../../../assets/images/header/check.svg";
 import TrueFalseScreen from './TrueFalseScreen';
 import MutipleChoiceScreen from './MutipleChoiceScreen';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
-
-
-export default function TestScreen() {
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux'
+import { updateScore } from "../../redux/actions/actionUser"
+import { useLayoutEffect } from 'react';
+export default function TestScreen(props) {
+    const [userId, setUserId] = useState(null);
+    var params = props.route.params;
+    const [numberOfUnits, setNumberOfUnits] = useState();
+    const [number, setNumber] = useState();
+    const [progress, setProgress] = useState(0);
+    const [index, setIndex] = useState(0);
+    const flashcards = params.flashcards;
+    let pro;
+    useEffect(() => {
+        
+        AsyncStorage.getItem('userInfo').then(result => {
+            const { _id } = JSON.parse(result)
+            setUserId(_id);
+        })
+        if (params.index !== undefined) {
+            setIndex(params.index);
+            // pro = (index + 1) / flashcards.length;
+            setProgress((index + 1) / flashcards.length)
+        } else {
+            setProgress(1 / flashcards.length)
+        }
+        setNumberOfUnits(flashcards.length);
+        console.log("indexdsfds", params.index);
+        console.log("flashcards", flashcards);
+    }, [index])
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar
@@ -37,13 +62,16 @@ export default function TestScreen() {
                 </View>
 
             </KeyboardAvoidingView>
-            <ProgressBar progress={0.6} color={colors.violet} />
+            <ProgressBar progress={progress} color={colors.violet} />
             <View style={styles.testType}>
                 <View style={{ alignItems: "center" }}>
-                    <Text style={styles.textTrueFalse}>14/20</Text>
+                    <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
-                {/* <TrueFalseScreen /> */}
-                <MutipleChoiceScreen/>
+                {(index < numberOfUnits / 2) ?
+                    <TrueFalseScreen navigation={props.navigation} index={index} flashcards={flashcards} />
+                    :
+                    <MutipleChoiceScreen navigation={props.navigation} index={index} flashcards={flashcards} />
+                }
             </View>
         </SafeAreaView>
     )

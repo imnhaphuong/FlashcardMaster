@@ -7,10 +7,12 @@ import Check from "../../../assets/images/header/check.svg";
 
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 import fonts from '../../../contains/fonts';
+import { useDispatch, useSelector } from 'react-redux'
 
 
 export default function TestResultScreen() {
-
+    const Questions = useSelector((state) => state.questReducer)
+    console.log("QuestionsMu", Questions.questions[0].typeQuestion)
     return (
         <SafeAreaView style={{backgroundColor: colors.white}}>
             <StatusBar

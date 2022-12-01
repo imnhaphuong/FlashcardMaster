@@ -7,7 +7,7 @@ const CustomButton = ({ name,onPress, text, type = 'SIGNIN', hide }) => {
 
 
     return (
-        <TouchableOpacity name={name} onPress={onPress}  >
+        <TouchableOpacity  name={name} onPress={onPress}  >
             <View style={[styles.btnDangKy, styles[`btnDangKy_${type}`]]}>
                 <View style={styles[`${hide}`]} >
                     <GoogleLogo />
