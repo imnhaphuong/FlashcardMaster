@@ -21,7 +21,10 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
-import UpdateUnitScreen from "./src/screens/update_unit/UpdateUnitScreen";
+import UnitCard from "./src/components/UnitCard";
+import getALLTopic from "./getdata/getAllTopics";
+import TestScreen from "./src/screens/test/TestScreen"
+import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
 import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Setting_Screen from "./src/screens/Setting";
@@ -40,6 +43,8 @@ const loadAssets = async () =>
     'WorkSans-Italic': require('./assets/fonts/WorkSans-Italic.ttf'),
     'WorkSans-SemiBold': require('./assets/fonts/WorkSans-SemiBold.ttf'),//fontWeight:500
     'WorkSans-Thin': require('./assets/fonts/WorkSans-Thin.ttf'),
+    'WorkSans-SemiBoldItalic': require('./assets/fonts/WorkSans-SemiBoldItalic.ttf'),//fontWeight:500
+
   });
 
 

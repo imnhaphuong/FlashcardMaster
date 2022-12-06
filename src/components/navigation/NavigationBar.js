@@ -22,12 +22,15 @@ import CreateUnitScreen from "../../screens/create_unit/CreateUnitScreen";
 import { useDispatch, useSelector } from "react-redux";
 import Profile_Screen from "../../screens/profile/Profile_Screen";
 
+
+
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
   const [currentScreen, setcurrentScreen] = useState("class");
   const [userId, setUserId] = useState("");
   const [type, setType] = useState("");
   const info = useSelector((state) => state.infoUser);
+
 
   // useEffect(() => {
   //   AsyncStorage.getItem('userId').then(result => {
