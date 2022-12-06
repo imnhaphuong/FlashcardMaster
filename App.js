@@ -23,12 +23,13 @@ import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
 import UnitCard from "./src/components/UnitCard";
 import getALLTopic from "./getdata/getAllTopics";
-import Profile_Screen from "./src/screens/profile/Profile_Screen";
-import Setting_Screen from "./src/screens/Setting"
 import TestScreen from "./src/screens/test/TestScreen"
 import TestResultScreen from "./src/screens/test_result/TestResultScreen";
-import TrueFalseScreen from "./src/screens/test/TrueFalseScreen";
-import MutipleChoiceScreen from "./src/screens/test/MutipleChoiceScreen";
+import Profile_Screen from "./src/screens/profile/Profile_Screen";
+import Other_Profile_Screen from "./src/screens/profile/another_profile";
+import Setting_Screen from "./src/screens/Setting";
+import Shop_Screen from "./src/screens/shop/Shop_Screen";
+import { storeRoot } from "./src/store/store";
 
 
 const Stack = createNativeStackNavigator();
@@ -119,14 +120,12 @@ export default function App() {
           <Stack.Screen name="Setting" component={Setting_Screen} />
           <Stack.Screen name="test" component={TestScreen} />
           <Stack.Screen name="test_result" component={TestResultScreen} />
-          {/* <Stack.Screen name="truefalse" component={TrueFalseScreen} />
-          <Stack.Screen name="mutiple_choice" component={MutipleChoiceScreen} /> */}
-
-
-
+          <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
+          <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
+
 
   );
 }

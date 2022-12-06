@@ -11,16 +11,15 @@ import {
 } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { useState } from "react";
-import getProfile from "../../../getdata/getProfile";
-import InsigniaCard from "../../components/Insignia";
-import colors from "../../../contains/colors";
-import styles from "./style";
-import UnitCard from "../../components/UnitCard";
-import ClassCard from "../../components/ClassCard";
-import Setting from "../../../assets/images/header/setting.svg";
+import getProfile from "../../../../getdata/getProfile";
+import InsigniaCard from "../../../components/Insignia";
+import colors from "../../../../contains/colors";
+import styles from "../style";
+import UnitCard from "../../../components/UnitCard";
+import ClassCard from "../../../components/ClassCard";
 import { useSelector } from "react-redux";
 
-const Profile_Screen = (props) => {
+const Other_Profile_Screen = (props) => {
     const { user } = useSelector(state => state.user)
     console.log(user, "USER");
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,13 +29,13 @@ const Profile_Screen = (props) => {
     };
 
     const [units, setUnits] = useState([]);
-    getProfile(setUnits, selectedIndex, user.id);
+    getProfile(setUnits, selectedIndex);
 
     const [classes, setClasses] = useState([]);
-    getProfile(setClasses, selectedIndex, user.id);
+    getProfile(setClasses, selectedIndex);
 
     const [insignia, setInsignia] = useState([]);
-    getProfile(setInsignia, selectedIndex, user.id);
+    getProfile(setInsignia, selectedIndex);
 
     const renderUnitItem = ({ item }) => (
         <UnitCard
@@ -79,9 +78,6 @@ const Profile_Screen = (props) => {
                 style={styles.header}
             >
                 <Text style={styles.textHeader}>Hồ sơ</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("Setting")}>
-                    <Setting />
-                </TouchableOpacity>
             </View>
             <View>
                 <View style={styles.userinfor}>
@@ -192,4 +188,4 @@ const Profile_Screen = (props) => {
         </SafeAreaView >
     )
 };
-export default Profile_Screen;
+export default Other_Profile_Screen;

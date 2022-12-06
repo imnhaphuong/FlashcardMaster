@@ -38,6 +38,7 @@ const UnitDetail = (props) => {
   const [flashcards, setFlashcards] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState("");
+  const [OPTION, SET_OPTION] = useState( "OPTION" );
   const url = "http://192.168.43.158:3000/api/units";
   const dispatch = useDispatch();
   console.log(params.id)
@@ -52,7 +53,7 @@ const UnitDetail = (props) => {
   const onClose = () => {
     setShowModal(false);
   };
-  const score =0;
+  const score = 0;
   useEffect(() => {
     getUnitById(params.id, setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
@@ -107,7 +108,7 @@ const UnitDetail = (props) => {
       <SysModal
         visible={showModal}
         message={mess}
-        type="OPTION"
+        type={OPTION}
         onClose={onClose}
         onPress={() => {
           console.log("delete", UNIT._id);
@@ -204,9 +205,19 @@ const UnitDetail = (props) => {
               shuffleArray(flashcards)
               dispatch(resetQuest(params.id))
               dispatch(updateScore(0))
-              props.navigation.replace('test', {
-                 flashcards: flashcards, 
-              })
+              if (flashcards.length < 4) {
+                setMess("Học phần phải nhiều hơn 3 thẻ")
+                SET_OPTION("NONE")
+                setShowModal(true)
+                setTimeout(() => {
+                  setShowModal(false);
+                }, 2000);
+              }else{
+                props.navigation.replace('test', {
+                  flashcards: flashcards,
+                })
+              }
+             
             }} style={[styles.btn, styles.btnTest]}>
               <Text style={styles.textBtn}>Kiểm tra</Text>
             </TouchableOpacity>

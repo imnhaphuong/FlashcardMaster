@@ -20,8 +20,10 @@ export default function TestScreen(props) {
     const [index, setIndex] = useState(0);
     const [score, setScore] = useState(0);
     const flashcards = params.flashcards;
+    const [showModal, setShowModal] = useState(false);
+    const [mess, setMess] = useState('');
     useEffect(() => {
-        setScore(10/ flashcards.length)
+        setScore(10 / flashcards.length)
         AsyncStorage.getItem('userInfo').then(result => {
             const { _id } = JSON.parse(result)
             setUserId(_id);
@@ -34,6 +36,7 @@ export default function TestScreen(props) {
             setProgress(1 / flashcards.length)
         }
         setNumberOfUnits(flashcards.length);
+        
     }, [index])
     return (
         <SafeAreaView style={styles.container}>
@@ -65,8 +68,8 @@ export default function TestScreen(props) {
                 <View style={{ alignItems: "center" }}>
                     <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
-                {(index < numberOfUnits / 2) ?
-                    <TrueFalseScreen  score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
+                {(index < Math.floor(numberOfUnits / 2)) ?
+                    <TrueFalseScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                     :
                     <MutipleChoiceScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                 }

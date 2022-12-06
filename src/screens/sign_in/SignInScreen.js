@@ -26,8 +26,7 @@ export default SignInScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [showOptions, setShowOptions] = useState(true);
   const [email, setEmail] = useState(null);
-  const url = "https://flashcard-master.vercel.app/api/users/"
-
+  const url = "https://flashcard-master.vercel.app/api/users";
   const [mess, setMess] = useState('');
 
   const lock = <LockIcon />
@@ -86,6 +85,7 @@ export default SignInScreen = ({ navigation }) => {
           navigation.replace("verify_email")
         }, 1000);
       } else {
+        dispatch(setUser(result.data));
         setLoading(false)
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
@@ -158,8 +158,6 @@ export default SignInScreen = ({ navigation }) => {
       showModa();
     }
   }
-
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {type === 0 ? <ModalOption visible={showOptions} chooseClass={chooseClass} choosePersonal={choosePersonal} /> : ""}

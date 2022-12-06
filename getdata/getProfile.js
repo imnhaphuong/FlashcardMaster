@@ -1,19 +1,22 @@
-const getProfile = async (setdata, selectedIndex) => {
+const getProfile = async (setdata, selectedIndex, _id) => {
     if (selectedIndex == 0) {
-        var fetch = "https://flashcard-master.vercel.app/api/units" ;
+        var fetch = "https://flashcard-master.vercel.app/api/units/created" ;
       }
       if (selectedIndex == 1) {
-        var fetch = "https://flashcard-master.vercel.app/api/classes" ;
+        var fetch = "https://flashcard-master.vercel.app/api/units/created" ;
       }
       else{
-        var fetch = "https://flashcard-master.vercel.app/api/users/" ;
+        var fetch = "https://flashcard-master.vercel.app/api/users/id" ;
       }
         fetch(fetch, {
-          method: "get",
+          method: "post",
           headers: {
             "Content-Type": "application/json",
             "Accept":  "application/json",
           },
+          body: JSON.stringify({
+            id: _id,
+          }),
         })
           .then((res) => res.json())
           .then((resJson) => {
