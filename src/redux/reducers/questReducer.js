@@ -1,57 +1,54 @@
 
 export const CHOOSE_TFQUEST = "CHOOSE_TFQUEST";
 export const CHOOSE_MUQUEST = "CHOOSE_MUQUEST";
+export const RESET_QUESTIONS = "RESET_QUESTIONS";
 
-
+import produce from "immer"
 
 const initialUserState = {
-    questions: []
+    id: "",
+    questions: [],
+    questionsTrue: [],
+    questionsFalse: [],
 }
 export default function actionForReducer(state = initialUserState, payload) {
-    switch (payload.type) {
-        // case CREATE_TFQUEST:
-        //     return {
-
-        //         ...state,
-        //         TFQuest: {
-        //             index: payload.index,
-        //             term: payload.term,
-        //             correct: payload.correct,
-        //         }
-
-        //     }
-        // case CREATE_MUQUEST:
-        //     return {
-        //         ...state,
-        //         MUQUest: {
-        //             index: payload.index,
-        //             term: payload.term,
-        //             options: payload.options,
-        //             correct: payload.correct,
-        //         }
-        //     }
-        case CHOOSE_TFQUEST:
-            const TFQuests = { ...state }
-            const TFQuest = {
-                index: payload.index,
-                term: payload.term,
-                typeQuestion: payload.typeQuestion,
-                correct: payload.correct,
-                answer: payload.answer,
-            }
-            return { ...state, questions: [...state.questions,TFQuest ] }
-        case CHOOSE_MUQUEST:
-            const MuQuest = {
-                index: payload.index,
-                term: payload.term,
-                typeQuestion: question.typeQuestion,
-                options: payload.options,
-                correct: payload.correct,
-                answer: payload.answer,
-            }
-
-            return { ...state, questions: [...state.questions,  MuQuest ] }
-        default:
-            return state
-    }
+    return produce(state, draft => {
+        switch (payload.type) {
+            case CHOOSE_TFQUEST:
+                const checkTF = payload.correct === payload.answer ? true : false
+                const TFQuest = {
+                    index: payload.index,
+                    question: payload.question,
+                    typeQuestion: payload.typeQuestion,
+                    define: payload.define,
+                    defineQuest: payload.defineQuest,
+                    correct: payload.correct,
+                    answer: payload.answer,
+                }
+                if (checkTF === true) {
+                    return { ...state, questions: [...state.questions, TFQuest], questionsTrue: [...state.questionsTrue, payload.index] }
+                } else {
+                    return { ...state, questions: [...state.questions, TFQuest], questionsFalse: [...state.questionsFalse, payload.index] }
+                }
+            case CHOOSE_MUQUEST:
+                const checkMU = payload.correct === payload.answer ? true : false
+                const MuQuest = {
+                    index: payload.index,
+                    question: payload.question,
+                    typeQuestion: payload.typeQuestion,
+                    options: payload.options,
+                    correct: payload.correct,
+                    answer: payload.answer,
+                }
+                if (checkMU === true) {
+                    return { ...state, questions: [...state.questions, MuQuest], questionsTrue: [...state.questionsTrue, payload.index] }
+                } else {
+                    return { ...state, questions: [...state.questions, MuQuest], questionsFalse: [...state.questionsFalse, payload.index] }
+                }
+            case RESET_QUESTIONS:
+                return {...draft,questions:[],questionsFalse:[],questionsTrue:[],id:payload.id}
+            default:
+                return state
+        }
+    })
 }

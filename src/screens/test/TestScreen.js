@@ -18,10 +18,10 @@ export default function TestScreen(props) {
     const [number, setNumber] = useState();
     const [progress, setProgress] = useState(0);
     const [index, setIndex] = useState(0);
+    const [score, setScore] = useState(0);
     const flashcards = params.flashcards;
-    let pro;
     useEffect(() => {
-        
+        setScore(10/ flashcards.length)
         AsyncStorage.getItem('userInfo').then(result => {
             const { _id } = JSON.parse(result)
             setUserId(_id);
@@ -34,8 +34,6 @@ export default function TestScreen(props) {
             setProgress(1 / flashcards.length)
         }
         setNumberOfUnits(flashcards.length);
-        console.log("indexdsfds", params.index);
-        console.log("flashcards", flashcards);
     }, [index])
     return (
         <SafeAreaView style={styles.container}>
@@ -50,13 +48,13 @@ export default function TestScreen(props) {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.header}
             >
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={() => {
                         props.navigation.goBack();
                     }}
                 >
                     <Back />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={{ width: "90%", }}>
                     <Text style={styles.textHeader}>Kiểm tra</Text>
                 </View>
@@ -68,9 +66,9 @@ export default function TestScreen(props) {
                     <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
                 {(index < numberOfUnits / 2) ?
-                    <TrueFalseScreen navigation={props.navigation} index={index} flashcards={flashcards} />
+                    <TrueFalseScreen  score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                     :
-                    <MutipleChoiceScreen navigation={props.navigation} index={index} flashcards={flashcards} />
+                    <MutipleChoiceScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                 }
             </View>
         </SafeAreaView>

@@ -119,8 +119,8 @@ export default function App() {
           <Stack.Screen name="Setting" component={Setting_Screen} />
           <Stack.Screen name="test" component={TestScreen} />
           <Stack.Screen name="test_result" component={TestResultScreen} />
-          <Stack.Screen name="truefalse" component={TrueFalseScreen} />
-          <Stack.Screen name="mutiple_choice" component={MutipleChoiceScreen} />
+          {/* <Stack.Screen name="truefalse" component={TrueFalseScreen} />
+          <Stack.Screen name="mutiple_choice" component={MutipleChoiceScreen} /> */}
 
 
 

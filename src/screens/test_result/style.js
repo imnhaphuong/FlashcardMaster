@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         textAlign: "center",
-        fontSize: 20,
+        fontSize: 23,
         color: colors.text,
         fontFamily: 'WorkSans-SemiBold',
     },

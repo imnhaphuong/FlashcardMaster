@@ -10,36 +10,42 @@ import { useEffect } from 'react';
 export default function TrueFalseScreen(props) {
     const dispatch = useDispatch();
     const i = props.index
+    const sco = props.score
     const flashcards = props.flashcards
     const user = useSelector((state) => state.infoUser)
     const random = Math.floor((Math.random() * (i + 2))) + (i)
-    console.log("random", random)
     const define = flashcards[random].define;
-
-
+    const Questions = useSelector((state) => state.questReducer)
+    console.log("Questionshgfhgfh", Questions)
     const onTrueButton = (define) => {
         if (define === flashcards[i].define) {
             const question = {
                 index: i + 1,
                 typeQuestion: 0,
-                term: flashcards[i].term,
-                correct: true,
-                answer: true
+                define: define,
+                defineQuest: flashcards[i].define,
+                question: flashcards[i].term,
+                correct: "Đúng",
+                answer: "Đúng"
             }
             dispatch(chooseTFQuest(question))
-            dispatch(updateScore(user.scores + 1));
+            if (question.correct === question.answer) {
+                dispatch(updateScore(user.score + sco));
+            }
         } else {
             const question = {
                 index: i + 1,
                 typeQuestion: 0,
-                term: flashcards[i].term,
-                correct: false,
-                answer: true
+                define: define,
+                defineQuest: flashcards[i].define,
+                question: flashcards[i].term,
+                correct: "Sai",
+                answer: "Đúng"
             }
             dispatch(chooseTFQuest(question))
         }
 
-        props.navigation.push('test', {
+        props.navigation.replace('test', {
             flashcards: flashcards, index: (props.index + 1)
         })
 
@@ -50,32 +56,34 @@ export default function TrueFalseScreen(props) {
             const question = {
                 index: i + 1,
                 typeQuestion: 0,
-                term: flashcards[i].term,
-                correct: false,
-                answer: false
+                define: define,
+                defineQuest: flashcards[i].define,
+                question: flashcards[i].term,
+                correct: "Sai",
+                answer: "Sai"
             }
             dispatch(chooseTFQuest(question))
-            dispatch(updateScore(user.scores + 1));
+            if (question.correct === question.answer) {
+                dispatch(updateScore(user.score + sco));
+            }
         } else {
-            console.log("sai")
             const question = {
                 index: i + 1,
                 typeQuestion: 0,
-                term: flashcards[i].term,
-                correct: true,
-                answer: false
+                define: define,
+                defineQuest: flashcards[i].define,
+                question: flashcards[i].term,
+                correct: "Đúng",
+                answer: "Sai"
             }
             dispatch(chooseTFQuest(question))
         }
 
-        props.navigation.push('test', {
+        props.navigation.replace('test', {
             flashcards: flashcards, index: (props.index + 1)
         })
 
     }
-    const Questions = useSelector((state) => state.questReducer)
-    console.log("Questions", Questions)
-    console.log("Score", user.scores)
 
 
     return (

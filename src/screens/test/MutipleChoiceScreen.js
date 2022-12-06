@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { chooseMUQuest } from "../../redux/actions/actionQuestion"
+import { chooseMuQuest } from "../../redux/actions/actionQuestion"
 import { updateScore } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
@@ -16,6 +16,7 @@ export default function MutipleChoiceScreen(props) {
     const user = useSelector((state) => state.infoUser)
     const define = flashcards[i].define;
     const randoms = [];
+    const sco = props.score
     const [options, setOptions] = useState([]);
     // const options=[]
     const array = []
@@ -41,28 +42,27 @@ export default function MutipleChoiceScreen(props) {
         shuffleArray(array)
         setOptions(array)
     }, [])
-    let correct;
     const chooseAnswer = (define, score, indexOption) => {
-        options.map((item, indexOp) => {
-            if (item === flashcards[i].define)
-                correct = indexOp;
-
-        })
+        // options.map((item, indexOp) => {
+        //     if (item === flashcards[i].define){
+        //         correct = item;
+        //     }
+        // })
         const question = {
             index: i + 1,
-            term: flashcards[i].term,
+            question: flashcards[i].term,
             options: options,
             typeQuestion: 1,
-            correct: correct,
-            answer: indexOption
+            correct: flashcards[i].define,
+            answer: options[indexOption]
         }
-        dispatch(chooseMUQuest(question))
-        if (define === flashcards[i].define) {
-            dispatch(updateScore(user.scores + 1));
+        dispatch(chooseMuQuest(question))
+        if (question.answer === question.correct) {
+            dispatch(updateScore(user.score + sco));
         }
         if (props.index + 1 === flashcards.length) {
             props.navigation.replace('test_result', {
-                flashcards: flashcards, 
+                flashcards: flashcards
             })
         } else {
             props.navigation.replace('test', {
@@ -71,8 +71,6 @@ export default function MutipleChoiceScreen(props) {
         }
 
     }
-   
-    console.log("Score", user.scores)
     return (
         <View style={styles.testComponent}>
 
@@ -87,13 +85,9 @@ export default function MutipleChoiceScreen(props) {
                 </View >
             </View>
             <View style={{ height: '60%' }}>
-                {
-                    console.log("optionssadas", options)
-
-                }
                 {options.map((item, index) => {
                     return (
-                        <CustomButton type="CHANGE_TRUE" text={item} onPress={() =>
+                        <CustomButton key={index} type="CHANGE_TRUE" text={item} onPress={() =>
                             chooseAnswer(item, user.score, index)
                         } hide="hide" />
                     )
