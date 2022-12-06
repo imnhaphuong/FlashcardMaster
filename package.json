@@ -41,6 +41,7 @@
     "expo-updates": "~0.14.7",
     "expo-web-browser": "~11.0.0",
     "formik": "^2.2.9",
+    "immer": "^9.0.16",
     "install": "^0.13.0",
     "link": "^1.5.1",
     "npx": "^10.2.2",

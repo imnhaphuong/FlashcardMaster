@@ -5,4 +5,6 @@ export default{
     italic:'WorkSans-Italic',
     semibold:'WorkSans-SemiBold',//fontWeight:500
     thin:'WorkSans-Thin',
+    semi_italic:'WorkSans-SemiBoldItalic',
+
 }

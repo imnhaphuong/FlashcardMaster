@@ -1,25 +1,32 @@
-export const UPDATE_DAY_ACTIVE = "UPDATE_DAY_ACTIVE";
+export const CREATE_USER = "UPDATE_DAY_ACTIVE";
+export const UPDATE_SCORE = "UPDATE_SCORE";
+export const UPDATE_COIN = "UPDATE_COIN";
 
 const initialState = {
     email: "",
     fullname: " ",
-    password: "",
-    isVerified: false,
-    avatar: "",
     unitCreated: 0,
     flashcardCreated: 0,
-    scores: 0,
+    score: 0,
     dayActive: 0,
-    type: 0,
-    role: 0,
-    createdAt: "",
 }
 export default function actionForReducer(state = initialState, payload) {
     switch (payload.type) {
-        case UPDATE_DAY_ACTIVE:
+        case CREATE_USER:
             return {
                 ...state,
-                type: payload.dayActive
+                email: payload.email,
+                fullname: payload.fullname,
+            }
+        case UPDATE_SCORE:
+            return {
+                ...state,
+                score: payload.score
+            }
+        case UPDATE_COIN:
+            return {
+                ...state,
+                coin: payload.coin
             }
         default:
             return state

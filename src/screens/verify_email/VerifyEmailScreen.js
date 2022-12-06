@@ -57,7 +57,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
         }
         console.log(data);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users/verify-email", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -89,15 +89,14 @@ export default VerifyEmailScreen = ({ navigation }) => {
     }
     const sendVerification = async () => {
         setLoading(true)
-        console.log("send verification");
         const { email } = JSON.parse(user);
         const data = {
             userId: userId,
             email: email,
         }
-        console.log("email", email);
+        console.log("send verification",data);
         try {
-            const result = await fetch("http://192.168.43.158:3000/api/users/send-verification", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -105,7 +104,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
                 },
                 body: JSON.stringify(data),
             }).then(res => res.json()
-            )
+            ).then(data=>console.log("data",data))
             setLoading(false)
             navigation.replace("verify_email")
         } catch (err) {
@@ -169,7 +168,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
 
                             <View style={{ marginTop: 260, marginHorizontal: 20 }}>
                                 <CountDown
-                                    until={10}
+                                    until={60*10}
                                     size={25}
                                     digitStyle={{ backgroundColor: '#FFF' }}
                                     digitTxtStyle={{ color: colors.violet }}
@@ -180,7 +179,7 @@ export default VerifyEmailScreen = ({ navigation }) => {
                                 />
                                 <TouchableOpacity style={{
                                     alignItems: 'center',justifyContent:'center' ,marginVertical: 30,  flexDirection: 'row',
-                                }} activeOpacity={0.5} onPress={sendVerification}>
+                                }} activeOpacity={0.5} onPress={()=>sendVerification}>
                                     <Reload />
                                     <Text style={styles.textSignIn}>
                                         Gửi lại mã
