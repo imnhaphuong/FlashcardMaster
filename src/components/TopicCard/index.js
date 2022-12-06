@@ -17,12 +17,13 @@ const TopicCard = (props) => {
   const myRenderItem = ({ item }) => (
     <>
       <UnitCard
-        id={item._id}
-        navigation={props.navigation}
-        unit_name={item.unitName}
-        creator={item.creator}
-        username={item.username}
-        number_of_cards={item.flashcards.length}
+      unit={item}
+        // id={item._id}
+        // navigation={props.navigation}
+        // unit_name={item.unitName}
+        // creator={item.creator}
+        // username={item.username}
+        // number_of_cards={item.flashcards.length}
       />
     </>
   );

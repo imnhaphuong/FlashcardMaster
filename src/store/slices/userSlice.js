@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   user: null,
+  units: null,
+  classes: null,
+  insigniaes: null,
 }
 
 export const userSlice = createSlice({
@@ -9,18 +12,21 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      console.log(action.payload, "Heloooooooo user");
-      state.user = action.payload
-      
+      state.user = action.payload;
     },
+    setUnits: (state, action) =>{
+      state.units = action.payload;
+    },
+    setClasses: (state, action) =>{
+      state.classes = action.payload;
+    },
+    setInsigniaes: (state, action) =>{
+      state.insigniaes = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser } = userSlice.actions
+export const { setUser, setUnits, setClasses, setInsigniaes } = userSlice.actions
 
 export default userSlice.reducer

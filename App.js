@@ -8,7 +8,7 @@ import SignInScreen from "./src/screens/sign_in/SignInScreen";
 import Search_Screen from "./src/screens/search/Search_Screen";
 import TopicReadMore from "./src/screens/readmore";
 import VerifyEmailScreen from "./src/screens/verify_email/VerifyEmailScreen";
-import NavigationBar from "./src/components/Navigation/NavigationBar";
+import NavigationBar from "./src/components/navigation/NavigationBar";
 import { Text } from "react-native";
 import ClassScreen from "./src/screens/class";
 import * as Linking from "expo-linking";
@@ -27,6 +27,7 @@ import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Setting_Screen from "./src/screens/Setting";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
+import ChangePassword_Screen from "./src/screens/change_pasword";
 
 
 const Stack = createNativeStackNavigator();
@@ -98,7 +99,7 @@ export default function App() {
               // tắt header
               headerShown: false,
             }}
-            initialRouteName="Shop_Screen"
+            initialRouteName="sign_in"
           >
             <Stack.Screen name="class_detail" component={ClassDetailScreen} />
             <Stack.Screen name="nav" component={NavigationBar} />
@@ -114,8 +115,9 @@ export default function App() {
             <Stack.Screen name="create_unit" component={CreateUnitScreen} />
             <Stack.Screen name="update_unit" component={UpdateUnitScreen} />
             <Stack.Screen name="profile" component={Profile_Screen} />
-            <Stack.Screen name="Setting" component={Setting_Screen} />
+            <Stack.Screen name="setting" component={Setting_Screen} />
             <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
+            <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
             <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen}/>
           </Stack.Navigator>
         </NavigationContainer>

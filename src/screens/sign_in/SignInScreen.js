@@ -89,6 +89,7 @@ export default SignInScreen = ({ navigation }) => {
       } else {
         dispatch(setUser(result.data));
         setLoading(false)
+        console.log(result);
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
         AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
