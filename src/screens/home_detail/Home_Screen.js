@@ -4,7 +4,6 @@ import {
   Image,
   View,
   StatusBar,
-  ScrollView,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
@@ -13,7 +12,6 @@ import styles from "./style";
 import Coin from "../../../assets/images/header/coin.svg";
 import Thegirl from "../../../assets/images/welcome/Thegirl.svg";
 import TopicCard from "../../components/TopicCard";
-import UnitCard from "../../components/UnitCard";
 import Search from "../../../assets/images/nab/Search.svg";
 import colors from "../../../contains/colors";
 import { useState, useEffect } from "react";
@@ -21,8 +19,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
 import Spinner from "react-native-loading-spinner-overlay";
+import { useSelector } from "react-redux";
+
 
 const Home_Screen = (props) => {
+  const { user } = useSelector(state => state.user)
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -70,8 +71,6 @@ const Home_Screen = (props) => {
   //   setvisible(true);
   //   return true;
   // };
-
-  const coinPrice = "200";
   return (
     <SafeAreaView style={styles.container}>
       <Spinner color={colors.violet} visible={isLoading} />
@@ -88,7 +87,7 @@ const Home_Screen = (props) => {
         />
         <View style={styles.coin_display}>
           <Coin />
-          <Text style={styles.price}>{coinPrice}</Text>
+          <Text style={styles.price}>{user.scores}</Text>
         </View>
       </View>
       <FlatList
@@ -96,7 +95,7 @@ const Home_Screen = (props) => {
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>Jessica</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>{" "}
               </Text>
             </View>
             <View style={styles.Thegirl}>

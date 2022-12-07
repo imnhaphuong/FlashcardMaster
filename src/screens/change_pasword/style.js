@@ -33,60 +33,28 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10
     },
-    title: {
-        textDecorationLine: "underline",
-        fontWeight: "bold",
-        fontSize: 18,
-    },
-    avatar:{
-        alignItems: "center"
-    },
-    image: {
-        width: 100,
-        height: 100,
-        borderRadius: 100,
-        borderBottomWidth: 1
-    },
-    user_info: {
+    user_info:{
+        height: 300,
         justifyContent: "space-around",
-        height: 280
-    },
-    item: {
-        fontSize: 16,
-        color: colors.darkGray
     },
     input: {
-        height: 45,
+        height: 50,
         borderWidth: 0.5,
         borderColor: colors.darkGray,
         borderRadius: 5,
     },
-    notify: {
-        flexDirection: "row",
-        height: 50,
-        alignItems: "center",
-        justifyContent: "space-between"
-    },
-    version: {
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    version_text: {
-        fontSize: 18,
-        fontStyle: "italic",
-    },
-    btn_gr: {
-        height: 120,
-        justifyContent: "space-around",
-        marginVertical: 20
+    input_title: {
+        fontSize: 16,
+        color: colors.darkGray,
     },
     btn: {
         borderRadius: 10,
         width: "100%",
-        height: 45,
+        height: 50,
         backgroundColor: "#006965",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 20
     },
     btn_text: {
         fontSize: 18,

@@ -21,13 +21,16 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
-import UpdateUnitScreen from "./src/screens/update_unit/UpdateUnitScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
 import Setting_Screen from "./src/screens/Setting"
 import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions'
-import io from "socket.io-client"
 import registerNNPushToken from 'native-notify';
+import Other_Profile_Screen from "./src/screens/profile/another_profile";
+import Shop_Screen from "./src/screens/shop/Shop_Screen";
+import { storeRoot } from "./src/store/store";
+import ChangePassword_Screen from "./src/screens/change_pasword";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +42,8 @@ const loadAssets = async () =>
     'WorkSans-Italic': require('./assets/fonts/WorkSans-Italic.ttf'),
     'WorkSans-SemiBold': require('./assets/fonts/WorkSans-SemiBold.ttf'),//fontWeight:500
     'WorkSans-Thin': require('./assets/fonts/WorkSans-Thin.ttf'),
+    'WorkSans-SemiBoldItalic': require('./assets/fonts/WorkSans-SemiBoldItalic.ttf'),//fontWeight:500
+
   });
 
 
@@ -102,57 +107,40 @@ export default function App() {
     );
   }
 
-  // useEffect(() => {
-  //   async function loadResourcesAndDataAsync() {
-  //     try {
-  //       SplashScreen.preventAutoHideAsync();
-  //       await Font.loadAsync({
-  //         ...FontAwesome.font,
-  //         'WorkSans': require('../assets/fonts/WorkSans-Medium.ttf'),
-  //       });
-  //     } catch (e) {
-  //       console.warn(e);
-  //     } finally {
-  //       await new Promise(resolve => setTimeout(resolve, 2000));
-  //       setIsReady(true);
-  //       SplashScreen.hideAsync();
-  //     }
-  //   }
-  //   loadResourcesAndDataAsync();
-  //   // return isReady;
-
-  // }, []);
-
-
-
   return (
-    <Provider store={store}>
-      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
-        <Stack.Navigator
-          screenOptions={{
-            // tắt header
-            headerShown: false,
-          }}
-          initialRouteName="nav"
-        >
-          <Stack.Screen name="class_detail" component={ClassDetailScreen} />
-          <Stack.Screen name="nav" component={NavigationBar} />
-          <Stack.Screen name="class" component={ClassScreen} />
-          <Stack.Screen name="imp_unit" component={ImportUnit} />
-          <Stack.Screen name="home" component={Home_Screen} />
-          <Stack.Screen name="sign_up" component={SignUpScreen} />
-          <Stack.Screen name="sign_in" component={SignInScreen} />
-          <Stack.Screen name="unit_detail" component={UnitDetail} />
-          <Stack.Screen name="Search" component={Search_Screen} />
-          <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
-          <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
-          <Stack.Screen name="create_unit" component={CreateUnitScreen} />
-          <Stack.Screen name="update_unit" component={UpdateUnitScreen} />
-          <Stack.Screen name="profile" component={Profile_Screen} />
-          <Stack.Screen name="Setting" component={Setting_Screen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <Provider store={storeRoot}>
+      {/* <Provider store={store}> */}
+        <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+          <Stack.Navigator
+            screenOptions={{
+              // tắt header
+              headerShown: false,
+            }}
+            initialRouteName="sign_in"
+          >
+            <Stack.Screen name="class_detail" component={ClassDetailScreen} />
+            <Stack.Screen name="nav" component={NavigationBar} />
+            <Stack.Screen name="class" component={ClassScreen} />
+            <Stack.Screen name="imp_unit" component={ImportUnit} />
+            <Stack.Screen name="home" component={Home_Screen} />
+            <Stack.Screen name="sign_up" component={SignUpScreen} />
+            <Stack.Screen name="sign_in" component={SignInScreen} />
+            <Stack.Screen name="unit_detail" component={UnitDetail} />
+            <Stack.Screen name="Search" component={Search_Screen} />
+            <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
+            <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
+            <Stack.Screen name="create_unit" component={CreateUnitScreen} />
+            {/* <Stack.Screen name="update_unit" component={UpdateUnitScreen} /> */}
+            <Stack.Screen name="profile" component={Profile_Screen} />
+            <Stack.Screen name="setting" component={Setting_Screen} />
+            <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
+            <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
+            <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      {/* </Provider> */}
     </Provider>
+
 
   );
 }

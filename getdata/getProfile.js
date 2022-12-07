@@ -1,28 +1,38 @@
-const getProfile = async (setdata, selectedIndex) => {
-    if (selectedIndex == 0) {
-        var fetch = "https://flashcard-master.vercel.app/api/units" ;
-      }
-      if (selectedIndex == 1) {
-        var fetch = "https://flashcard-master.vercel.app/api/classes" ;
-      }
-      else{
-        var fetch = "https://flashcard-master.vercel.app/api/users/" ;
-      }
-        fetch(fetch, {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept":  "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((resJson) => {
-            console.log(resJson)
-            setdata(resJson)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
+import  axios  from "axios";
 
-module.exports = getProfile;
+export const getUnitsCreated = async (creatorId) => {
+  var uri = "https://flashcard-master.vercel.app/api/units/created";
+  const result = await axios.post(uri, {
+    creator: creatorId
+  })
+  return result.data;
+};
+export const getClassesCreated = async (creatorId) => {
+    var uri = "https://flashcard-master.vercel.app/api/classes/created";
+    const result = await axios.post(uri, {
+      creator: creatorId
+    })
+    return result.data;
+};
+// const getInsigniaesBought = async (userID) => {
+//   var fetch = "https://flashcard-master.vercel.app/api/users/id";
+
+//   fetch(fetch, {
+//     method: "post",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json",
+//     },
+//     body: JSON.stringify({
+//       creator: userID,
+//     }),
+//   })
+//     .then((res) => res.json())
+//     .then((resJson) => {
+//       return resJson;
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       return undefined
+//     });
+// };

@@ -22,7 +22,9 @@ import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
 import SysModal from "../../components/SysModal/SysModal";
-
+import { resetQuest } from "../../redux/actions/actionQuestion"
+import { updateScore } from "../../redux/actions/actionUser"
+import { useDispatch, useSelector } from 'react-redux'
 const UnitDetail = (props) => {
   //State
   var params = props.route.params;
@@ -36,10 +38,22 @@ const UnitDetail = (props) => {
   const [flashcards, setFlashcards] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState("");
+  const [OPTION, SET_OPTION] = useState( "OPTION" );
   const url = "http://192.168.43.158:3000/api/units";
+  const dispatch = useDispatch();
+  console.log(params.id)
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
   const onClose = () => {
     setShowModal(false);
   };
+  const score = 0;
   useEffect(() => {
     getUnitById(params.id, setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
@@ -86,13 +100,15 @@ const UnitDetail = (props) => {
       />
     );
   };
+  const Questions = useSelector((state) => state.questReducer)
+  // console.log("Questionshgfhgfh", Questions)
 
   return (
     <SafeAreaView style={styles.container}>
       <SysModal
         visible={showModal}
         message={mess}
-        type="OPTION"
+        type={OPTION}
         onClose={onClose}
         onPress={() => {
           console.log("delete", UNIT._id);
@@ -151,7 +167,7 @@ const UnitDetail = (props) => {
       {/* Content */}
       <TouchableWithoutFeedback>
         <ScrollView style={styles.wrapContent}
-        horizontal={false}>
+          horizontal={false}>
           {/* Infor */}
           <View style={styles.inforArea}>
             <Text style={styles.unitName}>{UNIT.unitName}</Text>
@@ -182,10 +198,27 @@ const UnitDetail = (props) => {
           />
 
           <View style={styles.wrapButtons}>
-            <TouchableOpacity style={[styles.btn, styles.btnLearn]}>
+            <TouchableOpacity onPress={() => console.log('Learn')} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.btn, styles.btnTest]}>
+            <TouchableOpacity onPress={() => {
+              shuffleArray(flashcards)
+              dispatch(resetQuest(params.id))
+              dispatch(updateScore(0))
+              if (flashcards.length < 4) {
+                setMess("Học phần phải nhiều hơn 3 thẻ")
+                SET_OPTION("NONE")
+                setShowModal(true)
+                setTimeout(() => {
+                  setShowModal(false);
+                }, 2000);
+              }else{
+                props.navigation.replace('test', {
+                  flashcards: flashcards,
+                })
+              }
+             
+            }} style={[styles.btn, styles.btnTest]}>
               <Text style={styles.textBtn}>Kiểm tra</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.btn, styles.btnMatch]}>

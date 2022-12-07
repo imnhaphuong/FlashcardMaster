@@ -1,14 +1,15 @@
 const getDataInSearch = async (setdata, selectedIndex, keyword) => {
+  console.log("Search")
   if (selectedIndex == 0) {
-    var fetch = "https://flashcard-master.vercel.app/api/units/search" ;
+    var fetch = "https://flashcard-master.vercel.app/api/units/search/" ;
   }
   if (selectedIndex == 1) {
-    var fetch = "https://flashcard-master.vercel.app/api/classes/search" ;
+    var fetch = "https://flashcard-master.vercel.app/api/classes/search/" ;
   }
   else{
-    var fetch = "https://flashcard-master.vercel.app/api/users/search" ;
+    var fetch = "https://flashcard-master.vercel.app/api/users/search/" ;
   }
-    fetch(fetch + "/" + keyword, {
+    fetch(fetch + keyword, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +18,7 @@ const getDataInSearch = async (setdata, selectedIndex, keyword) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        console.log(resJson)
+        console.log("Search")
         setdata(resJson)
       })
       .catch((error) => {

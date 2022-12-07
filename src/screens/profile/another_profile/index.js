@@ -1,48 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     Text,
     Image,
     View,
     StatusBar,
+    ScrollView,
     SafeAreaView,
     FlatList,
     TouchableOpacity,
-    ActivityIndicator,
 } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import { getUnitsCreated, getClassesCreated } from "../../../getdata/getProfile";
-import colors from "../../../contains/colors";
-import styles from "./style";
-import UnitCard from "../../components/UnitCard";
-import ClassCard from "../../components/ClassCard";
-import Setting from "../../../assets/images/header/setting.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { setUnits, setClasses } from "../../store/slices/userSlice";
+import { useState } from "react";
+import getProfile from "../../../../getdata/getProfile";
+import InsigniaCard from "../../../components/Insignia";
+import colors from "../../../../contains/colors";
+import styles from "../style";
+import UnitCard from "../../../components/UnitCard";
+import ClassCard from "../../../components/ClassCard";
+import { useSelector } from "react-redux";
 
-
-const Profile_Screen = (props) => {
-    const { user, units, classes } = useSelector(state => state.user);
-    const [isLoading, setIsLoading] = useState(true);
+const Other_Profile_Screen = (props) => {
+    const { user } = useSelector(state => state.user)
+    console.log(user, "USER");
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const dispatch = useDispatch();
+
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
     };
-    useEffect(() => {
-        const fetchData = async () => {
-            const unitsCreator = await getUnitsCreated(user._id);
-            const classesCreator = await getClassesCreated(user._id);
-            dispatch(setUnits(unitsCreator));
-            dispatch(setClasses(classesCreator));
-            setIsLoading(false);
-        }
-        fetchData()
-    }, [])
+
+    const [units, setUnits] = useState([]);
+    getProfile(setUnits, selectedIndex);
+
+    const [classes, setClasses] = useState([]);
+    getProfile(setClasses, selectedIndex);
+
+    const [insignia, setInsignia] = useState([]);
+    getProfile(setInsignia, selectedIndex);
+
     const renderUnitItem = ({ item }) => (
         <UnitCard
-            unit={item}
+            unit_name={item.unitName}
+            username={item.creator.fullname}
+            number_of_cards={
+                typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+            }
+            navigation={props.navigation}
         />
     );
+
     const renderClassItem = ({ item }) => (
         <ClassCard
             name={item.name}
@@ -52,6 +57,7 @@ const Profile_Screen = (props) => {
             navigation={props.navigation}
         />
     );
+
     const renderInsignialItem = (item) => (
         <InsigniaCard
             name={item.name}
@@ -72,12 +78,9 @@ const Profile_Screen = (props) => {
                 style={styles.header}
             >
                 <Text style={styles.textHeader}>Hồ sơ</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("setting")}>
-                    <Setting />
-                </TouchableOpacity>
             </View>
             <View>
-                {/* <View style={styles.userinfor}>
+                <View style={styles.userinfor}>
                     <View>
                         <Text style={styles.fullname}>Họ và tên</Text>
                         <Text>example@gmail</Text>
@@ -87,10 +90,10 @@ const Profile_Screen = (props) => {
                         source={{
                             uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
                         }} />
-                </View> */}
-                <View style={styles.userinfor}>
+                </View>
+                {/* <View style={styles.userinfor}>
                     <View>
-                        <Text style={styles.fullname}>{user.fullname}</Text>
+                        <Text>{user.fullname}</Text>
                         <Text>{user.email}</Text>
                     </View>
                     <Image
@@ -98,7 +101,7 @@ const Profile_Screen = (props) => {
                         source={{
                             uri: user.avatar,
                         }} />
-                </View>
+                </View> */}
                 <View style={styles.counts}>
                     <Text>Thống kê</Text>
                     <View style={styles.statics}>
@@ -147,46 +150,42 @@ const Profile_Screen = (props) => {
                     activeTabTextStyle={{ color: colors.violet }}>
                 </SegmentedControlTab>
             </View>
-            {isLoading ? <ActivityIndicator /> :
-                <>
-                    {selectedIndex === 0 && (
-                        <View style={styles.wrapUnits}>
-                            <FlatList
-                                nestedScrollEnabled={true}
-                                data={[...units.private, ...units.public]}
-                                renderItem={renderUnitItem}
-                                numColumns={2}
-                                keyExtractor={(item) => item.id}
-                            />
-                        </View>
-                    )}
-                    {selectedIndex === 1 && (
-                        <View style={styles.wrapClasses}>
-                            <Text>Classes</Text>
-                            <FlatList
-                                nestedScrollEnabled={true}
-                                data={classes}
-                                renderItem={renderClassItem}
-                                numColumns={1}
-                                keyExtractor={(item) => item.id}
-                            />
-                        </View>
-                    )}
-                    {selectedIndex === 2 && (
-                        <View style={styles.wrapInsignia}>
-                            <Text>Huy Hieu</Text>
-                            <FlatList
-                                nestedScrollEnabled={true}
-                                data={insignia}
-                                renderItem={renderInsignialItem}
-                                numColumns={1}
-                                keyExtractor={(item) => item.id}
-                            />
-                        </View>
-                    )}
-                </>
-            }
+            <ScrollView>
+                {selectedIndex === 0 && (
+                    <View style={styles.wrapUnits}>
+                        <Text>Units</Text>
+                        <FlatList
+                            data={units}
+                            renderItem={renderUnitItem}
+                            numColumns={2}
+                            keyExtractor={(item) => item.id}
+                        />
+                    </View>
+                )}
+                {selectedIndex === 1 && (
+                    <View style={styles.wrapClasses}>
+                        <Text>Classes</Text>
+                        <FlatList
+                            data={classes}
+                            renderItem={renderClassItem}
+                            numColumns={1}
+                            keyExtractor={(item) => item.id}
+                        />
+                    </View>
+                )}
+                {selectedIndex === 2 && (
+                    <View style={styles.wrapInsignia}>
+                        <Text>Huy Hieu</Text>
+                        <FlatList
+                            data={insignia}
+                            renderItem={renderInsignialItem}
+                            numColumns={1}
+                            keyExtractor={(item) => item.id}
+                        />
+                    </View>
+                )}
+            </ScrollView>
         </SafeAreaView >
     )
 };
-export default Profile_Screen;
+export default Other_Profile_Screen;
