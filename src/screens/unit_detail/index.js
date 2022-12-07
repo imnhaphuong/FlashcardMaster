@@ -14,7 +14,7 @@ import styles from "./style";
 import colors from "../../../contains/colors";
 import Back from "../../../assets/images/header/back.svg";
 import More from "../../../assets/images/header/more.svg";
-import Filter from "../../../assets/images/filters/filters.svg";
+import Filter from "../../../assets/images/filters/filters.svg"
 import Line from "../../components/Line";
 import CustomFlipCard from "../../components/CustomFlipCard";
 import SimpleCard from "../../components/SimpleCard";
