@@ -30,6 +30,7 @@ import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Setting_Screen from "./src/screens/Setting";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
+import ChangePassword_Screen from "./src/screens/change_pasword";
 
 
 const Stack = createNativeStackNavigator();
@@ -95,35 +96,37 @@ export default function App() {
 
 
   return (
-    <Provider store={store}>
-      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
-        <Stack.Navigator
-          screenOptions={{
-            // tắt header
-            headerShown: false,
-          }}
-          initialRouteName="nav"
-        >
-          <Stack.Screen name="class_detail" component={ClassDetailScreen} />
-          <Stack.Screen name="nav" component={NavigationBar} />
-          <Stack.Screen name="class" component={ClassScreen} />
-          <Stack.Screen name="imp_unit" component={ImportUnit} />
-          <Stack.Screen name="home" component={Home_Screen} />
-          <Stack.Screen name="sign_up" component={SignUpScreen} />
-          <Stack.Screen name="sign_in" component={SignInScreen} />
-          <Stack.Screen name="unit_detail" component={UnitDetail} />
-          <Stack.Screen name="Search" component={Search_Screen} />
-          <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
-          <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
-          <Stack.Screen name="create_unit" component={CreateUnitScreen} />
-          <Stack.Screen name="profile" component={Profile_Screen} />
-          <Stack.Screen name="Setting" component={Setting_Screen} />
-          <Stack.Screen name="test" component={TestScreen} />
-          <Stack.Screen name="test_result" component={TestResultScreen} />
-          <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
-          <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <Provider store={storeRoot}>
+      {/* <Provider store={store}> */}
+        <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+          <Stack.Navigator
+            screenOptions={{
+              // tắt header
+              headerShown: false,
+            }}
+            initialRouteName="sign_in"
+          >
+            <Stack.Screen name="class_detail" component={ClassDetailScreen} />
+            <Stack.Screen name="nav" component={NavigationBar} />
+            <Stack.Screen name="class" component={ClassScreen} />
+            <Stack.Screen name="imp_unit" component={ImportUnit} />
+            <Stack.Screen name="home" component={Home_Screen} />
+            <Stack.Screen name="sign_up" component={SignUpScreen} />
+            <Stack.Screen name="sign_in" component={SignInScreen} />
+            <Stack.Screen name="unit_detail" component={UnitDetail} />
+            <Stack.Screen name="Search" component={Search_Screen} />
+            <Stack.Screen name="TopicReadMore" component={TopicReadMore} />
+            <Stack.Screen name="verify_email" component={VerifyEmailScreen} />
+            <Stack.Screen name="create_unit" component={CreateUnitScreen} />
+            {/* <Stack.Screen name="update_unit" component={UpdateUnitScreen} /> */}
+            <Stack.Screen name="profile" component={Profile_Screen} />
+            <Stack.Screen name="setting" component={Setting_Screen} />
+            <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
+            <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
+            <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      {/* </Provider> */}
     </Provider>
 
 

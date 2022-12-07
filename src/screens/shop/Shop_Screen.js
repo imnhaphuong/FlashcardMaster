@@ -8,7 +8,6 @@ import {
     View,
     SafeAreaView,
     FlatList,
-    ScrollView,
     KeyboardAvoidingView,
     StatusBar,
     TouchableOpacity
@@ -40,8 +39,7 @@ const Shop_Screen = (props) => {
                 barStyle={"dark-content"}
                 showHideTransition={"fade"}
             />
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            <View
                 style={styles.header}
             ><TouchableOpacity onPress={() => {
                 props.navigation.goBack()
@@ -49,17 +47,15 @@ const Shop_Screen = (props) => {
                     <Back />
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Cửa hàng</Text>
-            </KeyboardAvoidingView>
-            <ScrollView>
-                <View style={styles.wrapInsigniases}>
-                    <FlatList
-                        data={INSIGNIA}
-                        renderItem={myRenderInsigniaItem}
-                        numColumns={1}
-                        keyExtractor={(item) => item._id}
-                    />
-                </View>
-            </ScrollView>
+            </View>
+            <View style={styles.wrapInsigniases}>
+                <FlatList
+                    data={INSIGNIA}
+                    renderItem={myRenderInsigniaItem}
+                    numColumns={1}
+                    keyExtractor={(item) => item._id}
+                />
+            </View>
         </SafeAreaView>
     );
 };

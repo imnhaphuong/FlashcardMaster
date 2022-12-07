@@ -17,6 +17,7 @@ import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
 import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from "../../store/slices/userSlice"
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
@@ -87,6 +88,7 @@ export default SignInScreen = ({ navigation }) => {
       } else {
         dispatch(setUser(result.data));
         setLoading(false)
+        console.log(result);
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
         AsyncStorage.setItem('userInfo', JSON.stringify(result.data));

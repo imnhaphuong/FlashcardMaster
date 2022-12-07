@@ -75,12 +75,13 @@ const ClassDetailScreen = (props) => {
 
   const renderUnitItem = ({ item }) => (
     <UnitCard
-      id={item._id}
-      unit_name={item.unitName}
-      creator={creator}
-      number_of_cards={
-        typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
-      }
+    unit={item}
+      // id={item._id}
+      // unit_name={item.unitName}
+      // creator={creator}
+      // number_of_cards={
+      //   typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+      // }
       navigation={props.navigation}
     />
   );
