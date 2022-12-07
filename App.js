@@ -21,13 +21,12 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
-import UnitCard from "./src/components/UnitCard";
-import getALLTopic from "./getdata/getAllTopics";
-import TestScreen from "./src/screens/test/TestScreen"
-import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
+import Setting_Screen from "./src/screens/Setting"
+import * as Notifications from 'expo-notifications'
+import * as Permissions from 'expo-permissions'
+import registerNNPushToken from 'native-notify';
 import Other_Profile_Screen from "./src/screens/profile/another_profile";
-import Setting_Screen from "./src/screens/Setting";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import ChangePassword_Screen from "./src/screens/change_pasword";
@@ -49,6 +48,22 @@ const loadAssets = async () =>
 
 
 export default function App() {
+  registerNNPushToken(5184, 'JScIpkViaeDrlzwDvEdXdh');
+
+  async function registerForPushNotification() {
+    const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+
+    if (status != 'granted') {
+      const {status} =  await Permissions.askAsync(Permissions.NOTIFICATIONS)
+    }
+    if (status != 'granted') {
+      alert('failed to push token')
+      return
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data
+    return token
+  }
+
   const linking = {
     prefixes: ["https://flashcardmaster.page.link", Linking.createURL("/")],
     linking_config,
@@ -65,6 +80,7 @@ export default function App() {
   console.log("url" + url);
 
   useEffect(() => {
+    // registerForPushNotification().then(token => console.log(token)).catch(err=>console.log(err))
     async function getInitalURL() {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) setdata(Linking.parse(initialURL));
@@ -90,10 +106,6 @@ export default function App() {
       />
     );
   }
-
-
-
-
 
   return (
     <Provider store={storeRoot}>
