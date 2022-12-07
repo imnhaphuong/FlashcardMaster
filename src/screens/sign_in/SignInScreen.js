@@ -17,6 +17,7 @@ import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
 import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from "../../store/slices/userSlice"
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
