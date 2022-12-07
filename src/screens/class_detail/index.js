@@ -10,6 +10,7 @@ import {
   Share,
   TouchableWithoutFeedback,
   ToastAndroid,
+  Pressable,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -18,11 +19,14 @@ import UnitCard from "../../components/UnitCard";
 import Back from "../../../assets/images/header/back.svg";
 import More from "../../../assets/images/header/more.svg";
 import Copy from "../../../assets/images/copy.svg";
+import Leave from "../../../assets/images/leave.svg";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import UserCard from "../../components/UserCard";
 import * as Linking from "expo-linking";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import getClassByJCode from "../../../getdata/getClassByJCode";
+import joinClass from "../../../getdata/joinClass";
+import leaveClass from "../../../getdata/leaveClass";
 import Line from "../../components/Line";
 import ModalCreateClass from "../../components/ModalCreateClass";
 import ConfirmForm from "../../components/ConfirmForm";
@@ -49,15 +53,25 @@ const ClassDetailScreen = (props) => {
   const [members, setMembers] = useState([]);
   const [units, setUnits] = useState([]);
   const [creator, setCreator] = useState([]);
+  const [isJoined, setIsJoined] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
 
+  // refesh data
   const onRefreshData = () => {
     getClassByJCode(params.jcode, setclass, setLoading);
     if (typeof CLASS.creator !== "undefined") {
       setCreator(CLASS.creator);
+      setIsCreator(userId == CLASS.creator._id);
     }
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
+      CLASS.members.map((e) => {
+        if (e._id == userId) {
+          setIsJoined(true);
+        }
+      });
     }
+
     if (typeof CLASS.units !== "undefined") {
       setUnits(CLASS.units);
     }
@@ -67,26 +81,33 @@ const ClassDetailScreen = (props) => {
   useEffect(() => {
     onRefreshData();
     const focusHandler = props.navigation.addListener("focus", () => {
-      setLoading(true);
+      setLoading(true)
       onRefreshData();
     });
     return focusHandler;
   }, [isLoading]);
-
+  //render unit card
   const renderUnitItem = ({ item }) => (
     <UnitCard
-      id={item._id}
-      unit_name={item.unitName}
-      creator={creator}
-      number_of_cards={
-        typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
-      }
+    unit={item}
+      // id={item._id}
+      // unit_name={item.unitName}
+      // creator={creator}
+      // number_of_cards={
+      //   typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
+      // }
       navigation={props.navigation}
     />
   );
+
+  //render user card
   const renderUserItem = (item) => {
-    console.log(item);
-    return <UserCard isCreator={true} />;
+    if (item.index === 0) {
+      return <UserCard creatorCard={true} user={item.item} classId = {CLASS._id} />;
+    }
+    return (
+      <UserCard isCreator={isCreator} creatorCard={false} user={item.item} />
+    );
   };
 
   // For custom SegmentedControlTab
@@ -151,6 +172,18 @@ const ClassDetailScreen = (props) => {
   //delete
   const onDelete = () => {
     setVisibleDeleteModal(true);
+  };
+
+  //join
+  const onJoinRequest = () => {
+    setLoading(true);
+    joinClass(CLASS._id, userId, setIsJoined);
+  };
+
+  //leave
+  const onLeaveRequest = () => {
+    setLoading(true);
+    leaveClass(CLASS._id, userId, setIsJoined);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -226,17 +259,24 @@ const ClassDetailScreen = (props) => {
                   </TouchableOpacity>
                 </>
               ) : (
+                isJoined ?
                 <>
-                  <TouchableOpacity onPress={onDelete} style={styles.option}>
+                  <TouchableOpacity onPress={onLeaveRequest} style={styles.option}>
                     <View>
                       <Text>Rời lớp học</Text>
+                    </View>
+                  </TouchableOpacity>
+                </> :    <>
+                  <TouchableOpacity onPress={onJoinRequest} style={styles.option}>
+                    <View>
+                      <Text>Tham gia lớp</Text>
                     </View>
                   </TouchableOpacity>
                 </>
               )}
             </View>
           ) : null}
-
+          {/* Class infor */}
           <View style={styles.inforArea}>
             {CLASS.mode ? (
               <Image
@@ -270,6 +310,57 @@ const ClassDetailScreen = (props) => {
                 <Copy />
               </TouchableOpacity>
             </View>
+
+            {/* Join & Leave Button */}
+            {!isCreator ? (
+              <View style={{ alignItems: "flex-end" }}>
+                {isJoined ? (
+                  <Pressable
+                    style={{
+                      flexDirection: "row",
+                      width: "50%",
+                      backgroundColor: colors.violet,
+                      padding: 12,
+                      borderRadius: 10,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onPress={onLeaveRequest}
+                  >
+                    <Leave />
+                    <Text
+                      style={{
+                        paddingLeft: 8,
+                        color: colors.white,
+                        fontFamily: fonts.semibold,
+                      }}
+                    >
+                      Rời khỏi lớp
+                    </Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    style={{
+                      width: "50%",
+                      backgroundColor: colors.violet,
+                      padding: 12,
+                      borderRadius: 10,
+                      alignItems: "center",
+                    }}
+                    onPress={onJoinRequest}
+                  >
+                    <Text
+                      style={{
+                        color: colors.white,
+                        fontFamily: fonts.semibold,
+                      }}
+                    >
+                      + Tham gia
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            ) : null}
           </View>
           {/* Tabs */}
           <SegmentedControlTab
@@ -304,7 +395,6 @@ const ClassDetailScreen = (props) => {
               color: colors.violet,
             }}
           />
-
           {selectedIndex === 0 && (
             <View style={styles.wrapUnits}>
               <FlatList
@@ -326,7 +416,7 @@ const ClassDetailScreen = (props) => {
           )}
         </View>
       </TouchableWithoutFeedback>
-
+      {/* Update modal */}
       <ModalCreateClass
         visible={visibleUpdateModal}
         _id={CLASS._id}
@@ -337,7 +427,7 @@ const ClassDetailScreen = (props) => {
         setVisibleModal={setVisibleUpdateModal}
         settoggleMore={settoggleMore}
       />
-
+      {/* Delete confirm form */}
       {visibleDeleteModal && CLASS ? (
         <ConfirmForm
           visible={visibleDeleteModal}

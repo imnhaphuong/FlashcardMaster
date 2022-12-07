@@ -3,15 +3,13 @@ import colors from '../../../contains/colors';
 
 const styles = StyleSheet.create({
     card: {
-        width: '85%',
-        height: "10%",
         borderWidth: 1,
         borderRadius: 5,
         alignItems: "center",
-        marginTop: 50,
-        marginLeft: 20,
+        marginTop: 10,
+        marginHorizontal: 10,
         flexDirection: "row",
-        paddingLeft: 20
+        paddingHorizontal: 5
     },
     container: {
         padding: 10
