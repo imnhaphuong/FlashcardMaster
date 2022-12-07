@@ -1,15 +1,17 @@
-import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, BackHandler, Alert } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from "react";
 import styles from './style'
 import colors from "../../../contains/colors";
 import Back from "../../../assets/images/header/back.svg";
 import Check from "../../../assets/images/header/check.svg";
-import TrueFalseScreen from './TrueFalseScreen';
+import WriteTextScreen from './WriteTextScreen';
 import MutipleChoiceScreen from './MutipleChoiceScreen';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux'
-export default function TestScreen(props) {
+import { updateScore } from "../../redux/actions/actionUser"
+import { useLayoutEffect } from 'react';
+export default function LearnScreen(props) {
     const [userId, setUserId] = useState(null);
     var params = props.route.params;
     const [numberOfUnits, setNumberOfUnits] = useState();
@@ -18,36 +20,11 @@ export default function TestScreen(props) {
     const [index, setIndex] = useState(0);
     const [score, setScore] = useState(0);
     const flashcards = params.flashcards;
+    const [round, setRound] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [mess, setMess] = useState('');
-    const Questions = useSelector((state) => state.questReducer)
-    useEffect(() => {
-        const backAction = () => {
-            Alert.alert("Bạn có chắc muốn thoát bài kiểm tra?", "Quá trình kiểm tra sẽ không được lưu lại", [
-                {
-                    text: "Hủy",
-                    onPress: () => null,
-                    style: "cancel"
-                },
-                { text: "Đồng ý", onPress: () => props.navigation.replace("unit_detail", {
-                    id: Questions.id,
-                }) }
-            ]);
-            return true;
-        };
-
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-        );
-        return () => backHandler.remove();
-    }, []);
     useEffect(() => {
         setScore(10 / flashcards.length)
-        AsyncStorage.getItem('userInfo').then(result => {
-            const { _id } = JSON.parse(result)
-            setUserId(_id);
-        })
         if (params.index !== undefined) {
             setIndex(params.index);
             // pro = (index + 1) / flashcards.length;
@@ -56,7 +33,7 @@ export default function TestScreen(props) {
             setProgress(1 / flashcards.length)
         }
         setNumberOfUnits(flashcards.length);
-
+        
     }, [index])
     return (
         <SafeAreaView style={styles.container}>
@@ -79,7 +56,7 @@ export default function TestScreen(props) {
                     <Back />
                 </TouchableOpacity> */}
                 <View style={{ width: "90%", }}>
-                    <Text style={styles.textHeader}>Kiểm tra</Text>
+                    <Text style={styles.textHeader}>{round}</Text>
                 </View>
 
             </KeyboardAvoidingView>
@@ -89,7 +66,7 @@ export default function TestScreen(props) {
                     <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
                 {(index < Math.floor(numberOfUnits / 2)) ?
-                    <TrueFalseScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
+                    <WriteTextScreen />
                     :
                     <MutipleChoiceScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                 }

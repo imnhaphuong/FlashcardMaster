@@ -16,7 +16,7 @@ export default function TrueFalseScreen(props) {
     const random = Math.floor((Math.random() * (i + 2))) + (i)
     const define = flashcards[random].define;
     const Questions = useSelector((state) => state.questReducer)
-    console.log("Questionshgfhgfh", Questions)
+
     const onTrueButton = (define) => {
         if (define === flashcards[i].define) {
             const question = {

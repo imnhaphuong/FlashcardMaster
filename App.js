@@ -30,6 +30,7 @@ import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Setting_Screen from "./src/screens/Setting";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
+import LearnScreen from "./src/screens/learn/LearnScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -118,10 +119,11 @@ export default function App() {
           <Stack.Screen name="create_unit" component={CreateUnitScreen} />
           <Stack.Screen name="profile" component={Profile_Screen} />
           <Stack.Screen name="Setting" component={Setting_Screen} />
-          <Stack.Screen name="test" component={TestScreen} />
+          <Stack.Screen  name="test" component={TestScreen} />
           <Stack.Screen name="test_result" component={TestResultScreen} />
           <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
           <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
+          <Stack.Screen name="learn" component={LearnScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
