@@ -258,10 +258,17 @@ const ClassDetailScreen = (props) => {
                   </TouchableOpacity>
                 </>
               ) : (
+                isJoined ?
                 <>
-                  <TouchableOpacity onPress={onDelete} style={styles.option}>
+                  <TouchableOpacity onPress={onLeaveRequest} style={styles.option}>
                     <View>
                       <Text>Rời lớp học</Text>
+                    </View>
+                  </TouchableOpacity>
+                </> :    <>
+                  <TouchableOpacity onPress={onJoinRequest} style={styles.option}>
+                    <View>
+                      <Text>Tham gia lớp</Text>
                     </View>
                   </TouchableOpacity>
                 </>
