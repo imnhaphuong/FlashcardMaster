@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { chooseMuQuest } from "../../redux/actions/actionQuestion"
-import { updateScore } from "../../redux/actions/actionUser"
+import { chooseMuQuest } from "../../store/slices/questSlice"
+import { updateScore } from "../../store/slices/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 
@@ -13,7 +13,7 @@ export default function MutipleChoiceScreen(props) {
     const i = props.index
     // const options = props.options
     const flashcards = props.flashcards
-    const user = useSelector((state) => state.infoUser)
+    const {user} = useSelector((state) => state.user)
     const define = flashcards[i].define;
     const randoms = [];
     const sco = props.score
@@ -58,7 +58,7 @@ export default function MutipleChoiceScreen(props) {
         }
         dispatch(chooseMuQuest(question))
         if (question.answer === question.correct) {
-            dispatch(updateScore(user.score + sco));
+            dispatch(updateScore(user.scores + sco));
         }
         if (props.index + 1 === flashcards.length) {
             props.navigation.replace('test_result', {

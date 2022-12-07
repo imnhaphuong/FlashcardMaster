@@ -22,8 +22,8 @@ import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
 import SysModal from "../../components/SysModal/SysModal";
-import { resetQuest } from "../../redux/actions/actionQuestion"
-import { updateScore } from "../../redux/actions/actionUser"
+import { resetQuest } from "../../store/slices/questSlice"
+import { updateScore } from "../../store/slices/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 const UnitDetail = (props) => {
   //State
@@ -41,7 +41,6 @@ const UnitDetail = (props) => {
   const [OPTION, SET_OPTION] = useState( "OPTION" );
   const url = "http://192.168.43.158:3000/api/units";
   const dispatch = useDispatch();
-  console.log(params.id)
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -53,7 +52,6 @@ const UnitDetail = (props) => {
   const onClose = () => {
     setShowModal(false);
   };
-  const score = 0;
   useEffect(() => {
     getUnitById(params.id, setUnit, setLoading);
     if (typeof UNIT.flashcards !== "undefined") {
@@ -101,7 +99,7 @@ const UnitDetail = (props) => {
     );
   };
   const Questions = useSelector((state) => state.questReducer)
-  // console.log("Questionshgfhgfh", Questions)
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -198,7 +196,10 @@ const UnitDetail = (props) => {
           />
 
           <View style={styles.wrapButtons}>
-            <TouchableOpacity onPress={() => console.log('Learn')} style={[styles.btn, styles.btnLearn]}>
+            <TouchableOpacity onPress={() => 
+            shuffleArray(flashcards)
+
+            } style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
@@ -206,15 +207,15 @@ const UnitDetail = (props) => {
               dispatch(resetQuest(params.id))
               dispatch(updateScore(0))
               if (flashcards.length < 4) {
-                setMess("Học phần phải nhiều hơn 3 thẻ")
+                setMess("Học phần phải nhiều hơn 3 thẻ mới có thể làm kiểm tra")
                 SET_OPTION("NONE")
                 setShowModal(true)
                 setTimeout(() => {
                   setShowModal(false);
                 }, 2000);
               }else{
-                props.navigation.replace('test', {
-                  flashcards: flashcards,
+                props.navigation.navigate('test', {
+                  flashcards: flashcards,id:params.id
                 })
               }
              

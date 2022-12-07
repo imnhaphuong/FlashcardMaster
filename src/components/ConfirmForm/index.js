@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import styles from "./style";
 import { Formik, Field, Form } from "formik";
-import CheckBox from "react-native-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../../../contains/colors";
 

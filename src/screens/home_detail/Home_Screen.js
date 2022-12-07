@@ -28,7 +28,7 @@ const Home_Screen = (props) => {
   const [isLoading, setLoading] = useState(true);
 
   //useEffect
-  useEffect(() => {
+  useEffect(()=> {
     getAllTopics(settopic, setLoading);
   }, [isLoading]);
 
@@ -87,7 +87,7 @@ const Home_Screen = (props) => {
         />
         <View style={styles.coin_display}>
           <Coin />
-          <Text style={styles.price}>{user.scores}</Text>
+          <Text style={styles.price}>{user.coin}</Text>
         </View>
       </View>
       <FlatList
