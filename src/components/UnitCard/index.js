@@ -14,7 +14,7 @@ const UnitCard = ({unit}) => {
     <Pressable
       style={styles.wrapUnitCard}
       onPress={() => {
-        console.log("press on the unit card has id = " + id);
+        // console.log("press on the unit card has id = " + id);
         navigation.navigate("unit_detail", {
           id: unit._id,
         });

@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 
 export default function TestResult(props) {
     const quest = props.item
-    console.log("quest", quest);
     useEffect(() => {
         if (quest.correct === true) {
             quest.correct = "Đúng"

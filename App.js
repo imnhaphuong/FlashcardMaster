@@ -31,6 +31,8 @@ import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
+import TestScreen from "./src/screens/test/TestScreen";
+import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -109,14 +111,14 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
+    <Provider store={storeRoot}>
       <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
         <Stack.Navigator
           screenOptions={{
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="nav"
+          initialRouteName="sign_in"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />

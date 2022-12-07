@@ -22,8 +22,8 @@ import getUnitById from "../../../getdata/getUnitById";
 import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
 import SysModal from "../../components/SysModal/SysModal";
-import { resetQuest } from "../../redux/actions/actionQuestion"
-import { updateScore } from "../../redux/actions/actionUser"
+import { resetQuest } from "../../store/slices/questSlice"
+import { updateScore } from "../../store/slices/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 const UnitDetail = (props) => {
   //State
@@ -99,7 +99,7 @@ const UnitDetail = (props) => {
     );
   };
   const Questions = useSelector((state) => state.questReducer)
-  // console.log("Questionshgfhgfh", Questions)
+
 
   return (
     <SafeAreaView style={styles.container}>

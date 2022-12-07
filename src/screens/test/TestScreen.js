@@ -58,6 +58,7 @@ export default function TestScreen(props) {
         setNumberOfUnits(flashcards.length);
 
     }, [index])
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar

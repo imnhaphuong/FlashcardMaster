@@ -15,7 +15,7 @@ import EnvelopeIcon from '../../../assets/images/sign_up/message.svg'
 import EyeIcon from '../../../assets/images/sign_up/eye.svg'
 import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
 import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
 
 
 

@@ -2,8 +2,8 @@ import { View, Text } from 'react-native'
 import styles from './style'
 import colors from '../../../contains/colors';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { chooseTFQuest } from "../../redux/actions/actionQuestion"
-import { updateScore } from "../../redux/actions/actionUser"
+import { chooseTFQuest } from "../../store/slices/questSlice"
+import { updateScore } from "../../store/slices/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 
@@ -12,11 +12,10 @@ export default function TrueFalseScreen(props) {
     const i = props.index
     const sco = props.score
     const flashcards = props.flashcards
-    const user = useSelector((state) => state.infoUser)
+    const {user} = useSelector((state) => state.user)
     const random = Math.floor((Math.random() * (i + 2))) + (i)
     const define = flashcards[random].define;
-    const Questions = useSelector((state) => state.questReducer)
-
+    const scores = user.scores + sco
     const onTrueButton = (define) => {
         if (define === flashcards[i].define) {
             const question = {
@@ -30,7 +29,7 @@ export default function TrueFalseScreen(props) {
             }
             dispatch(chooseTFQuest(question))
             if (question.correct === question.answer) {
-                dispatch(updateScore(user.score + sco));
+                dispatch(updateScore(scores));
             }
         } else {
             const question = {
@@ -64,7 +63,7 @@ export default function TrueFalseScreen(props) {
             }
             dispatch(chooseTFQuest(question))
             if (question.correct === question.answer) {
-                dispatch(updateScore(user.score + sco));
+                dispatch(updateScore(user.scores + sco));
             }
         } else {
             const question = {
@@ -112,10 +111,10 @@ export default function TrueFalseScreen(props) {
             </View>
             <View style={{ height: '40%' }}>
                 <CustomButton type="CHANGE_TRUE" text="Đúng" onPress={() =>
-                    onTrueButton(define, user.score)
+                    onTrueButton(define, user.scores)
                 } hide="hide" />
                 <CustomButton type="CHANGE_FALSE" text="Sai" onPress={() =>
-                    onFalseButton(define, user.score)
+                    onFalseButton(define, user.scores)
                 } hide="hide" />
             </View >
 
