@@ -30,6 +30,7 @@ import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import ChangePassword_Screen from "./src/screens/change_pasword";
+import NotificationsScreen from "./src/screens/notifications";
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +49,7 @@ const loadAssets = async () =>
 
 
 export default function App() {
+  //register push notification token
   registerNNPushToken(5184, 'JScIpkViaeDrlzwDvEdXdh');
 
   async function registerForPushNotification() {
@@ -136,6 +138,7 @@ export default function App() {
             <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
             <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
             <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen}/>
+            <Stack.Screen name="notifications" component={NotificationsScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       {/* </Provider> */}
