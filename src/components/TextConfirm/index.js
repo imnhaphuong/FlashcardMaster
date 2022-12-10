@@ -5,25 +5,21 @@ import {
   Text,
   Pressable,
   View,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
+
 } from "react-native";
 import styles from "./style";
-import { Formik, Field, Form } from "formik";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import colors from "../../../contains/colors";
+import { Formik} from "formik";
+import leaveClass from "../../../getdata/leaveClass";
 
-const ConfirmForm = (props) => {
+
+const TextConfirm = (props) => {
   const visible = props.visible ? props.visible : false;
   const setVisibleModal = props.setVisibleModal ? props.setVisibleModal : null;
   //loading
   const setLoading = props.setLoading ? props.setLoading : null;
 
-  const className = props.name;
   const _id = props._id ? props._id : null;
-
-  const url = "https://flashcard-master.vercel.app/api/classes/delete";
+  const url = props.url;
   //submit form create class
   const submitData = async (values) => {
     setLoading(true);
@@ -39,7 +35,7 @@ const ConfirmForm = (props) => {
       .then((res) => res.json())
       .then((resJson) => {
         setLoading(false);
-        props.navigation.goBack();
+        // props.navigation.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -61,10 +57,7 @@ const ConfirmForm = (props) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                Bạn có chắc muốn xóa lớp{" "}
-                <Text style={{ color: colors.highlight }}>"{className}"</Text>
-              </Text>
+              <Text style={styles.modalText}>{props.textTitle}</Text>
               {/* Validate form */}
               <Formik
                 style={styles.form}
@@ -97,7 +90,7 @@ const ConfirmForm = (props) => {
                           }}
                         >
                           <Text style={[styles.textButton, styles.textCancel]}>
-                            Hủy
+                            {props.textCancel ? props.textCancel : "Hủy"}
                           </Text>
                         </Pressable>
                         <Pressable
@@ -105,7 +98,7 @@ const ConfirmForm = (props) => {
                           onPress={handleSubmit}
                         >
                           <Text style={[styles.textButton, styles.textCreate]}>
-                            Xóa
+                            {props.textConfirm ? props.textConfirm : "Đồng ý"}
                           </Text>
                         </Pressable>
                       </View>
@@ -121,4 +114,4 @@ const ConfirmForm = (props) => {
   );
 };
 
-export default ConfirmForm;
+export default TextConfirm;

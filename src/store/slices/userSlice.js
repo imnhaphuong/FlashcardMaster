@@ -22,11 +22,15 @@ export const userSlice = createSlice({
     },
     setInsigniaes: (state, action) =>{
       state.insigniaes = action.payload;
+    },
+    updateScore: (state, action) =>{
+      console.log( action.payload);
+      state.user.scores = action.payload;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser, setUnits, setClasses, setInsigniaes } = userSlice.actions
+export const { setUser, setUnits, setClasses, setInsigniaes,updateScore } = userSlice.actions
 
 export default userSlice.reducer
