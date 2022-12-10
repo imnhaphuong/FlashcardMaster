@@ -1,4 +1,4 @@
-import  axios  from "axios";
+import axios from "axios";
 
 export const getUnitsCreated = async (creatorId) => {
   var uri = "https://flashcard-master.vercel.app/api/units/created";
@@ -8,31 +8,17 @@ export const getUnitsCreated = async (creatorId) => {
   return result.data;
 };
 export const getClassesCreated = async (creatorId) => {
-    var uri = "https://flashcard-master.vercel.app/api/classes/created";
-    const result = await axios.post(uri, {
-      creator: creatorId
-    })
-    return result.data;
+  var uri = "https://flashcard-master.vercel.app/api/classes/created";
+  const result = await axios.post(uri, {
+    creator: creatorId
+  })
+  return result.data;
 };
-// const getInsigniaesBought = async (userID) => {
-//   var fetch = "https://flashcard-master.vercel.app/api/users/id";
-
-//   fetch(fetch, {
-//     method: "post",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Accept": "application/json",
-//     },
-//     body: JSON.stringify({
-//       creator: userID,
-//     }),
-//   })
-//     .then((res) => res.json())
-//     .then((resJson) => {
-//       return resJson;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       return undefined
-//     });
-// };
+export const getInsigniaesBought = async (userID) => {
+  var uri = "https://flashcard-master.vercel.app/api/users/id";
+  const result = await axios.post(uri, {
+    id: userID
+  })
+  console.log(result.data);
+  return result.data.insignia;
+};

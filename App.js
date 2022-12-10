@@ -21,8 +21,6 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
-import UnitCard from "./src/components/UnitCard";
-import getALLTopic from "./getdata/getAllTopics";
 import TestScreen from "./src/screens/test/TestScreen"
 import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";

@@ -73,14 +73,14 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     wrapClasses: {
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
+        flex: 1,
+        justifyContent: "center",
         paddingHorizontal: 12,
         paddingTop: 20,
     },
     wrapInsignia: {
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
+        flex: 1,
+        justifyContent: "center",
         paddingHorizontal: 12,
         paddingTop: 20,
     }

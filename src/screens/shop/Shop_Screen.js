@@ -8,7 +8,6 @@ import {
     View,
     SafeAreaView,
     FlatList,
-    KeyboardAvoidingView,
     StatusBar,
     TouchableOpacity
 } from "react-native";

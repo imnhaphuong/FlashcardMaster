@@ -4,12 +4,19 @@ import colors from '../../../contains/colors';
 const styles = StyleSheet.create({
     card: {
         borderWidth: 1,
+        borderColor: colors.text,
         borderRadius: 5,
         alignItems: "center",
-        marginTop: 10,
-        marginHorizontal: 10,
+        marginBottom: 10,
         flexDirection: "row",
-        paddingHorizontal: 5
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        shadowColor: colors.darkGray,
+        shadowOpacity: "25%",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
     },
     container: {
         padding: 10
@@ -20,7 +27,9 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     name: {
-        fontSize: 20,
+        fontSize: 16,
+        color: colors.black,
+        fontWeight: "bold"
     },
     price: {
         flexDirection: "row",
