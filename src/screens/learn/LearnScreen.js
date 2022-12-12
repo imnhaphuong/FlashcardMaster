@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useState, useEffect } from "react";
 import styles from './style'
 import colors from "../../../contains/colors";
@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux'
 import { updateScore } from "../../redux/actions/actionUser"
 import { useLayoutEffect } from 'react';
+import ModalAnswer from './ModalAnswer';
+
 export default function LearnScreen(props) {
     const [userId, setUserId] = useState(null);
     var params = props.route.params;
@@ -33,10 +35,14 @@ export default function LearnScreen(props) {
             setProgress(1 / flashcards.length)
         }
         setNumberOfUnits(flashcards.length);
-        
+
     }, [index])
+    const onClose =()=>{
+        setShowModal(false);
+    }
     return (
         <SafeAreaView style={styles.container}>
+            <ModalAnswer visible={showModal} onClose={onClose}/>
             <StatusBar
                 animated={true}
                 backgroundColor={colors.white}
@@ -44,6 +50,7 @@ export default function LearnScreen(props) {
                 showHideTransition={"fade"}
             />
             {/* Header */}
+
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.header}
@@ -56,7 +63,7 @@ export default function LearnScreen(props) {
                     <Back />
                 </TouchableOpacity> */}
                 <View style={{ width: "90%", }}>
-                    <Text style={styles.textHeader}>{round}</Text>
+                    <Text style={styles.textHeader}>Vòng {round}</Text>
                 </View>
 
             </KeyboardAvoidingView>
@@ -65,12 +72,16 @@ export default function LearnScreen(props) {
                 <View style={{ alignItems: "center" }}>
                     <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
+
                 {(index < Math.floor(numberOfUnits / 2)) ?
-                    <WriteTextScreen />
+                    <WriteTextScreen navigation={props.navigation} index={index} flashcards={flashcards} />
                     :
                     <MutipleChoiceScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
                 }
+
+
             </View>
+
         </SafeAreaView>
     )
 }

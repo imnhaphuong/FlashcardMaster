@@ -33,6 +33,8 @@ import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
 import TestScreen from "./src/screens/test/TestScreen";
 import TestResultScreen from "./src/screens/test_result/TestResultScreen";
+import WriteTextScreen from "./src/screens/learn/WriteTextScreen";
+import LearnResultScreen from "./src/screens/learn/LearnResultScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -118,7 +120,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="sign_in"
+          initialRouteName="lern_result"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
@@ -140,6 +142,7 @@ export default function App() {
           <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
           <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
           <Stack.Screen name="learn" component={LearnScreen} />
+          <Stack.Screen name="lern_result" component={LearnResultScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

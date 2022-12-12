@@ -6,8 +6,6 @@ import colors from '../../../contains/colors'
 const CustomInputUnit = ({ label, touched, errors, onBlur, onChangeText, value, name }) => {
 
     return (
-
-
         <View style={styles.input}>
             <TextInput style={styles.textInput} label={label}
                 name={name}

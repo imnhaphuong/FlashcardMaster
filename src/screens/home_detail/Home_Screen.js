@@ -87,7 +87,7 @@ const Home_Screen = (props) => {
         />
         <View style={styles.coin_display}>
           <Coin />
-          <Text style={styles.price}>{user.coin}</Text>
+          <Text style={styles.price}>0</Text>
         </View>
       </View>
       <FlatList
@@ -95,7 +95,7 @@ const Home_Screen = (props) => {
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>dasd</Text>{" "}
               </Text>
             </View>
             <View style={styles.Thegirl}>

@@ -72,8 +72,10 @@ export default SignInScreen = ({ navigation }) => {
         body: JSON.stringify(values),
       }).then(res => res.json()
       )
+      console.log(values);
       if (result.status === 'error') {
         // everythign went fine
+        console.log(result);
         setMess(result.message);
         setShowModal(true);
         showModa();
@@ -88,11 +90,9 @@ export default SignInScreen = ({ navigation }) => {
       } else {
         dispatch(setUser(result.data));
         setLoading(false)
-        console.log(result);
         AsyncStorage.setItem('accessToken', result.token);
         AsyncStorage.setItem('userId', result.data._id);
         AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
-        dispatch(createUser(result.data))
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);
