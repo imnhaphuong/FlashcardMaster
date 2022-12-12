@@ -83,6 +83,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: 12,
         paddingTop: 20,
+    },
+    btn: {
+        borderRadius: 10,
+        width: "100%",
+        height: 45,
+        backgroundColor: "#006965",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    btn_text: {
+        fontSize: 18,
+        color: colors.white
     }
 
 });

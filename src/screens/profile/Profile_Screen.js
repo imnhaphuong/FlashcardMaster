@@ -20,6 +20,7 @@ import Setting from "../../../assets/images/header/setting.svg";
 import InsigniaProfile from "../../components/Insignia/Insignia_Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { setUnits, setClasses, setInsigniaes } from "../../store/slices/userSlice";
+import { useNavigation } from "@react-navigation/native";
 
 
 const Profile_Screen = (props) => {
@@ -27,6 +28,7 @@ const Profile_Screen = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
     };
@@ -172,6 +174,15 @@ const Profile_Screen = (props) => {
                         {selectedIndex === 2 && (
                             <View style={styles.wrapInsignia}>
                                 <FlatList
+                                    ListFooterComponent={() => {
+                                        return (
+                                            <TouchableOpacity style={styles.btn} onPress={() => {
+                                                navigation.navigate("Shop_Screen")
+                                            }}>
+                                                <Text style={styles.btn_text}>Mua thêm</Text>
+                                            </TouchableOpacity>
+                                        )
+                                    }}
                                     nestedScrollEnabled={true}
                                     data={insigniaes}
                                     renderItem={renderInsignialItem}
@@ -182,6 +193,7 @@ const Profile_Screen = (props) => {
                         )}
                     </>
                 }
+
             </ScrollView>
         </SafeAreaView >
     )

@@ -44,6 +44,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingTop: 20,
     },
+    wrapClasses: {
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 12,
+        paddingTop: 20,
+        //fontStyle:"italic"
+    }
 
 })
 export default styles

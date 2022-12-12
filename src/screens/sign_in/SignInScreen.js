@@ -17,7 +17,7 @@ import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
 import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
-import {setUser} from "../../store/slices/userSlice"
+import { setUser } from "../../store/slices/userSlice"
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
@@ -180,7 +180,7 @@ export default SignInScreen = ({ navigation }) => {
         </View>
         {/* Title */}
         <View style={{ top: 130, marginLeft: 20 }}>
-            <Text style={styles.title}>Đăng Nhập</Text>
+          <Text style={styles.title}>Đăng Nhập</Text>
           <View style={{
             width: 271,
             height: 16,
