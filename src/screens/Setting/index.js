@@ -8,21 +8,25 @@ import {
     TouchableOpacity,
     TextInput,
     Switch,
-    Alert,
     ScrollView
 } from "react-native";
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Tick from "../../../assets/images/header/Tick.svg";
 import colors from "../../../contains/colors";
+import { useSelector } from "react-redux";
+import { updateProfile } from "../../../getdata/updateProfile";
+import Toast from "react-native-toast-message";
+
+
 
 const Setting_Screen = (props) => {
-    const [username, setUsername] = useState("");
     const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
-
+    const [errorMessage, setErrorMessage] = useState();
     const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const { user } = useSelector(state => state.user);
 
 
     return (
@@ -34,17 +38,42 @@ const Setting_Screen = (props) => {
                 showHideTransition={"fade"}
             />
             <View style={styles.header}>
+                <Toast ref={(ref) => { Toast.setRef(ref) }} />
                 <TouchableOpacity onPress={() => {
                     props.navigation.goBack()
                 }}>
                     <Back />
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Cài đặt</Text>
-                <TouchableOpacity onPress={() => Alert.alert("Save")}>
+                <TouchableOpacity onPress={async () => {
+                    const result = await updateProfile(user._id, email, fullname)
+                    if (email != user.email) {
+                        setErrorMessage("Bạn muốn thay đổi thông tin nào?")
+                        //props.navigation.navigate("verify_email")
+                    }
+                    if (result.status === "SUCCESS") {
+                        setErrorMessage(undefined)
+                        Toast.show({
+                            type: 'success',
+                            position: 'top',
+                            text1: 'Bạn đã thay đổi thông tin thành công',
+                            visibilityTime: 5000,
+                            autoHide: true
+                        })
+                    } else {
+                        setErrorMessage("Bạn muốn thay đổi thông tin nào?")
+                    }
+                    setFullname({fullname:""})
+                    setEmail({email:""})
+                }}
+
+>
                     <Tick />
+                    
                 </TouchableOpacity>
             </View>
             <ScrollView>
+                {errorMessage && <Text style={{ color: "#DD0000" }}>{errorMessage}</Text>}
                 <View style={styles.content}>
                     <View>
                         <Text style={styles.title}>Hồ sơ</Text>
@@ -52,29 +81,24 @@ const Setting_Screen = (props) => {
                             <Image
                                 style={styles.image}
                                 source={{
-                                    uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
+                                    uri: user.avatar,
                                 }} />
                         </View>
-
                     </View>
                     <View style={styles.user_info} >
-                        <Text style={styles.item}>Username</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setUsername}
-                            value={username}></TextInput>
                         <Text style={styles.item}>Họ và tên</Text>
                         <TextInput
+                            placeholder={user.fullname}
                             style={styles.input}
                             onChangeText={setFullname}
                             value={fullname}></TextInput>
                         <Text style={styles.item}>Email</Text>
                         <TextInput
+                            placeholder={user.email}
                             style={styles.input}
                             onChangeText={setEmail}
                             value={email}></TextInput>
                     </View>
-
                     <View style={styles.notify}>
                         <Text style={styles.title}>Thông báo</Text>
                         <Switch

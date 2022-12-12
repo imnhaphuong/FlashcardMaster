@@ -33,8 +33,6 @@ import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
-import TestScreen from "./src/screens/test/TestScreen";
-import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 
 
 const Stack = createNativeStackNavigator();

@@ -1,27 +1,33 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const styles = StyleSheet.create({
   wrapUserCard: {
-    backgroundColor: colors.white,
+    position: "relative",
+    flex: 1,
     borderRadius: 10,
-    shadowColor: colors.black,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderColor: colors.text,
+    borderWidth: 1,
+    backgroundColor: colors.white,
+    shadowColor: colors.darkGray,
     shadowOpacity: "25%",
     shadowOffset: {
       width: 0,
       height: 1,
     },
-    elevation: 2,
-    height: '18%',
-    width: '95%',
-    marginVertical: 40,
-    marginHorizontal: 10,
-  },
-  wrapUser: {
-    marginLeft: 15,
-    justifyContent: "space-between"
+    elevation: 1,
+    height: 140,
+    marginBottom: 8,
+    justifyContent: "space-evenly",
   },
   infor: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  wrapUser: {
     flexDirection: "row",
     alignItems: "center",
   },
@@ -32,11 +38,20 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 16,
-    fontWeight: "bold",
-    fontFamily: "WorkSans-Italic"
+    fontFamily: fonts.semibold,
+    color: colors.text
   },
-  icon: {
-    marginRight: 5
+  public: {
+    fontFamily: fonts.regular,
+    fontSize: 12,
+    color: colors.darkGray,
+    marginLeft: 4,
+  },
+  email: {
+    fontFamily: fonts.regular,
+    fontSize: 12,
+    color: colors.violet,
+    marginLeft: 8,
   }
   
 });

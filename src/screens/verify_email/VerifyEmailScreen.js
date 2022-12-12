@@ -13,7 +13,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import CountDown from 'react-native-countdown-component';
 import Reload from '../../../assets/images/sign_up/reload.svg'
 
-export default VerifyEmailScreen = ({ navigation }) => {
+export default VerifyEmailScreen = ({ }) => {
 
     const [isLoading, setLoading] = useState(false);
     const [mess, setMess] = useState('');

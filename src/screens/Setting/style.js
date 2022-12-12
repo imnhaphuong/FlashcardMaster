@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     user_info: {
         justifyContent: "space-around",
-        height: 280
+        height: 190
     },
     item: {
         fontSize: 16,
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: colors.darkGray,
         borderRadius: 5,
+        paddingLeft: 10
     },
     notify: {
         flexDirection: "row",
