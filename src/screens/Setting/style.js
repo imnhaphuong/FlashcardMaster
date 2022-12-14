@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         fontWeight: "bold",
         fontSize: 18,
+        color: colors.text,
     },
-    avatar:{
+    avatar: {
         alignItems: "center"
     },
     image: {
@@ -53,7 +54,8 @@ const styles = StyleSheet.create({
     },
     item: {
         fontSize: 16,
-        color: colors.darkGray
+        color: colors.darkGray,
+        fontWeight: "200",
     },
     input: {
         height: 45,

@@ -1,5 +1,7 @@
 import { StyleSheet, StatusBar } from 'react-native'
 import colors from '../../../contains/colors';
+import fonts from "../../../contains/fonts";
+
 
 const styles = StyleSheet.create({
     card: {
@@ -8,6 +10,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: "center",
         marginBottom: 10,
+        backgroundColor: colors.white,
         flexDirection: "row",
         paddingHorizontal: 10,
         paddingVertical: 10,
@@ -38,7 +41,8 @@ const styles = StyleSheet.create({
     },
     price_text: {
         marginLeft: 8,
-        fontSize: 15
+        fontSize: 15,
+        fontFamily: fonts.semibold
     }
 
 })

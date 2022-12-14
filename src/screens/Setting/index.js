@@ -8,26 +8,49 @@ import {
     TouchableOpacity,
     TextInput,
     Switch,
-    ScrollView
+    ScrollView,
+    Alert
 } from "react-native";
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Tick from "../../../assets/images/header/Tick.svg";
 import colors from "../../../contains/colors";
 import { useSelector } from "react-redux";
-import { updateProfile } from "../../../getdata/updateProfile";
+import { updateFullname } from "../../../getdata/updateProfile";
 import Toast from "react-native-toast-message";
 
 
 
 const Setting_Screen = (props) => {
-    const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
+    const { user } = useSelector(state => state.user);
+    console.log("USER", user);
+    const [inputs, setInputs] = useState({
+        fullname: '',
+        email: ''
+    });
+    const handleOnChange = (text, input) => {
+        setInputs((prevState) => ({ ...prevState, [input]: text }));
+    };
     const [errorMessage, setErrorMessage] = useState();
     const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const { user } = useSelector(state => state.user);
-
+    const showAlert = () =>
+        Alert.alert(
+            "",
+            "Bạn cần phải đăng nhập lại từ đầu khi thay đổi email! ",
+            [
+                {
+                    text: "Huỷ",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "Đồng ý", onPress: () => {
+                        props.navigation.navigate("verifyEmailAgain", { userId: user._id, email: inputs.email })
+                    }
+                }
+            ]
+        );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -46,30 +69,40 @@ const Setting_Screen = (props) => {
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Cài đặt</Text>
                 <TouchableOpacity onPress={async () => {
-                    const result = await updateProfile(user._id, email, fullname)
-                    if (email != user.email) {
-                        setErrorMessage("Bạn muốn thay đổi thông tin nào?")
-                        //props.navigation.navigate("verify_email")
+                    if (inputs.fullname != "") {
+                        const newFullname = await updateFullname(user._id, inputs.fullname)
+                        if (newFullname && inputs.email === "") {
+                            setErrorMessage(undefined)
+                            Toast.show({
+                                type: 'success',
+                                position: 'top',
+                                text1: 'Bạn đã thay đổi họ và tên thành công',
+                                visibilityTime: 5000,
+                                autoHide: true
+                            })
+                            showAlert()
+                        }
+                        if (newFullname && inputs.email != "") {
+                            setErrorMessage(undefined)
+                            showAlert()
+                        }
+                        else {
+                            setErrorMessage("ERROR")
+                        }
                     }
-                    if (result.status === "SUCCESS") {
-                        setErrorMessage(undefined)
-                        Toast.show({
-                            type: 'success',
-                            position: 'top',
-                            text1: 'Bạn đã thay đổi thông tin thành công',
-                            visibilityTime: 5000,
-                            autoHide: true
-                        })
-                    } else {
-                        setErrorMessage("Bạn muốn thay đổi thông tin nào?")
+                    if (inputs.fullname === "") {
+                        if (inputs.email === "") {
+                            setErrorMessage("Vui lòng nhập thông tin bạn muốn thay đổi")
+                        } else {
+                            showAlert()
+                        }
                     }
-                    setFullname({fullname:""})
-                    setEmail({email:""})
-                }}
-
->
+                    setInputs({
+                        fullname: '',
+                        email: '',
+                    })
+                }}>
                     <Tick />
-                    
                 </TouchableOpacity>
             </View>
             <ScrollView>
@@ -88,16 +121,16 @@ const Setting_Screen = (props) => {
                     <View style={styles.user_info} >
                         <Text style={styles.item}>Họ và tên</Text>
                         <TextInput
-                            placeholder={user.fullname}
-                            style={styles.input}
-                            onChangeText={setFullname}
-                            value={fullname}></TextInput>
+                            value={inputs.fullname}
+                            onChangeText={(text) => handleOnChange(text, 'fullname')}
+                            style={styles.input}>
+                        </TextInput>
                         <Text style={styles.item}>Email</Text>
                         <TextInput
-                            placeholder={user.email}
-                            style={styles.input}
-                            onChangeText={setEmail}
-                            value={email}></TextInput>
+                            value={inputs.email}
+                            onChangeText={(text) => handleOnChange(text, 'email')}
+                            style={styles.input}>
+                        </TextInput>
                     </View>
                     <View style={styles.notify}>
                         <Text style={styles.title}>Thông báo</Text>

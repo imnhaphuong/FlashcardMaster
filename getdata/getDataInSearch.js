@@ -1,21 +1,21 @@
 import axios from "axios";
 
 export const getUnitsSearch = async (keyword) => {
-  var uri = "http://10.0.2.2:3000/api/units/keyword";
+  var uri = "https://flashcard-master.vercel.app/api/units/keyword";
   const result = await axios.post(uri, {
     keyword: keyword
   })
   return result.data;
 };
 export const getClassesSearch = async (keyword) => {
-  var uri = "http://10.0.2.2:3000/api/classes/keyword";
+  var uri = "https://flashcard-master.vercel.app/api/classes/keyword";
   const result = await axios.post(uri, {
     keyword: keyword
   })
   return result.data;
 };
 export const getUsersSearch = async (keyword) => {
-  var uri = "http://10.0.2.2:3000/api/users/keyword";
+  var uri = "https://flashcard-master.vercel.app/api/users/keyword";
   const result = await axios.post(uri, {
     keyword: keyword
   })

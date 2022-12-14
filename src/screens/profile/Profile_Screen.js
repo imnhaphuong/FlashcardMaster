@@ -21,6 +21,7 @@ import InsigniaProfile from "../../components/Insignia/Insignia_Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { setUnits, setClasses, setInsigniaes } from "../../store/slices/userSlice";
 import { useNavigation } from "@react-navigation/native";
+import fonts from '../../../contains/fonts';
 
 
 const Profile_Screen = (props) => {
@@ -77,21 +78,10 @@ const Profile_Screen = (props) => {
                     <Setting />
                 </TouchableOpacity>
             </View>
-            {/* <View style={styles.userinfor}>
-                    <View>
-                        <Text style={styles.fullname}>Họ và tên</Text>
-                        <Text>example@gmail</Text>
-                    </View>
-                    <Image
-                        style={styles.avatar}
-                        source={{
-                            uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-                        }} />
-                </View> */}
             <View style={styles.userinfor}>
                 <View>
                     <Text style={styles.fullname}>{user.fullname}</Text>
-                    <Text>{user.email}</Text>
+                    <Text style={{ fontFamily: fonts.semibold }}>{user.email}</Text>
                 </View>
                 <Image
                     style={styles.avatar}
@@ -101,21 +91,21 @@ const Profile_Screen = (props) => {
             </View>
             <ScrollView>
                 <View style={styles.counts}>
-                    <Text>Thống kê</Text>
+                    <Text style={{ fontFamily: fonts.semibold }}>Thống kê</Text>
                     <View style={styles.statics}>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                     </View>
                     <View style={styles.statics}>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                     </View>
                 </View>

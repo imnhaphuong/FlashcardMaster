@@ -10,20 +10,11 @@ import {
 import Styles from "./styles";
 
 const TopicCard = (props) => {
-  const topic_title = props.name ? props.name : "Topic";
-  const readmore = "Xem thêm";
   const UNIT_DATA = props.units;
-
   const myRenderItem = ({ item }) => (
     <>
       <UnitCard
-      unit={item}
-        // id={item._id}
-        // navigation={props.navigation}
-        // unit_name={item.unitName}
-        // creator={item.creator}
-        // username={item.username}
-        // number_of_cards={item.flashcards.length}
+        unit={item}
       />
     </>
   );
@@ -31,13 +22,13 @@ const TopicCard = (props) => {
     <SafeAreaView>
       <View style={{ marginTop: 15 }}>
         <View style={Styles.topic}>
-          <Text style={Styles.titletopic}>{topic_title}</Text>
+          <Text style={Styles.titletopic}>{props.name}</Text>
           <TouchableOpacity
             onPress={() =>
               props.navigation.navigate("TopicReadMore", { name: props.name })
             }
           >
-            <Text style={Styles.readmore}>{readmore}</Text>
+            <Text style={Styles.readmore}>Xem thêm</Text>
           </TouchableOpacity>
         </View>
         <View style={Styles.wrapUnits}>

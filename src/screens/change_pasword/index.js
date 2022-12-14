@@ -43,7 +43,6 @@ const ChangePassword_Screen = (props) => {
                 }}>
                     <Back />
                 </TouchableOpacity>
-
                 <Text style={styles.textHeader}>Đổi mật khẩu</Text>
             </View>
             <ScrollView>

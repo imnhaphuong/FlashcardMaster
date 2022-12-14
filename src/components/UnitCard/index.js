@@ -25,9 +25,9 @@ const UnitCard = ({unit}) => {
       <View style={styles.wrapUser}>
         <Image
           style={styles.avatar}
-          source={{uri: unit.creator.avatar}}
+          source={{uri: unit.creator.avatar? unit.creator.avatar : "https://media.newyorker.com/photos/5f01e383b975762d612e0ff3/master/w_2560%2Cc_limit/Barasch-Avatar.jpg"}}
         />
-        <Text style={styles.username}>{unit.creator.fullname}</Text>
+        <Text style={styles.username}>{unit.creator.fullname?unit.creator.fullname:"user00" }</Text>
       </View>
     </Pressable>
   );
