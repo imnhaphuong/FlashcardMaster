@@ -1,47 +1,115 @@
-import { View, Text, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, KeyboardAvoidingView, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomInputUnit from '../../components/CustomInputUnit/CustomInputUnit';
 import Check from "../../../assets/images/checkbox/checkSend.svg";
 import { Formik } from 'formik'
-import { SignInSchema } from '../../../contains/validation'
+import fonts from '../../../contains/fonts';
+import ModalAnswer from './ModalAnswer';
+import { useNavigation } from '@react-navigation/native';
+
 export default function WriteTextScreen(props) {
   const dispatch = useDispatch();
   const i = props.index
+  const round = props.round
   const flashcards = props.flashcards
+  const [showModal, setShowModal] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [correct, setCorrect] = useState("");
+  const [random, setRandom] = useState(null);
+  console.log("flashcardnjnjin", flashcards);
+  const navigation = useNavigation()
+  useEffect(() => {
+    const ran = (Math.round(Math.random() * 1));
+    console.log("index", i);
+
+    if (ran === 0) {
+      console.log("a", ran)
+      setRandom(ran)
+      setQuestion(flashcards[i].term)
+      setCorrect(flashcards[i].define)
+    } else {
+      console.log("b", ran);
+      setRandom(ran)
+      setQuestion(flashcards[i].define)
+      setCorrect(flashcards[i].term)
+    }
+  }, [i])
+
   const submitData = (values) => {
     console.log("send Answer", values)
+    if (values.answer.trim() === correct) {
+      console.log("đúng");
+      if (props.index + 1 === flashcards.length) {
+        navigation.replace('lern_result', {
+          flashcards: flashcards, round: round
+        })
+      } else {
+        navigation.replace('learn', {
+          flashcards: flashcards, index: (i + 1), round: round
+        })
+      }
+    } else {
+      console.log("sai", wrong);
+      setShowModal(true);
+      setAnswer(values.answer)
+
+    }
+
+  }
+  const onClose = () => {
+    setShowModal(false);
   }
   return (
 
     <KeyboardAvoidingView offset={10}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : null}
     >
-      
+      <ModalAnswer question={question} answer={answer} correct={correct} visible={showModal} onClose={onClose} />
       <View style={styles.testComponent}>
 
-        <View style={{ height: '70%', justifyContent: 'center' }}>
-          <View style={{ height: '40%', justifyContent: 'flex-end', paddingVertical: 30 }}>
+        <View style={{ height: '65%', justifyContent: 'center' }}>
+          <View style={{ height: '25%', justifyContent: 'flex-end', paddingVertical: 20 }}>
             <Text style={[styles.textTrueFalse, { color: colors.violet }]} >
-              Thuật ngữ :
+              {random === 0 ? "Thuật ngữ" : "Định nghĩa"}
             </Text >
             <Text style={styles.textTrueFalse} >
-              {flashcards[i].term}
-              {/* {console.log("flashcards",i)} */}
+              {question}
             </Text >
+
+            {
+              (flashcards[i].example !== "") ? <View style={{ flexDirection: "row" }}>
+                <Text style={{
+                  fontSize: 18,
+                  fontFamily: fonts.regular, color: colors.violet
+                }} >
+                  Ví dụ :
+                </Text >
+                <Text style={{
+                  marginLeft: 10,
+                  fontSize: 18,
+                  fontFamily: fonts.regular,
+                  color: colors.highlight,
+                }} >
+                  {flashcards[i].example}
+                </Text >
+              </View> : ""
+            }
+
           </View >
           <View style={{ backgroundColor: colors.graySecondary, height: 2 }}></View>
-          <View style={{ height: '50%', justifyContent: 'flex-start', paddingVertical: 30 }}>
+          <View style={{ height: '35%', justifyContent: 'flex-start', paddingVertical: 30 }}>
             <Text style={[styles.textTrueFalse, { color: colors.violet }]} >
-              Định nghĩa:
+              {random === 1 ? "Thuật ngữ" : "Định nghĩa"}
             </Text >
-            {/* <Text style={styles.textTrueFalse} >
-
-            {define}
-          </Text > */}
+            {flashcards[i].image === "" ? "" : <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'center' }}>
+              <Image
+                style={{ height: 150, width: 150, marginBottom: 20, resizeMode: 'contain' }}
+                source={{ uri: flashcards[i].image }} />
+            </View>}
           </View >
         </View>
         <Formik
@@ -55,9 +123,9 @@ export default function WriteTextScreen(props) {
           }}
         >
           {({ handleChange, handleSubmit, values, }) => (
-            <View style={{ height: '30%', flexDirection: 'row' }}>
+            <View style={{ height: '35%', flexDirection: 'row' }}>
               <View style={{ width: '85%' }}>
-                <CustomInputUnit onChangeText={handleChange('answer')} value={values.answer} />
+                <CustomInputUnit placeholder="Nhập đáp án ..." onChangeText={handleChange('answer')} value={values.answer} />
               </View>
               <View style={{ width: '15%', marginLeft: 10 }}>
                 <TouchableOpacity onPress={handleSubmit}  >

@@ -3,21 +3,25 @@ import React, { useState } from 'react'
 import styles from './style'
 import colors from '../../../contains/colors';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { chooseMuQuest } from "../../store/slices/questSlice"
-import { updateScore } from "../../store/slices/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
+import ModalAnswer from './ModalAnswer';
 
 export default function MutipleChoiceScreen(props) {
     const dispatch = useDispatch();
     const i = props.index
-    // const options = props.options
     const flashcards = props.flashcards
-    const {user} = useSelector((state) => state.user)
+    const { user } = useSelector((state) => state.user)
     const define = flashcards[i].define;
     const randoms = [];
-    const sco = props.score
+    const round = props.round;
+    const [question, setQuestion] = useState("");
+    const [answer, setAnswer] = useState("");
+    const [correct, setCorrect] = useState("");
     const [options, setOptions] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [wrong,setWrong] = useState(0);
+    
     // const options=[]
     const array = []
     function shuffleArray(array) {
@@ -29,6 +33,8 @@ export default function MutipleChoiceScreen(props) {
         }
     }
     useEffect(() => {
+        
+        setQuestion(flashcards[i].term)
         randoms.push(i);
         array.push(define)
         do {
@@ -41,38 +47,47 @@ export default function MutipleChoiceScreen(props) {
         } while (array.length < 4)
         shuffleArray(array)
         setOptions(array)
-    }, [])
-    const chooseAnswer = (define, score, indexOption) => {
-        // options.map((item, indexOp) => {
-        //     if (item === flashcards[i].define){
-        //         correct = item;
-        //     }
-        // })
-        const question = {
-            index: i + 1,
-            question: flashcards[i].term,
-            options: options,
-            typeQuestion: 1,
-            correct: flashcards[i].define,
-            answer: options[indexOption]
-        }
-        dispatch(chooseMuQuest(question))
-        if (question.answer === question.correct) {
-            dispatch(updateScore(user.scores + sco));
-        }
-        if (props.index + 1 === flashcards.length) {
-            props.navigation.replace('test_result', {
-                flashcards: flashcards
-            })
+        console.log("flashcardsMutiple", flashcards);
+    }, [i])
+    const chooseAnswer = (indexOption) => {
+        // setAnswer(options[indexOption])
+        setCorrect(define)
+        if (options[indexOption] === correct) {
+            if (props.index + 1 === flashcards.length) {
+                props.navigation.replace('lern_result', {
+                    flashcards: flashcards, round: round
+                })
+            } else {
+                props.navigation.replace('learn', {
+                    flashcards: flashcards, index: (props.index + 1)
+                })
+            }
         } else {
-            props.navigation.replace('test', {
-                flashcards: flashcards, index: (props.index + 1)
-            })
+            console.log("sai",wrong);
+            setWrong(wrong+1)
+            // setQuestion(question);
+            if (wrong >= 2) {
+                setShowModal(true);
+                setAnswer(options[indexOption])
+            }else{
+                setShowModal(true);
+                setCorrect("")
+                setTimeout(() => {
+                    setShowModal(false);
+                    
+                },1000)
+            }
+            // setQuestion(question);
+            
+            // setCorrect(correct);
         }
-
+    }
+    const onClose = () => {
+        setShowModal(false);
     }
     return (
         <View style={styles.testComponent}>
+            <ModalAnswer question={question} answer={answer} correct={correct} visible={showModal} onClose={onClose} />
 
             <View style={{ height: '40%', justifyContent: 'center' }}>
                 <View style={{ height: '40%', justifyContent: 'center', paddingVertical: 30 }}>
@@ -88,7 +103,7 @@ export default function MutipleChoiceScreen(props) {
                 {options.map((item, index) => {
                     return (
                         <CustomButton key={index} type="CHANGE_TRUE" text={item} onPress={() =>
-                            chooseAnswer(item, user.score, index)
+                            chooseAnswer(index)
                         } hide="hide" />
                     )
                 })}

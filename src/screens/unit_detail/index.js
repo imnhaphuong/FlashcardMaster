@@ -24,6 +24,7 @@ import fonts from "../../../contains/fonts";
 import SysModal from "../../components/SysModal/SysModal";
 import { resetQuest } from "../../store/slices/questSlice"
 import { updateScore } from "../../store/slices/userSlice"
+import { createFcard, resetFcard } from "../../store/slices/fcardSlice"
 import { useDispatch, useSelector } from 'react-redux'
 const UnitDetail = (props) => {
   //State
@@ -198,10 +199,19 @@ const UnitDetail = (props) => {
           <View style={styles.wrapButtons}>
             <TouchableOpacity onPress={() => {
               shuffleArray(flashcards)
-              // dispatch(resetQuest(params.id))
-              // dispatch(updateScore(0))
+              dispatch(resetFcard(params.id))
+              const payload = {
+                id: params.id,
+                flashcards: flashcards,
+              }
+              dispatch(createFcard(payload))
+              let fcard1=null;
+              if (flashcards.length > 3) {
+                fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
+                // console.log("fcard1dasd", fcard1);
+              }
               props.navigation.navigate('learn', {
-                flashcards: flashcards, id: params.id
+                flashcards: flashcards, id: params.id, 
               })
             }} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>

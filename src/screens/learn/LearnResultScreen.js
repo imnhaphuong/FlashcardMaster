@@ -14,6 +14,11 @@ export default function LearnResultScreen(props) {
     // const trueAnswer = Questions.questionsTrue;
     // const falseAnswer = Questions.questionsFalse;
     const dispatch = useDispatch();
+    const fcard = useSelector((state) => state.fcardReducer).fcards
+    console.log("fcardReducer", fcard);
+    var params = props.route.params;
+    const flashcards = params.flashcards;
+    const round = params.round;
     const [progress, setProgress] = useState(2);
     const tempFcard = [
         {
@@ -46,22 +51,26 @@ export default function LearnResultScreen(props) {
             image: "",
         }
     ]
-    const myRenderItem = (e) => {
-        return (
-            <CustomFlipCard
-                term={e.item.term}
-                define={e.item.define}
-                example={e.item.example}
-                image={e.item.image}
-            />
-        );
-    };
+    useEffect(() => {
+        setProgress(flashcards.length / fcard.length);
+        if (round !== 1) {
+            setProgress(1);
+        }
+    }, [])
+    const continueRound = () => {
+        const fcard2 = fcard.slice(Math.floor(fcard.length / 2), fcard.length + 1);
+        console.log("fcard2", fcard2);
+        props.navigation.replace("learn", {
+            round: round + 1, flashcards: fcard2
+        })
+    }
+
     // const coin = trueAnswer.length * 5;
-    // const onBack = () => {
-    //     props.navigation.replace("unit_detail", {
-    //         id: Questions.id,
-    //     })
-    // }
+    const onBack = () => {
+        props.navigation.replace("unit_detail", {
+            id: useSelector((state) => state.fcardReducer).id,
+        })
+    }
     // const Questiondsa = useSelector((state) => state.questReducer)
     return (
         <SafeAreaView style={{ backgroundColor: colors.pastelPurple }}>
@@ -82,42 +91,41 @@ export default function LearnResultScreen(props) {
                     <Back />
                 </TouchableOpacity>
                 <View style={{ width: "90%", }}>
-                    <Text style={styles.textHeader}>Vòng 1</Text>
+                    <Text style={styles.textHeader}>Vòng {round}</Text>
                 </View>
             </KeyboardAvoidingView>
             <View style={{ height: '100%', }}>
                 <View style={{ height: '30%', backgroundColor: colors.pastelPurple, paddingHorizontal: 20, paddingVertical: 20 }}>
-                    <Text style={{ fontSize: 30, fontFamily: 'WorkSans-SemiBold', color: colors.text }}>Bạn đã hoàn thành rất tốt, hãy tiếp tục nào </Text>
-                    <View style={{  }}>
-                        <Text style={{ fontSize: 20, fontFamily: fonts.regular, marginVertical: 10 }}>Vòng 1 đã hoàn thành</Text>
+                    <Text style={{ fontSize: 30, fontFamily: 'WorkSans-SemiBold', color: colors.text }}>{round === 1 ? "Bạn đã hoàn thành rất tốt, hãy tiếp tục nào" : "Bạn đã hoàn thành học hết học phần"} </Text>
+                    <View >
+                        <Text style={{ fontSize: 20, fontFamily: fonts.regular, marginVertical: 10 }}>Vòng {round} đã hoàn thành</Text>
                         <Text style={{
                             fontSize: 16,
                             fontFamily: fonts.regular,
                             color: colors.text,
                             marginVertical: 5
-                        }}>7/20</Text>
+                        }}>{round === 1 ? flashcards.length + "/" + fcard.length : fcard.length + "/" + fcard.length}</Text>
                         <View style={{ marginTop: 10 }}>
                             <ProgressBar color={colors.violet}
-                                progress={0.5}
+                                progress={progress}
                                 borderWidth={3}
                                 borderColor={colors.graySecondary}
                                 unfilledColor={'white'}
                                 height={10}
-                                // backgroundColor={colors.white}
-                                borderRadius={7.5}
-                                style={{}} />
+                                borderRadius={7.5} />
                         </View>
-                        
+
                     </View>
                     <View style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginVertical:15,
-                        }}>
-                            <TouchableOpacity activeOpacity={0.5} style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginVertical: 15,
+                    }}>
+                        {
+                            round === 1 ? <TouchableOpacity activeOpacity={0.5} style={{
                                 alignItems: 'center',
                                 justifyContent: "center",
-                            }} >
+                            }} onPress={() => continueRound()}>
                                 <Text style={{
                                     fontSize: 18,
                                     fontFamily: fonts.semibold,
@@ -127,7 +135,21 @@ export default function LearnResultScreen(props) {
                                     Tiếp tục vòng 2
                                 </Text>
                             </TouchableOpacity>
-                        </View>
+                                : <TouchableOpacity activeOpacity={0.5} style={{
+                                    alignItems: 'center',
+                                    justifyContent: "center",
+                                }} onPress={() => onBack()}>
+                                    <Text style={{
+                                        fontSize: 18,
+                                        fontFamily: fonts.semibold,
+                                        color: colors.violet,
+                                        textDecorationLine: "underline",
+                                    }}>
+                                        Kết thúc
+                                    </Text>
+                                </TouchableOpacity>
+                        }
+                    </View>
 
                 </View>
 
@@ -137,7 +159,7 @@ export default function LearnResultScreen(props) {
                         {/* Flip Cards */}
                         <FlatList
                             showsHorizontalScrollIndicator={false}
-                            data={tempFcard}
+                            data={round === 1 ? flashcards : fcard}
                             renderItem={(e) => {
                                 return (
                                     <SimpleCard

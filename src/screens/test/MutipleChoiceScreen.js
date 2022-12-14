@@ -43,11 +43,6 @@ export default function MutipleChoiceScreen(props) {
         setOptions(array)
     }, [])
     const chooseAnswer = (define, score, indexOption) => {
-        // options.map((item, indexOp) => {
-        //     if (item === flashcards[i].define){
-        //         correct = item;
-        //     }
-        // })
         const question = {
             index: i + 1,
             question: flashcards[i].term,

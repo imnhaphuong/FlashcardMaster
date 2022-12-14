@@ -120,7 +120,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="lern_result"
+          initialRouteName="nav"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
