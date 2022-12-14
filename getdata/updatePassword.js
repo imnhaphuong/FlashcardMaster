@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const updatePassword = async (email ,oldPassword, newPassword) => {
-  var uri = "http://10.0.2.2:3000/api/users/changePassword";
+  var uri = "https://flashcard-master.vercel.app/api/users/changePassword";
   const result = await axios.post(uri, {
     email: email,
     oldPassword: oldPassword,

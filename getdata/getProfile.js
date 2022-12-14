@@ -23,14 +23,7 @@ export const getInsigniaesBought = async (userID) => {
   console.log(result.data);
   return result.data.insignia;
 };
-export const getUnitsCreatedSearch = async (creatorId) => {
-  console.log("ID", creatorId);
-  var uri = "https://flashcard-master.vercel.app/api/units/created";
-  const result = await axios.post(uri, {
-    creator: creatorId
-  })
-  return result.data.public.length;
-};
+
 // export const getUnitsCreatedSearch = async ( setData, userID) => {
 //   fetch("https://flashcard-master.vercel.app/api/units/created", {
 //     method: "post",

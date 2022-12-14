@@ -33,6 +33,7 @@ import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
+import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
 
 
 const Stack = createNativeStackNavigator();
@@ -140,6 +141,7 @@ export default function App() {
           <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
           <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
           <Stack.Screen name="learn" component={LearnScreen} />
+          <Stack.Screen name="verifyEmailAgain" component={VerifyEmailAgain} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
