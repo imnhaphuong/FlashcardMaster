@@ -47,9 +47,8 @@ const ClassScreen = (props) => {
   //useEffect
   useEffect(() => {
     onRefreshData();
-    console.log('call socket')
     const focusHandler = props.navigation.addListener("focus", () => {
-      onRefreshData();
+      setLoading(true)
     });
     return focusHandler;
   }, [isLoading, props.navigation]);

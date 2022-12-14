@@ -29,9 +29,9 @@ import registerNNPushToken from 'native-notify';
 import Other_Profile_Screen from "./src/screens/profile/another_profile";
 import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
+import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
-import NotificationsScreen from "./src/screens/notifications";
-
+import { configNotify } from "./contains/common";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,7 +50,7 @@ const loadAssets = async () =>
 
 export default function App() {
   //register push notification token
-  registerNNPushToken(5184, 'JScIpkViaeDrlzwDvEdXdh');
+  registerNNPushToken(configNotify.appId, configNotify.appToken);
 
   async function registerForPushNotification() {
     const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
@@ -67,7 +67,7 @@ export default function App() {
   }
 
   const linking = {
-    prefixes: ["https://flashcardmaster.page.link", Linking.createURL("/")],
+    prefixes: ["https://fcard.page.link", Linking.createURL("/")],
     linking_config,
   };
 
@@ -82,7 +82,6 @@ export default function App() {
   console.log("url" + url);
 
   useEffect(() => {
-    // registerForPushNotification().then(token => console.log(token)).catch(err=>console.log(err))
     async function getInitalURL() {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) setdata(Linking.parse(initialURL));
@@ -138,12 +137,9 @@ export default function App() {
             <Stack.Screen name="Shop_Screen" component={Shop_Screen} />
             <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
             <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen}/>
-            <Stack.Screen name="notifications" component={NotificationsScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       {/* </Provider> */}
     </Provider>
-
-
   );
 }

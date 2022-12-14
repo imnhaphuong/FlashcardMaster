@@ -26,7 +26,7 @@ import { createUser } from "../../redux/actions/actionUser";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/slices/userSlice";
 import { registerIndieID } from "native-notify";
-import axios from "axios";
+import { configNotify } from "../../../contains/common";
 
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -64,12 +64,6 @@ export default SignInScreen = ({ navigation }) => {
   };
 
   // React function hook && react funtion
-
-  // useEffect(() => {
-  //   AsyncStorage.getItem('Id').then(result => {
-  //     setUserId(result);
-  //   })
-  // }, [])
   const submitData = async (values) => {
     setLoading(true);
     try {
@@ -100,15 +94,9 @@ export default SignInScreen = ({ navigation }) => {
         console.log(result);
         AsyncStorage.setItem("accessToken", result.token);
         AsyncStorage.setItem("userId", result.data._id);
+        
         //register indie id
-        registerIndieID(result.data._id, 5184, "JScIpkViaeDrlzwDvEdXdh");
-        axios.post(`https://app.nativenotify.com/api/indie/notification`, {
-          subID: result.data._id,
-          appId: 5184,
-          appToken: "JScIpkViaeDrlzwDvEdXdh",
-          title: "login successfully " + result.data._id,
-          message: "put your push notification message here as a string"
-        });
+        registerIndieID(result.data._id, configNotify.appId, configNotify.appToken);
 
         AsyncStorage.setItem("userInfo", JSON.stringify(result.data));
         dispatch(createUser(result.data));

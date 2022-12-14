@@ -18,12 +18,17 @@ import getAllCreatedUnits from "../../../getdata/getAllCreatedUnits";
 import impUnitToClass from "../../../getdata/impUnitToClass";
 import addClassToUnit from "../../../getdata/addClassToUnit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import groupPushNotifications from "../../../getdata/notifications/groupPushNotifications";
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const ImportUnit = (props) => {
   //State
+  const route = useRoute();
+  const { user } = useSelector((state) => state.user);
   const [isLoading, setLoading] = useState(true);
   const [UNITS, setUnits] = useState([]);
-  const units_of_class = props.route.params.units;
+  const units_of_class = route.params.units;
   var [selectedArray, setSelectedArray] = useState([]);
 
   //set data for selected array
@@ -42,15 +47,9 @@ const ImportUnit = (props) => {
     }
   };
 
-  //minor data
-  const [userId, setuserId] = useState("");
-  AsyncStorage.getItem("userId").then((result) => {
-    setuserId(result);
-  });
-
   //useEffect
   useEffect(() => {
-    getAllCreatedUnits(userId, setUnits, setLoading);
+    getAllCreatedUnits(user._id, setUnits, setLoading);
     //set ids to selected array
     const ids = units_of_class.map((e) => e._id);
     setSelectedArray(ids);
@@ -59,11 +58,19 @@ const ImportUnit = (props) => {
   //submit data and update units of class
   const submitUpdate = () => {
     setLoading(true);
-    impUnitToClass(props.route.params.id, selectedArray, setLoading);
+    impUnitToClass(route.params.id, selectedArray, setLoading);
     selectedArray.map((e) => {
       console.log(e);
-      addClassToUnit(e, props.route.params.id, setLoading);
+      addClassToUnit(e, route.params.id, setLoading);
     });
+
+    const members = route.params.members.map((e) => e._id).slice(1);
+    groupPushNotifications(
+      members,
+      `Học phần trong "${route.params.class_name}" vừa có sự cập nhật`,
+      `Vào học ngay cho nóng 🥰`,
+      route.params.jcode
+    );
     props.navigation.goBack();
   };
 
@@ -80,7 +87,7 @@ const ImportUnit = (props) => {
       number_of_cards={
         typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
       }
-      class_mode={props.route.params.mode}
+      class_mode={route.params.mode}
     />
   );
   return (
@@ -122,7 +129,7 @@ const ImportUnit = (props) => {
         />
       </View>
 
-      {props.route.params.mode ? (
+      {route.params.mode ? (
         <View style={styles.note}>
           <Text style={styles.textNote}>
             Lưu ý: Các học phần không được công khai không thể thêm vào lớp học

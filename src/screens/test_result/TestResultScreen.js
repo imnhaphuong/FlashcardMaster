@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import styles from './style'
 import colors from "../../../contains/colors";
 import Back from "../../../assets/images/header/back.svg";
-import { resetQuest } from "../../redux/actions/actionQuestion"
-import { updateScore } from "../../redux/actions/actionUser"
 import fonts from '../../../contains/fonts';
 import { useDispatch, useSelector } from 'react-redux'
 import TestResult from '../../components/TestResult/TestResult';
@@ -12,19 +10,17 @@ import TestResult from '../../components/TestResult/TestResult';
 
 export default function TestResultScreen(props) {
     const Questions = useSelector((state) => state.questReducer)
-    const user = useSelector((state) => state.infoUser)
+    const {user} = useSelector((state) => state.user)
     const trueAnswer = Questions.questionsTrue;
     const falseAnswer = Questions.questionsFalse;
     const dispatch = useDispatch();
     const coin = trueAnswer.length * 5;
-    console.log("Questions", Questions)
-    console.log("params.id", Questions.id)
     const onBack = () => {
         props.navigation.replace("unit_detail", {
             id: Questions.id,
         })
     }
-
+    const Questiondsa = useSelector((state) => state.questReducer)
     return (
         <SafeAreaView style={{ backgroundColor: colors.pastelPurple }}>
             <StatusBar
@@ -49,10 +45,10 @@ export default function TestResultScreen(props) {
             </KeyboardAvoidingView>
             <View style={{ height: '100%', paddingVertical: 20 }}>
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16, fontFamily: 'WorkSans-SemiBold', color: colors.violet }}>Bạn đã được {user.score} điểm cho bài kiểm tra</Text>
+                    <Text style={{ fontSize: 16, fontFamily: 'WorkSans-SemiBold', color: colors.violet }}>Bạn đã được {user.scores} điểm cho bài kiểm tra</Text>
                 </View>
                 <View style={{ height: '20%', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', paddingHorizontal: 30 }}>
-                    <Text style={{ fontSize: 50, fontFamily: 'WorkSans-SemiBold', color: colors.text }}>{user.score}đ</Text>
+                    <Text style={{ fontSize: 50, fontFamily: 'WorkSans-SemiBold', color: colors.text }}>{user.scores}đ</Text>
                     <View style={{ width: '70%', }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 12 }}>
                             <Text style={{ fontSize: 20, fontFamily: 'WorkSans-SemiBold', width: '50%', color: colors.success }}>Đúng </Text>

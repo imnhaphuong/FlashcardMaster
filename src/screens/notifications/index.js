@@ -6,51 +6,41 @@ import {
   StatusBar,
   FlatList,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./style";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../../../contains/colors";
 import NotiCard from "../../components/NotiCard";
+import BlankNoti from "../../../assets/images/noti/blank_noti.svg";
 import Spinner from "react-native-loading-spinner-overlay";
-import {
-  getIndieNotificationInbox,
-  deleteIndieNotificationInbox,
-} from "native-notify";
+import { useFocusEffect } from "@react-navigation/native";
+import { getIndieNotificationInbox } from "native-notify";
+import { useSelector } from "react-redux";
+import { configNotify } from "../../../contains/common";
 
 const NotificationsScreen = (props) => {
   //State
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [userId, setUserId] = useState('none');
-  AsyncStorage.getItem("userId").then((result) => {
-    setUserId(result);
-    console.log("user id in notif" + userId);
-  });
-
-  const onRefreshData = async () => {
-    let notifications = await getIndieNotificationInbox(
-      userId,
-      5184,
-      "JScIpkViaeDrlzwDvEdXdh"
-    );
-    console.log("notifications: ", notifications);
-    setData(notifications);
-    setLoading(false);
-  };
+  const { user } = useSelector((state) => state.user);
 
   const myRenderItem = ({ item }) => (
     <NotiCard
-      _id={item.notification_id}
-      title={item.title}
-      message={item.message}
-      navigation={props.navigation}
+      noti={item}
     />
   );
 
   //useEffect
-  useEffect(() => {
-    onRefreshData();
-  }, []);
+  useFocusEffect(() => {
+    (async () => {
+      let notifications = await getIndieNotificationInbox(
+        user._id,
+        configNotify.appId,
+        configNotify.appToken
+      );
+      setData(notifications);
+      setLoading(false);
+    })();
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,25 +62,33 @@ const NotificationsScreen = (props) => {
         </View>
       </KeyboardAvoidingView>
       {/* Content */}
-      <FlatList
-        contentContainerStyle={styles.wrapFlatList}
-        showsVerticalScrollIndicator={false}
-        data={data}
-        renderItem={myRenderItem}
-        numColumns={1}
-        keyExtractor={(item) => item.notification_id}
-        ListHeaderComponent={
-          <View>
-            <View style={[styles.wrapOr]}>
-              <View style={styles.line} />
-              <View>
-                <Text style={styles.joined}>CÁC LỚP BẠN ĐÃ THAM GIA</Text>
+
+      {data.length == 0 ? (
+        <View style={styles.wrapNoNoti}>
+          <BlankNoti />
+          <Text style={styles.messageNoNoti}>Hiện chưa có thông báo !</Text>
+        </View>
+      ) : (
+        <FlatList
+          contentContainerStyle={styles.wrapFlatList}
+          showsVerticalScrollIndicator={false}
+          data={data}
+          renderItem={myRenderItem}
+          numColumns={1}
+          keyExtractor={(item) => item.notification_id}
+          ListHeaderComponent={
+            <View>
+              <View style={[styles.wrapOr]}>
+                <View style={styles.line} />
+                <View>
+                  <Text style={styles.joined}>CÁC LỚP BẠN ĐÃ THAM GIA</Text>
+                </View>
+                <View style={styles.line} />
               </View>
-              <View style={styles.line} />
             </View>
-          </View>
-        }
-      />
+          }
+        />
+      )}
     </SafeAreaView>
   );
 };

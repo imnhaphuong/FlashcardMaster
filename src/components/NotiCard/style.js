@@ -18,10 +18,11 @@ const styles = StyleSheet.create({
       width: 0,
       height: 1,
     },
+    flexDirection: "row",
     elevation: 1,
-    height: 100,
+    height: 140,
     marginBottom: 8,
-    justifyContent: "space-evenly",
+    paddingVertical: 20,
   },
   title: {
     fontFamily: fonts.semibold,
@@ -38,28 +39,27 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
     marginLeft: 4,
   },
-  wrapCreator: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatarCreator: {
-    width: 16,
-    height: 16,
-    borderRadius: 100,
-  },
-  usernameCreator: {
+  message: {
     fontFamily: fonts.regular,
     fontSize: 12,
     color: colors.violet,
-    marginLeft: 4,
   },
-  tagMode: {
+  date: {
+    fontFamily: fonts.regular,
+    fontSize: 12,
+    color: colors.darkGray,
+    textAlign: "right"
+  },
+  remove: {
     position: "absolute",
     right: 0,
     top: 0,
-    width: 56,
-    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 40,
+    height: 40,
     resizeMode: "contain",
+    zIndex: 10
   },
 });
 

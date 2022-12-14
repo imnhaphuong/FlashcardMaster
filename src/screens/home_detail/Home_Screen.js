@@ -20,6 +20,7 @@ import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 const Home_Screen = (props) => {
@@ -28,7 +29,7 @@ const Home_Screen = (props) => {
   const [isLoading, setLoading] = useState(true);
 
   //useEffect
-  useEffect(() => {
+  useEffect(()=> {
     getAllTopics(settopic, setLoading);
   }, [isLoading]);
 
@@ -85,7 +86,7 @@ const Home_Screen = (props) => {
         />
         <View style={styles.coin_display}>
           <Coin />
-          <Text style={styles.price}>{user.scores}</Text>
+          <Text style={styles.price}>{user.coin}</Text>
         </View>
       </View>
       <FlatList

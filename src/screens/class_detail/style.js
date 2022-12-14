@@ -117,7 +117,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 20,
   },
-
+  blockNotJoin: {
+    fontFamily: fonts.regular,
+    fontSize: 16,
+    color: colors.text,
+    textAlign: "center",
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  }
 });
 
 export default styles;

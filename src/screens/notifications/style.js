@@ -98,6 +98,18 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   line: { flex: 1, height: 1, backgroundColor: colors.graySecondary },
+  wrapNoNoti: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  messageNoNoti: {
+    fontSize: 20,
+    paddingVertical: 20,
+    fontFamily: fonts.semibold,
+    color: colors.text
+  }
 });
 
 export default styles;
