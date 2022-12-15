@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     width: 24,
   },
   price: {
-    width: 35,
+    //width: 35,
     fontWeight: 'bold',
     fontSize: 16,
     alignItems: 'center',

@@ -15,13 +15,15 @@ import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Tick from "../../../assets/images/header/Tick.svg";
 import colors from "../../../contains/colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateFullname } from "../../../getdata/updateProfile";
 import Toast from "react-native-toast-message";
+import { setUser } from "../../store/slices/userSlice";
 
 
 
 const Setting_Screen = (props) => {
+    const dispatch = useDispatch()
     const { user } = useSelector(state => state.user);
     console.log("USER", user);
     const [inputs, setInputs] = useState({
@@ -80,15 +82,15 @@ const Setting_Screen = (props) => {
                                 visibilityTime: 5000,
                                 autoHide: true
                             })
-                            showAlert()
+
                         }
                         if (newFullname && inputs.email != "") {
                             setErrorMessage(undefined)
                             showAlert()
                         }
-                        else {
-                            setErrorMessage("ERROR")
-                        }
+                        dispatch(setUser({
+                            ...user, fullname: newFullname.fullname
+                        }))
                     }
                     if (inputs.fullname === "") {
                         if (inputs.email === "") {
@@ -121,12 +123,14 @@ const Setting_Screen = (props) => {
                     <View style={styles.user_info} >
                         <Text style={styles.item}>Họ và tên</Text>
                         <TextInput
+                            placeholder={user.fullname}
                             value={inputs.fullname}
                             onChangeText={(text) => handleOnChange(text, 'fullname')}
                             style={styles.input}>
                         </TextInput>
                         <Text style={styles.item}>Email</Text>
                         <TextInput
+                            placeholder={user.email}
                             value={inputs.email}
                             onChangeText={(text) => handleOnChange(text, 'email')}
                             style={styles.input}>
