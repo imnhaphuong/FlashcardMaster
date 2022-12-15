@@ -44,3 +44,7 @@ export const UnitSchema = Yup.object().shape({
   )
 
 });
+//Change password
+export const ChangePasswordSchema = Yup.object().shape({
+  
+})

@@ -7,7 +7,6 @@ import {
     ScrollView,
     SafeAreaView,
     FlatList,
-    TouchableOpacity,
 } from "react-native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { useState } from "react";

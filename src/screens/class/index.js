@@ -33,12 +33,13 @@ const ClassScreen = (props) => {
 
   const myRenderItem = ({ item }) => (
     <ClassCard
-      mode={item.mode}
-      _id={item._id}
-      jcode={item.jcode}
-      name={item.name}
-      creator={item.creator}
-      number_of_members={item.members.length}
+      // mode={item.mode}
+      // _id={item._id}
+      // jcode={item.jcode}
+      // name={item.name}
+      // creator={item.creator}
+      // number_of_members={item.members.length}
+      classData={item}
       navigation={props.navigation}
     />
   );

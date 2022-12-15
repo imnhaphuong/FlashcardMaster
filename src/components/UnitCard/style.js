@@ -45,6 +45,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.violet,
   },
+  tagMode: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    width: 56,
+    height: 56,
+    resizeMode: "contain",
+  },
 });
 
 export default styles;

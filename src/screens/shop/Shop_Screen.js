@@ -8,28 +8,27 @@ import {
     View,
     SafeAreaView,
     FlatList,
-    KeyboardAvoidingView,
     StatusBar,
     TouchableOpacity
 } from "react-native";
 import styles from "./style";
+import { useSelector } from "react-redux";
 
 const Shop_Screen = (props) => {
     const [INSIGNIA, setInsignia] = useState([]);
     const [isLoading, setLoading] = useState(true);
-
+    const { user } = useSelector(state => state.user);
     useEffect(() => {
         getALLInsignia(setInsignia, setLoading);
     }, [isLoading]);
 
     const myRenderInsigniaItem = ({ item }) => (
-        <>
-            <InsigniaCard
-                name={item.name}
-                price={item.price}
-                image={item.image}
-            />
-        </>
+        <InsigniaCard
+            disable={user.insignia.includes(item._id)}
+            name={item.name}
+            price={item.price}
+            image={item.image}
+        />
     );
     return (
         <SafeAreaView>

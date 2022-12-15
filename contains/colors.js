@@ -10,4 +10,5 @@ export default {
     highlight: '#FF5977',
     black: '#000',
     success:'#2cb67d',
+    red: '#DD0000',
 }

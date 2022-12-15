@@ -8,21 +8,49 @@ import {
     TouchableOpacity,
     TextInput,
     Switch,
+    ScrollView,
     Alert
 } from "react-native";
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Tick from "../../../assets/images/header/Tick.svg";
 import colors from "../../../contains/colors";
+import { useSelector } from "react-redux";
+import { updateFullname } from "../../../getdata/updateProfile";
+import Toast from "react-native-toast-message";
+
+
 
 const Setting_Screen = (props) => {
-    const [username, setUsername] = useState("");
-    const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
-
+    const { user } = useSelector(state => state.user);
+    console.log("USER", user);
+    const [inputs, setInputs] = useState({
+        fullname: '',
+        email: ''
+    });
+    const handleOnChange = (text, input) => {
+        setInputs((prevState) => ({ ...prevState, [input]: text }));
+    };
+    const [errorMessage, setErrorMessage] = useState();
     const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+    const showAlert = () =>
+        Alert.alert(
+            "",
+            "Bạn cần phải đăng nhập lại từ đầu khi thay đổi email! ",
+            [
+                {
+                    text: "Huỷ",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "Đồng ý", onPress: () => {
+                        props.navigation.navigate("verifyEmailAgain", { userId: user._id, email: inputs.email })
+                    }
+                }
+            ]
+        );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -33,71 +61,100 @@ const Setting_Screen = (props) => {
                 showHideTransition={"fade"}
             />
             <View style={styles.header}>
+                <Toast ref={(ref) => { Toast.setRef(ref) }} />
                 <TouchableOpacity onPress={() => {
                     props.navigation.goBack()
                 }}>
                     <Back />
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Cài đặt</Text>
-                <TouchableOpacity onPress={() => Alert.alert("Save")}>
+                <TouchableOpacity onPress={async () => {
+                    if (inputs.fullname != "") {
+                        const newFullname = await updateFullname(user._id, inputs.fullname)
+                        if (newFullname && inputs.email === "") {
+                            setErrorMessage(undefined)
+                            Toast.show({
+                                type: 'success',
+                                position: 'top',
+                                text1: 'Bạn đã thay đổi họ và tên thành công',
+                                visibilityTime: 5000,
+                                autoHide: true
+                            })
+                            showAlert()
+                        }
+                        if (newFullname && inputs.email != "") {
+                            setErrorMessage(undefined)
+                            showAlert()
+                        }
+                        else {
+                            setErrorMessage("ERROR")
+                        }
+                    }
+                    if (inputs.fullname === "") {
+                        if (inputs.email === "") {
+                            setErrorMessage("Vui lòng nhập thông tin bạn muốn thay đổi")
+                        } else {
+                            showAlert()
+                        }
+                    }
+                    setInputs({
+                        fullname: '',
+                        email: '',
+                    })
+                }}>
                     <Tick />
                 </TouchableOpacity>
             </View>
-            <View style={styles.content}>
-                <View>
-                    <Text style={styles.title}>Hồ sơ</Text>
-                    <View style={styles.avatar}>
-                        <Image
-                            style={styles.image}
-                            source={{
-                                uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-                            }} />
+            <ScrollView>
+                {errorMessage && <Text style={{ color: "#DD0000" }}>{errorMessage}</Text>}
+                <View style={styles.content}>
+                    <View>
+                        <Text style={styles.title}>Hồ sơ</Text>
+                        <View style={styles.avatar}>
+                            <Image
+                                style={styles.image}
+                                source={{
+                                    uri: user.avatar,
+                                }} />
+                        </View>
                     </View>
-
+                    <View style={styles.user_info} >
+                        <Text style={styles.item}>Họ và tên</Text>
+                        <TextInput
+                            value={inputs.fullname}
+                            onChangeText={(text) => handleOnChange(text, 'fullname')}
+                            style={styles.input}>
+                        </TextInput>
+                        <Text style={styles.item}>Email</Text>
+                        <TextInput
+                            value={inputs.email}
+                            onChangeText={(text) => handleOnChange(text, 'email')}
+                            style={styles.input}>
+                        </TextInput>
+                    </View>
+                    <View style={styles.notify}>
+                        <Text style={styles.title}>Thông báo</Text>
+                        <Switch
+                            trackColor={{ false: "#767577", true: colors.violet }}
+                            thumbColor={isEnabled ? colors.white : "#f4f3f4"}
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
+                    </View>
+                    <View style={styles.version}>
+                        <Text style={styles.title}>Phiên bản</Text>
+                        <Text style={styles.version_text}>1.0</Text>
+                    </View>
+                    <View style={styles.btn_gr}>
+                        <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("sign_up")}>
+                            <Text style={styles.btn_text}>Đăng xuất</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("ChangePassword_Screen")}>
+                            <Text style={styles.btn_text}>Thay đổi mật khẩu</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.user_info} >
-                    <Text style={styles.item}>Username</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setUsername}
-                        value={username}></TextInput>
-                    <Text style={styles.item}>Họ và tên</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setFullname}
-                        value={fullname}></TextInput>
-                    <Text style={styles.item}>Email</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setEmail}
-                        value={email}></TextInput>
-                </View>
-
-                <View style={styles.notify}>
-                    <Text style={styles.title}>Thông báo</Text>
-                    <Switch
-                        trackColor={{ false: "#767577", true: colors.violet }}
-                        thumbColor={isEnabled ? colors.white : "#f4f3f4"}
-                        onValueChange={toggleSwitch}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.version}>
-                    <Text style={styles.title}>Phiên bản</Text>
-                    <Text style={styles.version_text}>1.0</Text>
-                </View>
-                <View style={styles.btn_gr}>
-                    <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("sign_up")}>
-                        <Text style={styles.btn_text}>Đăng xuất</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("ChangePassword_Screen")}>
-                        <Text style={styles.btn_text}>Thay đổi mật khẩu</Text>
-                    </TouchableOpacity>
-                </View>
-
-            </View>
-
-
+            </ScrollView>
         </SafeAreaView>
     )
 }

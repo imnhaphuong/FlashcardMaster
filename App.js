@@ -21,6 +21,8 @@ import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
 import CreateUnitScreen from "./src/screens/create_unit/CreateUnitScreen";
 import ImportUnit from "./src/screens/imp_unit";
+import TestScreen from "./src/screens/test/TestScreen"
+import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 import Profile_Screen from "./src/screens/profile/Profile_Screen";
 import Setting_Screen from "./src/screens/Setting"
 import * as Notifications from 'expo-notifications'
@@ -35,6 +37,7 @@ import TestScreen from "./src/screens/test/TestScreen";
 import TestResultScreen from "./src/screens/test_result/TestResultScreen";
 import WriteTextScreen from "./src/screens/learn/WriteTextScreen";
 import LearnResultScreen from "./src/screens/learn/LearnResultScreen";
+import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
 
 
 const Stack = createNativeStackNavigator();
@@ -120,7 +123,7 @@ export default function App() {
             // tắt header
             headerShown: false,
           }}
-          initialRouteName="nav"
+          initialRouteName="sign_in"
         >
           <Stack.Screen name="class_detail" component={ClassDetailScreen} />
           <Stack.Screen name="nav" component={NavigationBar} />
@@ -143,6 +146,7 @@ export default function App() {
           <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
           <Stack.Screen name="learn" component={LearnScreen} />
           <Stack.Screen name="lern_result" component={LearnResultScreen} />
+          <Stack.Screen name="verifyEmailAgain" component={VerifyEmailAgain} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import colors from '../../../contains/colors';
+import fonts from '../../../contains/fonts';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 20,
         color: colors.text,
-        fontFamily: 'WorkSans-SemiBold',
+        fontFamily: fonts.semibold,
     },
     userinfor: {
         flexDirection: 'row',
@@ -63,6 +64,8 @@ const styles = StyleSheet.create({
     fullname: {
         fontSize: 20,
         fontWeight: "500",
+        fontFamily: fonts.semibold,
+        color: colors.text,
     },
     wrapUnits: {
         flex: 1,
@@ -73,16 +76,28 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     wrapClasses: {
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
+        flex: 1,
+        justifyContent: "center",
         paddingHorizontal: 12,
         paddingTop: 20,
     },
     wrapInsignia: {
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
+        flex: 1,
+        justifyContent: "center",
         paddingHorizontal: 12,
         paddingTop: 20,
+    },
+    btn: {
+        borderRadius: 10,
+        width: "100%",
+        height: 45,
+        backgroundColor: "#006965",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    btn_text: {
+        fontSize: 18,
+        color: colors.white
     }
 
 });

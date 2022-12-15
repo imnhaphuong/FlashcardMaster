@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#006965",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
     },
     btn_text: {
         fontSize: 18,
