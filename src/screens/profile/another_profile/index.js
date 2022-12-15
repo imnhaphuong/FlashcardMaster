@@ -4,64 +4,66 @@ import {
     Image,
     View,
     StatusBar,
-    ScrollView,
     SafeAreaView,
     FlatList,
+    TouchableOpacity,
+    ActivityIndicator,
+    ScrollView,
 } from "react-native";
+import Back from "../../../../assets/images/header/back.svg";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import { useState } from "react";
-import getProfile from "../../../../getdata/getProfile";
-import InsigniaCard from "../../../components/Insignia";
+import { useState, useEffect } from "react";
+import { getUnitsCreated, getClassesCreated, getInsigniaesBought } from "../../../../getdata/getProfile";
+import InsigniaProfile from "../../../components/Insignia/Insignia_Profile";
 import colors from "../../../../contains/colors";
 import styles from "../style";
-import UnitCard from "../../../components/UnitCard";
+import UnitCard_Profile from "../../../components/UnitCard/UnitCard_Profile";
 import ClassCard from "../../../components/ClassCard";
-import { useSelector } from "react-redux";
+import { setUnits, setClasses, setInsigniaes } from "../../../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import fonts from '../../../../contains/fonts';
 
 const Other_Profile_Screen = (props) => {
-    const { user } = useSelector(state => state.user)
-    console.log(user, "USER");
+    const { user, units, classes, insigniaes } = useSelector(state => state.user);
+    if (user._id === props.route.params.id) {
+        props.navigation.navigate("nav",{screenName: "profile"})
+    }
+    const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useDispatch();
     const [selectedIndex, setSelectedIndex] = useState(0);
-
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
     };
 
-    const [units, setUnits] = useState([]);
-    getProfile(setUnits, selectedIndex);
-
-    const [classes, setClasses] = useState([]);
-    getProfile(setClasses, selectedIndex);
-
-    const [insignia, setInsignia] = useState([]);
-    getProfile(setInsignia, selectedIndex);
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const unitsCreator = await getUnitsCreated(props.route.params.id);
+            const classesCreator = await getClassesCreated(props.route.params.id);
+            const insigniaBought = await getInsigniaesBought(props.route.params.id);
+            dispatch(setUnits(unitsCreator));
+            dispatch(setClasses(classesCreator));
+            dispatch(setInsigniaes(insigniaBought));
+            console.log(insigniaBought);
+            setIsLoading(false);
+        }
+        fetchData()
+    }, [])
     const renderUnitItem = ({ item }) => (
-        <UnitCard
-            unit_name={item.unitName}
-            username={item.creator.fullname}
-            number_of_cards={
-                typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
-            }
-            navigation={props.navigation}
+        <UnitCard_Profile
+            key={item.id}
+            unit={item}
         />
     );
-
     const renderClassItem = ({ item }) => (
         <ClassCard
-            name={item.name}
-            number_of_members={
-                typeof item.members !== "undefined" ? item.members.length : 0
-            }
-            navigation={props.navigation}
+            key={item.id}
+            classData={item}
         />
     );
-
     const renderInsignialItem = (item) => (
-        <InsigniaCard
-            name={item.name}
-            price={item.price}
-            image={item.image}
+        <InsigniaProfile
+            key={item.id}
+            insigniaData={item.item}
         />
     );
     return (
@@ -76,113 +78,112 @@ const Other_Profile_Screen = (props) => {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.header}
             >
+                <TouchableOpacity onPress={() => {
+                    props.navigation.goBack()
+                }}>
+                    <Back />
+                </TouchableOpacity>
                 <Text style={styles.textHeader}>Hồ sơ</Text>
             </View>
-            <View>
-                <View style={styles.userinfor}>
-                    <View>
-                        <Text style={styles.fullname}>Họ và tên</Text>
-                        <Text>example@gmail</Text>
-                    </View>
-                    <Image
-                        style={styles.avatar}
-                        source={{
-                            uri: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745",
-                        }} />
+            <View style={styles.userinfor}>
+                <View>
+                    <Text style={styles.fullname}>{props.route.params.fullname}</Text>
+                    <Text style={{ fontFamily: fonts.semibold }}>{props.route.params.email}</Text>
                 </View>
-                {/* <View style={styles.userinfor}>
-                    <View>
-                        <Text>{user.fullname}</Text>
-                        <Text>{user.email}</Text>
-                    </View>
-                    <Image
-                        style={styles.avatar}
-                        source={{
-                            uri: user.avatar,
-                        }} />
-                </View> */}
+                <Image
+                    style={styles.avatar}
+                    source={{
+                        uri: props.route.params.avatar,
+                    }} />
+            </View>
+            <ScrollView
+                nestedScrollEnabled={true}
+            >
                 <View style={styles.counts}>
-                    <Text>Thống kê</Text>
+                    <Text style={{ fontFamily: fonts.semibold }}>Thống kê</Text>
                     <View style={styles.statics}>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                     </View>
                     <View style={styles.statics}>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                         <View style={styles.count}>
-                            <Text>189 ngày đăng nhập</Text>
+                            <Text style={{ fontFamily: fonts.semibold }}>189 ngày đăng nhập</Text>
                         </View>
                     </View>
                 </View>
-            </View>
-            <View>
-                <SegmentedControlTab
-                    values={[
-                        "Học phần",
-                        "Lớp học",
-                        "Huy hiệu",
-                    ]}
-                    selectedIndex={selectedIndex}
-                    onTabPress={handleIndexChange}
-                    tabsContainerStyle={{
-                        height: 60,
-                        backgroundColor: colors.pastelPurple,
-                    }}
-                    tabStyle={{
-                        backgroundColor: colors.pastelPurple,
-                        borderColor: "transparent",
-                        borderBottomColor: colors.graySecondary,
-                        borderWidth: 1,
-                    }}
-                    activeTabStyle={{
-                        backgroundColor: "#deddfa",
-                        borderBottomColor: colors.violet,
-                        borderWidth: 2,
-                    }}
-                    tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
-                    activeTabTextStyle={{ color: colors.violet }}>
-                </SegmentedControlTab>
-            </View>
-            <ScrollView>
-                {selectedIndex === 0 && (
-                    <View style={styles.wrapUnits}>
-                        <Text>Units</Text>
-                        <FlatList
-                            data={units}
-                            renderItem={renderUnitItem}
-                            numColumns={2}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </View>
-                )}
-                {selectedIndex === 1 && (
-                    <View style={styles.wrapClasses}>
-                        <Text>Classes</Text>
-                        <FlatList
-                            data={classes}
-                            renderItem={renderClassItem}
-                            numColumns={1}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </View>
-                )}
-                {selectedIndex === 2 && (
-                    <View style={styles.wrapInsignia}>
-                        <Text>Huy Hieu</Text>
-                        <FlatList
-                            data={insignia}
-                            renderItem={renderInsignialItem}
-                            numColumns={1}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </View>
-                )}
+                <View>
+                    <SegmentedControlTab
+                        values={[
+                            "Học phần",
+                            "Lớp học",
+                            "Huy hiệu",
+                        ]}
+                        selectedIndex={selectedIndex}
+                        onTabPress={handleIndexChange}
+                        tabsContainerStyle={{
+                            height: 60,
+                            backgroundColor: colors.pastelPurple,
+                        }}
+                        tabStyle={{
+                            backgroundColor: colors.pastelPurple,
+                            borderColor: "transparent",
+                            borderBottomColor: colors.graySecondary,
+                            borderWidth: 1,
+                        }}
+                        activeTabStyle={{
+                            backgroundColor: "#deddfa",
+                            borderBottomColor: colors.violet,
+                            borderWidth: 2,
+                        }}
+                        tabTextStyle={{ color: colors.graySecondary, fontWeight: "bold" }}
+                        activeTabTextStyle={{ color: colors.violet }}>
+                    </SegmentedControlTab>
+                </View>
+                {isLoading ? <ActivityIndicator /> :
+                    <>
+                        {selectedIndex === 0 && (
+                            <View style={styles.wrapUnits}>
+                                <FlatList
+                                    nestedScrollEnabled={true}
+                                    data={units.public}
+                                    renderItem={renderUnitItem}
+                                    numColumns={2}
+                                    keyExtractor={(item, index) => item.id + index}
+                                />
+                            </View>
+                        )}
+                        {selectedIndex === 1 && (
+                            <View style={styles.wrapClasses}>
+                                <FlatList
+                                    nestedScrollEnabled={true}
+                                    data={classes.public}
+                                    renderItem={renderClassItem}
+                                    numColumns={1}
+                                    keyExtractor={(item, index) => item.id + index}
+                                />
+                            </View>
+                        )}
+                        {selectedIndex === 2 && (
+                            <View style={styles.wrapInsignia}>
+                                <FlatList
+                                    nestedScrollEnabled={true}
+                                    data={insigniaes}
+                                    renderItem={renderInsignialItem}
+                                    numColumns={1}
+                                    keyExtractor={(item, index) => item.id + index}
+                                />
+                            </View>
+                        )}
+                    </>
+                }
+
             </ScrollView>
         </SafeAreaView >
     )

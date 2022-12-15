@@ -26,7 +26,7 @@ import Profile_Screen from "../../screens/profile/Profile_Screen";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
-  const [currentScreen, setcurrentScreen] = useState("class");
+  const [currentScreen, setcurrentScreen] = useState("");
   const [userId, setUserId] = useState("");
   const [type, setType] = useState("");
   const info = useSelector((state) => state.infoUser);
@@ -67,6 +67,7 @@ export default function NavigationBar() {
       screenOptions={{
         tabBarStyle: { height: 80 },
       }}
+      initialRouteName={currentScreen}
     >
       <Tab.Screen
         name="home"

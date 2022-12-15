@@ -33,6 +33,7 @@ const Profile_Screen = (props) => {
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
     };
+
     useEffect(() => {
         const fetchData = async () => {
             const unitsCreator = await getUnitsCreated(user._id);
@@ -48,16 +49,19 @@ const Profile_Screen = (props) => {
     }, [])
     const renderUnitItem = ({ item }) => (
         <UnitCard_Profile
+            key={item.id}
             unit={item}
         />
     );
     const renderClassItem = ({ item }) => (
         <ClassCard
+            key={item.id}
             classData={item}
         />
     );
     const renderInsignialItem = (item) => (
         <InsigniaProfile
+            key={item.id}
             insigniaData={item.item}
         />
     );
@@ -89,7 +93,9 @@ const Profile_Screen = (props) => {
                         uri: user.avatar,
                     }} />
             </View>
-            <ScrollView>
+            <ScrollView
+                nestedScrollEnabled={true}
+            >
                 <View style={styles.counts}>
                     <Text style={{ fontFamily: fonts.semibold }}>Thống kê</Text>
                     <View style={styles.statics}>
@@ -146,7 +152,7 @@ const Profile_Screen = (props) => {
                                     data={[...units.private, ...units.public]}
                                     renderItem={renderUnitItem}
                                     numColumns={2}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}
@@ -157,7 +163,7 @@ const Profile_Screen = (props) => {
                                     data={[...classes.private, ...classes.public]}
                                     renderItem={renderClassItem}
                                     numColumns={1}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}
@@ -177,7 +183,7 @@ const Profile_Screen = (props) => {
                                     data={insigniaes}
                                     renderItem={renderInsignialItem}
                                     numColumns={1}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}

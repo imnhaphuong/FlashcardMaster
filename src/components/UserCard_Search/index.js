@@ -1,5 +1,5 @@
 import { Text, View, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import styles from "./style";
 import Class from '../../../assets/images/class.svg';
 import Unit from '../../../assets/images/unit.svg';
@@ -14,7 +14,10 @@ const UserCard_Search = ({ user }) => {
       style={styles.wrapUserCard}
       onPress={() => {
         navigation.navigate("Other_Profile_Screen", {
-          id: user._id
+          id: user._id,
+          fullname: user.fullname,
+          email: user.email,
+          avatar: user.avatar,
         });
       }}
     >

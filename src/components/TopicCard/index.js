@@ -25,7 +25,7 @@ const TopicCard = (props) => {
           <Text style={Styles.titletopic}>{props.name}</Text>
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate("TopicReadMore", { name: props.name })
+              props.navigation.navigate("TopicReadMore", { name: props.name, units: props.units })
             }
           >
             <Text style={Styles.readmore}>Xem thêm</Text>
@@ -33,7 +33,7 @@ const TopicCard = (props) => {
         </View>
         <View style={Styles.wrapUnits}>
           <FlatList
-            data={UNIT_DATA}
+            data={UNIT_DATA.slice(0, 4)}
             renderItem={myRenderItem}
             numColumns={2}
             keyExtractor={(item) => item._id}
