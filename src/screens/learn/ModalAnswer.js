@@ -16,7 +16,7 @@ const ModalAnswer = ({ question, visible, onClose, answer, correct }) => {
             }}>
                 <View style={{
                     width: "100%",
-                    
+                    height:"50%",
                     borderRadius: 10,
                     paddingBottom: 0,
                     backgroundColor: "white",
@@ -27,16 +27,18 @@ const ModalAnswer = ({ question, visible, onClose, answer, correct }) => {
                         alignItems: 'center',
                         borderTopLeftRadius: 10,
                         borderTopRightRadius: 10,
-                        height: "20%",
+                        height: "25%",
                         paddingHorizontal: 10,
+                        paddingVertical:10,
                         backgroundColor: colors.highlight,
                     }}>
-                        <InCorrect />
+                        <InCorrect /> 
                         <Text style={{
                             fontSize: 22,
                             color: colors.white,
                             fontFamily: fonts.semibold,
                             marginLeft: 20,
+                            
                         }}>
                             Sai rồi!
                         </Text>

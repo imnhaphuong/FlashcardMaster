@@ -20,8 +20,7 @@ export default function MutipleChoiceScreen(props) {
     const [correct, setCorrect] = useState("");
     const [options, setOptions] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [wrong,setWrong] = useState(0);
-    
+    const [wrong, setWrong] = useState(0);
     // const options=[]
     const array = []
     function shuffleArray(array) {
@@ -33,7 +32,6 @@ export default function MutipleChoiceScreen(props) {
         }
     }
     useEffect(() => {
-        
         setQuestion(flashcards[i].term)
         randoms.push(i);
         array.push(define)
@@ -47,12 +45,10 @@ export default function MutipleChoiceScreen(props) {
         } while (array.length < 4)
         shuffleArray(array)
         setOptions(array)
-        console.log("flashcardsMutiple", flashcards);
     }, [i])
     const chooseAnswer = (indexOption) => {
-        // setAnswer(options[indexOption])
         setCorrect(define)
-        if (options[indexOption] === correct) {
+        if (options[indexOption] === define) {
             if (props.index + 1 === flashcards.length) {
                 props.navigation.replace('lern_result', {
                     flashcards: flashcards, round: round
@@ -63,22 +59,21 @@ export default function MutipleChoiceScreen(props) {
                 })
             }
         } else {
-            console.log("sai",wrong);
-            setWrong(wrong+1)
+            console.log("sai", wrong);
+            setWrong(wrong + 1)
             // setQuestion(question);
             if (wrong >= 2) {
                 setShowModal(true);
                 setAnswer(options[indexOption])
-            }else{
+            } else {
                 setShowModal(true);
                 setCorrect("")
                 setTimeout(() => {
                     setShowModal(false);
-                    
-                },1000)
+                }, 1000)
             }
             // setQuestion(question);
-            
+
             // setCorrect(correct);
         }
     }
