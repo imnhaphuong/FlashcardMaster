@@ -43,7 +43,6 @@ const Other_Profile_Screen = (props) => {
             dispatch(setUnits(unitsCreator));
             dispatch(setClasses(classesCreator));
             dispatch(setInsigniaes(insigniaBought));
-            console.log(insigniaBought);
             setIsLoading(false);
         }
         fetchData()

@@ -55,7 +55,7 @@ const CreateUnitScreen = (props) => {
     mode: false,
   })
 
-  const url = "http://192.168.43.158:3000/api/units"
+  const url = "https://flashcard-master.vercel.app/api/units"
   useEffect(() => {
     AsyncStorage.getItem('userInfo').then(result => {
       const { fullname, _id } = JSON.parse(result)
