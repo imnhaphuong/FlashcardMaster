@@ -8,31 +8,62 @@ import {
     View,
     SafeAreaView,
     FlatList,
-    KeyboardAvoidingView,
     StatusBar,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import styles from "./style";
+import { useSelector, useDispatch } from "react-redux";
+import { buyInsignia } from "../../../getdata/getBuyInsignia";
+import { setUser } from "../../store/slices/userSlice";
+
 
 const Shop_Screen = (props) => {
+    const dispatch = useDispatch()
     const [INSIGNIA, setInsignia] = useState([]);
     const [isLoading, setLoading] = useState(true);
-
+    const { user } = useSelector(state => state.user);
     useEffect(() => {
         getALLInsignia(setInsignia, setLoading);
     }, [isLoading]);
 
     const myRenderInsigniaItem = ({ item }) => (
-        <>
-            <InsigniaCard
-                name={item.name}
-                price={item.price}
-                image={item.image}
-            />
-        </>
+        <InsigniaCard
+            disable={user.insignia.includes(item._id)}
+            insignia={item}
+            onClickItem={(insignia) => {
+                console.log("HUY HIEU", insignia);
+                Alert.alert(
+                    "",
+                    "Mua huy hiệu... với giá " + insignia.price + " xu",
+                    [
+                        {
+                            text: "Huỷ",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                        },
+                        {
+                            text: "Mua",
+                            onPress: async () => {
+                                const buy = await buyInsignia(user._id, insignia._id)
+                                console.log("BUY", buy);
+                                if (!buy) {
+                                    setErroMessage("Rất tiếc bạn không đủ xu.")
+                                } else {
+                                    console.log("Mua thanh cong");
+                                    dispatch(setUser(
+                                        buy
+                                    ))
+                                }
+                            }
+                        }
+                    ]
+                );
+            }}
+        />
     );
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <StatusBar
                 animated={true}
                 backgroundColor={colors.white}

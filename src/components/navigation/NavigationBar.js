@@ -28,7 +28,7 @@ import { configNotify } from "../../../contains/common";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
-  const [currentScreen, setcurrentScreen] = useState("class");
+  const [currentScreen, setcurrentScreen] = useState("");
   const [type, setType] = useState("");
   const { user } = useSelector((state) => state.user);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
@@ -77,6 +77,7 @@ export default function NavigationBar() {
       screenOptions={{
         tabBarStyle: { height: 80 },
       }}
+      initialRouteName={currentScreen}
     >
       <Tab.Screen
         name="home"

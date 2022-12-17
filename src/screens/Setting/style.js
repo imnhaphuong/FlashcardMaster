@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         fontWeight: "bold",
         fontSize: 18,
+        color: colors.text,
     },
-    avatar:{
+    avatar: {
         alignItems: "center"
     },
     image: {
@@ -49,17 +50,19 @@ const styles = StyleSheet.create({
     },
     user_info: {
         justifyContent: "space-around",
-        height: 280
+        height: 190
     },
     item: {
         fontSize: 16,
-        color: colors.darkGray
+        color: colors.darkGray,
+        fontWeight: "200",
     },
     input: {
         height: 45,
         borderWidth: 0.5,
         borderColor: colors.darkGray,
         borderRadius: 5,
+        paddingLeft: 10
     },
     notify: {
         flexDirection: "row",

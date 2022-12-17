@@ -11,7 +11,7 @@ const Styles = StyleSheet.create({
     },
     titletopic: {
       fontFamily:fonts.semibold,
-      color: '#2D005B',
+      color: colors.text,
       fontSize: 16
     },
     readmore: {

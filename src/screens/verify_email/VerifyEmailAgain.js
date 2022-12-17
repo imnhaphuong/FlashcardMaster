@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
 import colors from '../../../contains/colors'
 import styles from './style'
@@ -7,29 +7,18 @@ import CustomInputOTP from '../../components/CustomInputOTP/CustomInputOTP'
 import { Formik } from 'formik'
 import { OTPSchema } from '../../../contains/validation'
 import CustomButton from '../../components/CustomButton/CustomButton'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import SysModal from '../../components/SysModal/SysModal'
 import Spinner from 'react-native-loading-spinner-overlay'
 import CountDown from 'react-native-countdown-component';
 import Reload from '../../../assets/images/sign_up/reload.svg'
+import { updateEmail } from '../../../getdata/updateProfile'
 
-export default VerifyEmailScreen = ({ }) => {
-
+export default VerifyEmailAgain = (props) => {
+    const userId = props.route.params.userId
+    const email = props.route.params.email
     const [isLoading, setLoading] = useState(false);
     const [mess, setMess] = useState('');
-    const [userId, setUserId] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [user, setUser] = useState(null);
-
-    // React function hook && react funtion 
-    useEffect(() => {
-        AsyncStorage.getItem('userId').then(result => {
-            setUserId(result);
-        })
-        AsyncStorage.getItem('userInfo').then(result => {
-            setUser(result);
-        })
-    }, [])
     const [timerCount, setTimer] = useState(180)
     useEffect(() => {
         let interval = setInterval(() => {
@@ -41,23 +30,23 @@ export default VerifyEmailScreen = ({ }) => {
         //cleanup the interval on complete
         return () => clearInterval(interval)
     }, []);
+
     const showModa = () => {
         setTimeout(() => {
             setShowModal(false);
             setLoading(false);
         }, 1000);
     };
+
     const submitData = async (values) => {
         setLoading(true)
         const { otp } = values;
-        console.log("otp", otp);
         const data = {
             otp: otp,
-            userId: userId
+            userId: props.route.params.userId
         }
-        console.log(data);
         try {
-            const result = await fetch("https://flashcard-master.vercel.app/api/users/verify-email", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/verifyEmailAgain", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,12 +55,14 @@ export default VerifyEmailScreen = ({ }) => {
                 body: JSON.stringify(data),
             }).then(res => res.json()
             )
-            console.log("result", result);
             if (result.status === 'success') {
-                setLoading(false)
-                setTimeout(() => {
-                    navigation.push("sign_in")
-                }, 1000);
+                const newEmail = await updateEmail(userId, email)
+                if (newEmail) {
+                    setLoading(false)
+                    setTimeout(() => {
+                        props.navigation.push("sign_in")
+                    }, 1000);
+                }
             } else {
                 console.log(result.message);
                 setMess(result.message)
@@ -81,7 +72,7 @@ export default VerifyEmailScreen = ({ }) => {
 
         } catch (error) {
             console.log(error);
-            // setMess("Email hoặc mật khẩu chưa đúng");
+            //setMess("Email hoặc mật khẩu chưa đúng");
             console.log("khum");
             // setShowModal(true);
             // showModa();
@@ -89,14 +80,14 @@ export default VerifyEmailScreen = ({ }) => {
     }
     const sendVerification = async () => {
         setLoading(true)
-        const { email } = JSON.parse(user);
+        //const { email } = JSON.parse(user);
         const data = {
-            userId: userId,
-            email: email,
+            userId: props.route.params.userId,
+            email: props.route.params.email,
         }
-        console.log("send verification",data);
+        console.log("send verification", data);
         try {
-            const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
+            const result = await fetch("https://flashcard-master.vercel.app/api/users/sendVerifyAgain", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -104,9 +95,9 @@ export default VerifyEmailScreen = ({ }) => {
                 },
                 body: JSON.stringify(data),
             }).then(res => res.json()
-            ).then(data=>console.log("data",data))
+            ).then(data => console.log("data", data))
             setLoading(false)
-            navigation.replace("verify_email")
+            //navigation.replace("verifyEmailAgain")
         } catch (err) {
             console.log(err);
             setLoading(false)
@@ -115,11 +106,8 @@ export default VerifyEmailScreen = ({ }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
             <Spinner color={colors.violet} visible={isLoading} />
-
             <SysModal visible={showModal} message={mess} />
-
             <ScrollView scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
-
                 <View style={{
                     position: "absolute",
                     width: "100%",
@@ -131,7 +119,6 @@ export default VerifyEmailScreen = ({ }) => {
                 }}>
                     <BgSignUp width={400} height={820} />
                 </View>
-
                 {/* Title */}
                 <View style={{ top: 180, marginLeft: 20 }}>
                     <View >
@@ -146,7 +133,6 @@ export default VerifyEmailScreen = ({ }) => {
                 <Formik
                     initialValues={{
                         otp: '',
-
                     }}
                     validateOnMount={true}
                     validationSchema={OTPSchema}
@@ -163,12 +149,10 @@ export default VerifyEmailScreen = ({ }) => {
                                     autoFocus={true}
                                     touched={touched.otp}
                                 />
-
                             </View>
-
                             <View style={{ marginTop: 260, marginHorizontal: 20 }}>
                                 <CountDown
-                                    until={60*10}
+                                    until={60 * 10}
                                     size={25}
                                     digitStyle={{ backgroundColor: '#FFF' }}
                                     digitTxtStyle={{ color: colors.violet }}
@@ -178,24 +162,19 @@ export default VerifyEmailScreen = ({ }) => {
                                     running="false"
                                 />
                                 <TouchableOpacity style={{
-                                    alignItems: 'center',justifyContent:'center' ,marginVertical: 30,  flexDirection: 'row',
-                                }} activeOpacity={0.5} onPress={()=>sendVerification()}>
+                                    alignItems: 'center', justifyContent: 'center', marginVertical: 30, flexDirection: 'row',
+                                }} activeOpacity={0.5} onPress={() => sendVerification()}>
                                     <Reload />
                                     <Text style={styles.textSignIn}>
-                                        Gửi lại mã
+                                        Gửi mã
                                     </Text>
                                 </TouchableOpacity>
                                 <CustomButton onPress={handleSubmit} hide="hide" text="Xác nhận" />
                             </View>
                         </View>
-
                     )}
                 </Formik>
-
-
-
             </ScrollView>
         </SafeAreaView >
     )
-
 }

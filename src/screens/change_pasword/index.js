@@ -1,27 +1,32 @@
-import React from "react";
+import React ,{ useState } from "react";
 import {
     Text,
     View,
     StatusBar,
     SafeAreaView,
     TouchableOpacity,
-    TextInput,
-    Alert,
-    Formik
+    ScrollView,
 } from "react-native";
-import { useState } from "react";
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import colors from "../../../contains/colors";
-import EyeIcon from "../../../assets/images/sign_up/eye.svg"
-import EyeSlashIcon from "../../../assets/images/sign_up/no-eye.svg"
+import InputChangePassword from "../../components/CustomInputChangePass";
+import { updatePassword } from "../../../getdata/updatePassword";
+import { useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
 
 
 const ChangePassword_Screen = (props) => {
-    const [oldpassword, setOldpass] = useState("");
-    const [newpassword, setNewpass] = useState("");
-    const [RepeatNewPassword, setRepeatNewpass] = useState("");
-
+    const { user } = useSelector(state => state.user);
+    const [errorMessage, setErrorMessage] = useState();
+    const [inputs, setInputs] = useState({
+        oldpassword: '',
+        newpassword: '',
+        repeatnewpassword: '',
+    });
+    const handleOnChange = (text, input) => {
+        setInputs((prevState) => ({ ...prevState, [input]: text }));
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -37,34 +42,64 @@ const ChangePassword_Screen = (props) => {
                 }}>
                     <Back />
                 </TouchableOpacity>
-
                 <Text style={styles.textHeader}>Đổi mật khẩu</Text>
             </View>
-            <View style={styles.content}>
-                <View style={styles.user_info}>
-                    <Text style={styles.input_title}>Mật khẩu cũ</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setOldpass}
-                        value={oldpassword}
+            <ScrollView>
+                <View style={styles.content}>
+                    {errorMessage && <Text style={{ color: "#DD0000" }}>{errorMessage}</Text>}
+                    <InputChangePassword
+                        value={inputs.oldpassword}
+                        label="Mật khẩu cũ"
+                        onChangeText={(text) => handleOnChange(text, 'oldpassword')}
                     />
-                    <Text style={styles.input_title} >Mật khẩu mới</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setNewpass}
-                        value={newpassword}
+                    <InputChangePassword
+                        value={inputs.newpassword}
+                        label="Mật khẩu mới"
+                        onChangeText={(text) => handleOnChange(text, 'newpassword')}
                     />
-                    <Text style={styles.input_title}>Nhập lại mật khẩu mới</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setRepeatNewpass}
-                        value={RepeatNewPassword}
+                    <InputChangePassword
+                        value={inputs.repeatnewpassword}
+                        label="Nhập lại mật khẩu mới"
+                        onChangeText={(text) => handleOnChange(text, 'repeatnewpassword')}
                     />
+                    <Toast ref={(ref) => { Toast.setRef(ref) }} />
+                    <TouchableOpacity
+                        style={styles.btn}
+                        activeOpacity={0.7}
+                        onPress={async () => {
+                            if (inputs.oldpassword.length > 0 && inputs.newpassword.length > 0 && inputs.repeatnewpassword.length > 0) {
+                                if (inputs.newpassword === inputs.repeatnewpassword) {
+                                    const result = await updatePassword(user.email, inputs.oldpassword, inputs.newpassword)
+                                    if (result.status === "SUCCESS") {
+                                        setErrorMessage(undefined)
+                                        Toast.show({
+                                            type: 'success',
+                                            position: 'top',
+                                            text1: 'Bạn đã thay đổi mật khẩu thành công',
+                                            visibilityTime: 5000,
+                                            autoHide: true
+                                        })
+                                    } else {
+                                        setErrorMessage("Mật khẩu không hợp lệ")
+                                    }
+                                }
+                                if (inputs.newpassword != inputs.repeatnewpassword) {
+                                    setErrorMessage("Mật khẩu mới không khớp!")
+                                }
+                            } else {
+                                setErrorMessage("Vui lòng nhập đầy đủ thông tin đi")
+                            }
+                            setInputs({
+                                oldpassword: '',
+                                newpassword: '',
+                                repeatnewpassword: '',
+                            })
+                        }}
+                    >
+                        <Text style={styles.btn_text}>Lưu mật khẩu</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={() => Alert.alert("Luu mat khau")}>
-                    <Text style={styles.btn_text}>Lưu mật khẩu</Text>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }

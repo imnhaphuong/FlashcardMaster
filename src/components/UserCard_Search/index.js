@@ -1,37 +1,44 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import styles from "./style";
-import Class from '../../../assets/images/nab/class.svg';
+import Class from '../../../assets/images/class.svg';
 import Unit from '../../../assets/images/unit.svg';
+import { useNavigation } from "@react-navigation/native";
 
-const UserCard_Search = (props) => {
-  const id = props.id;
-  const fullname = props.fullname ? props.fullname : "user0";
-  const number_of_class = `${props.number_of_class} lớp học`;
-  const number_of_unit = `${props.number_of_unit} học phần`;
 
+const UserCard_Search = ({ user }) => {
+  const navigation = useNavigation();
+  console.log("USER", user);
   return (
-    <View style={styles.wrapUserCard}>
+    <Pressable
+      style={styles.wrapUserCard}
+      onPress={() => {
+        navigation.navigate("Other_Profile_Screen", {
+          id: user._id,
+          fullname: user.fullname,
+          email: user.email,
+          avatar: user.avatar,
+        });
+      }}
+    >
       <View style={styles.wrapUser}>
-        <View>
-          <Image
-            style={styles.avatar}
-            source={require("../../../assets/images/avt-default.png")}
-          />
-          <Text style={styles.username}>{fullname}</Text>
-        </View>
-        <View style={styles.infor}>
-          <Class
-            style={styles.icon} />
-          <Text>{number_of_class}</Text>
-        </View>
-        <View style={styles.infor}>
-          <Unit
-            style={styles.icon} />
-          <Text>{number_of_unit}</Text>
-        </View>
+        <Image
+          style={styles.avatar}
+          source={{ uri: user.avatar ? user.avatar : "https://cdn-icons-png.flaticon.com/512/147/147142.png" }}/>
+        <Text style={styles.email}>{user.email}</Text>
       </View>
-    </View>
+      <Text style={styles.username}>{user.fullname}</Text>
+      <View style={styles.infor}>
+        <Class
+          style={styles.icon} />
+        <Text style={styles.public}>{user.classLength} lớp học công khai</Text>
+      </View>
+      <View style={styles.infor}>
+        <Unit
+          style={styles.icon} />
+        <Text style={styles.public}>{user.unitLength} học phần công khai</Text>
+      </View>
+    </Pressable>
   );
 };
 

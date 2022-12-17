@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  Pressable
 } from "react-native";
 import styles from "./style";
 import Coin from "../../../assets/images/header/coin.svg";
@@ -21,12 +22,14 @@ import getAllTopics from "./../../../getdata/getAllTopics";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 
 const Home_Screen = (props) => {
   const { user } = useSelector(state => state.user)
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   //useEffect
   useEffect(()=> {
@@ -84,10 +87,12 @@ const Home_Screen = (props) => {
           style={styles.landscape}
           source={require("../../../assets/images/welcome/landscape.png")}
         />
-        <View style={styles.coin_display}>
-          <Coin />
-          <Text style={styles.price}>{user.coin}</Text>
-        </View>
+        <Pressable onPress={()=>{navigation.navigate("Shop_Screen")}}>
+          <View style={styles.coin_display}>
+            <Coin />
+            <Text style={styles.price}>{user.coin}</Text>
+          </View>
+        </Pressable>
       </View>
       <FlatList
         ListHeaderComponent={

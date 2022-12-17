@@ -1,33 +1,23 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  ImageBackground,
-} from "react-native";
-import styles from "./style";
-import colors from "../../../contains/colors";
-import CustomInput from "../../components/CustomInput/CustomInput";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import { Formik } from "formik";
-import { SignInSchema } from "../../../contains/validation";
-import React, { useEffect, useState } from "react";
-import LockIcon from "../../../assets/images/sign_up/lock.svg";
-import EnvelopeIcon from "../../../assets/images/sign_up/message.svg";
-import EyeIcon from "../../../assets/images/sign_up/eye.svg";
-import EyeSlashIcon from "../../../assets/images/sign_up/no-eye.svg";
-import BgSignUp from "../../../assets/images/sign_up/bgSignUp.svg";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Spinner from "react-native-loading-spinner-overlay";
-import SysModal from "../../components/SysModal/SysModal";
-import ModalOption from "../../components/ModalOption/ModalOption";
-import { createUser } from "../../redux/actions/actionUser";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/slices/userSlice";
-import { registerIndieID } from "native-notify";
-import { configNotify } from "../../../contains/common";
-
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native'
+import styles from './style'
+import colors from '../../../contains/colors'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import CustomButton from '../../components/CustomButton/CustomButton'
+import { Formik } from 'formik'
+import { SignInSchema } from '../../../contains/validation'
+import React, { useEffect, useState } from 'react'
+import LockIcon from '../../../assets/images/sign_up/lock.svg'
+import EnvelopeIcon from '../../../assets/images/sign_up/message.svg'
+import EyeIcon from '../../../assets/images/sign_up/eye.svg'
+import EyeSlashIcon from '../../../assets/images/sign_up/no-eye.svg'
+import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Spinner from 'react-native-loading-spinner-overlay'
+import SysModal from '../../components/SysModal/SysModal'
+import ModalOption from '../../components/ModalOption/ModalOption'
+import { createUser } from "../../redux/actions/actionUser"
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from "../../store/slices/userSlice"
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
@@ -195,13 +185,12 @@ export default SignInScreen = ({ navigation }) => {
         {/* Title */}
         <View style={{ top: 130, marginLeft: 20 }}>
           <Text style={styles.title}>Đăng Nhập</Text>
-          <View
-            style={{
-              width: 271,
-              height: 16,
-            }}
-          >
-            <Text style={styles.subTitle}>Vui lòng đăng nhập để tiếp tục</Text>
+          <View style={{
+            width: 271,
+            height: 16,
+          }}>
+            <Text style={styles.subTitle}>Vui lòng đăng nhập để tiếp tục
+            </Text>
           </View>
         </View>
         {/* Form */}
