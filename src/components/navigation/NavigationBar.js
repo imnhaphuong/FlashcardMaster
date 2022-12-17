@@ -17,7 +17,7 @@ import NotiUnRead from "../../../assets/images/nab/notiunread.svg";
 import PressedNotiUnread from "../../../assets/images/nab/pressednotiunread.svg";
 import Profile from "../../../assets/images/nab/profile.svg";
 import ProfileFocus from "../../../assets/images/nab/profilefocus.svg";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 // import ClassDetailScreen from '../../screens/class_detail';
 import ClassScreen from "../../screens/class";
 import CreateUnitScreen from "../../screens/create_unit/CreateUnitScreen";
@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import Profile_Screen from "../../screens/profile/Profile_Screen";
 import { getUnreadIndieNotificationInboxCount } from "native-notify";
 import { configNotify } from "../../../contains/common";
+import AutoScrolling from "react-native-auto-scrolling";
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -32,7 +33,7 @@ export default function NavigationBar() {
   const [type, setType] = useState("");
   const { user } = useSelector((state) => state.user);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
-  
+
   useEffect(() => {
     (async () => {
       let unreadCount = await getUnreadIndieNotificationInboxCount(
@@ -73,116 +74,125 @@ export default function NavigationBar() {
     //   }
   }, [currentScreen]);
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: { height: 80 },
-      }}
-      initialRouteName={currentScreen}
-    >
-      <Tab.Screen
-        name="home"
-        component={Home_Screen}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>
-              {focused ? <HomeFocus /> : <Home />}
-            </View>
-          ),
+    <>
+      {unreadNotificationCount != 0 ? (
+          <AutoScrolling style={styles.scrolling}>
+            <Text style={styles.textScrolling}>{`Bạn có ${unreadNotificationCount} thông báo mới 🎉🎉🎉`}</Text>
+          </AutoScrolling>
+      ) : null}
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: { height: 80 },
         }}
-        listeners={({ navigation, route }) => ({
-          focus: (e) => {
-            setcurrentScreen(route.name);
-          },
-        })}
-      />
-      {/* if (type === 1) {
+        initialRouteName={currentScreen}
+      >
+        <Tab.Screen
+          name="home"
+          component={Home_Screen}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.view}>
+                {focused ? <HomeFocus /> : <Home />}
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            focus: (e) => {
+              setcurrentScreen(route.name);
+            },
+          })}
+        />
+        {/* if (type === 1) {
       ( */}
-      <Tab.Screen
-        name="class"
-        component={ClassScreen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>
-              {focused ? <ClassFocus /> : <Class />}
-            </View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          focus: (e) => {
-            setcurrentScreen(route.name);
-          },
-        })}
-      />
-      {/* )} */}
-      <Tab.Screen
-        name="create_unit"
-        component={CreateUnitScreen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>{focused ? <NewFocus /> : <New />}</View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            // setcurrentScreen(route.name);
-            navigation.push("create_unit");
-          },
-        })}
-      />
-      <Tab.Screen
-        name="noti"
-        component={NotificationsScreen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>
-              {focused ? (
-                unreadNotificationCount == 0 ? (
-                  <NotiFocus />
+        <Tab.Screen
+          name="class"
+          component={ClassScreen}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.view}>
+                {focused ? <ClassFocus /> : <Class />}
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            focus: (e) => {
+              setcurrentScreen(route.name);
+            },
+          })}
+        />
+        {/* )} */}
+        <Tab.Screen
+          name="create_unit"
+          component={CreateUnitScreen}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.view}>
+                {focused ? <NewFocus /> : <New />}
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              // setcurrentScreen(route.name);
+              navigation.push("create_unit");
+            },
+          })}
+        />
+        <Tab.Screen
+          name="noti"
+          component={NotificationsScreen}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.view}>
+                {focused ? (
+                  unreadNotificationCount == 0 ? (
+                    <NotiFocus />
+                  ) : (
+                    <PressedNotiUnread />
+                  )
+                ) : unreadNotificationCount == 0 ? (
+                  <Noti />
                 ) : (
-                  <PressedNotiUnread />
-                )
-              ) : unreadNotificationCount == 0 ? (
-                <Noti />
-              ) : (
-                <NotiUnRead />
-              )}
-            </View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          focus: (e) => {
-            setcurrentScreen(route.name);
-          },
-        })}
-      />
-      <Tab.Screen
-        name="profile"
-        component={Profile_Screen}
-        options={{
-          headerShown: false,
-          tabBarShowLabel: false,
+                  <NotiUnRead />
+                )}
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            focus: (e) => {
+              setcurrentScreen(route.name);
+            },
+          })}
+        />
+        <Tab.Screen
+          name="profile"
+          component={Profile_Screen}
+          options={{
+            headerShown: false,
+            tabBarShowLabel: false,
 
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.view}>
-              {focused ? <ProfileFocus /> : <Profile />}
-            </View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          focus: (e) => {
-            setcurrentScreen(route.name);
-          },
-        })}
-      />
-    </Tab.Navigator>
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.view}>
+                {focused ? <ProfileFocus /> : <Profile />}
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            focus: (e) => {
+              setcurrentScreen(route.name);
+            },
+          })}
+        />
+      </Tab.Navigator>
+    </>
   );
 }

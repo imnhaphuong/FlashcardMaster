@@ -18,6 +18,9 @@ import ModalOption from '../../components/ModalOption/ModalOption'
 import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../../store/slices/userSlice"
+import { registerIndieID } from 'native-notify'
+import { configNotify } from '../../../contains/common'
+
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
