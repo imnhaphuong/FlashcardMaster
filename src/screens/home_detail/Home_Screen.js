@@ -32,7 +32,10 @@ const Home_Screen = (props) => {
 
   //useEffect
   useEffect(() => {
-    getAllTopics(settopic, setLoading);
+    const fetchData = async () => {
+      getAllTopics(settopic, setLoading);
+    }
+    fetchData()
   }, [isLoading]);
 
   const myRenderTopicItem = ({ item }) => (

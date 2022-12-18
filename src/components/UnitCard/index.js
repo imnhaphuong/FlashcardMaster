@@ -8,6 +8,7 @@ const UnitCard = ({unit}) => {
   // const creator = props.creator 
   // const number_of_cards = `${props.number_of_cards} thẻ`;
   // const unit_name = props.unit_name 
+  console.log("UNITS", unit);
   const navigation = useNavigation()
 
   return (
