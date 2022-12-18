@@ -20,7 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../../store/slices/userSlice"
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
+  const { user } = useSelector(state => state.user);
+  console.log("USER", user);
   const [hide, setHide] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);

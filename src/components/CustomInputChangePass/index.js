@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../../../contains/colors";
+import fonts from "../../../contains/fonts";
 
 const InputChangePassword = ({
     label,
@@ -18,7 +19,7 @@ const InputChangePassword = ({
     return (
         <View style={{ marginBottom: 5 }}>
             <Text style={style.label}>{label}</Text>
-            <View style={[style.inputContainer, { borderColor: error ? colors.red : isFocused ? colors.success : colors.darkGray }]}>
+            <View style={[style.inputContainer, { borderColor: error ? colors.red : isFocused ? colors.success : colors.text }]}>
                 <TextInput
                     secureTextEntry={hidePassword}
                     autoCorrect={false}
@@ -29,7 +30,7 @@ const InputChangePassword = ({
                     onBlur={() => {
                         setIsFocused(false)
                     }}
-                    style={{ color: colors.darkGray, flex: 1 }}
+                    style={{ color: colors.text, flex: 1, fontSize:16,fontFamily:fonts.regular }}
                     {...props} />
                 <Icon
                     onPress={() => setHidePassword(!hidePassword)}
@@ -43,9 +44,10 @@ const InputChangePassword = ({
 };
 const style = StyleSheet.create({
     label: {
+        fontFamily: fonts.semibold,
         marginVertical: 10,
         fontSize: 16,
-        color: colors.darkGray,
+        color: colors.text,
     },
     inputContainer: {
         height: 55,

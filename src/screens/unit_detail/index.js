@@ -161,7 +161,7 @@ const UnitDetail = (props) => {
           <TouchableOpacity
             onPress={() => {
               settoggleMore(false)
-              props.navigation.navigate("create_unit", {
+              props.navigation.replace("create_unit", {
                 id: params.id, UNIT: UNIT
               });
             }}
@@ -234,7 +234,7 @@ const UnitDetail = (props) => {
                   setShowModal(false);
                 }, 2500);
               } else {
-                props.navigation.navigate('test', {
+                props.navigation.replace('test', {
                   flashcards: flashcards, id: params.id
                 })
               }

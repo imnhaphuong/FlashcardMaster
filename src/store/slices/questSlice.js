@@ -62,7 +62,7 @@ export const questSlice = createSlice({
                 return { ...state, questions: [...state.questions, WriteQuest], questionsFalse: [...state.questionsFalse, action.payload.index] }
             }
         }
-
+        
     }
 })
 // Action creators are generated for each case reducer function

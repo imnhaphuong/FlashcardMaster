@@ -26,6 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Home_Screen = (props) => {
   const { user } = useSelector(state => state.user)
+  console.log("usersdsadsa",user);
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -103,7 +104,7 @@ const Home_Screen = (props) => {
         <Pressable onPress={() => { navigation.navigate("Shop_Screen") }}>
           <View style={styles.coin_display}>
             <Coin />
-            <Text style={styles.price}>{user.coin}</Text>
+            <Text style={styles.price}>{user.coin !== null ? user.coin :"0"}</Text>
           </View>
         </Pressable>
       </View>
@@ -114,7 +115,7 @@ const Home_Screen = (props) => {
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>{user.fullname!==null?user.fullname:""}</Text>{" "}
               </Text>
             </View>
             <View style={styles.Thegirl}>
