@@ -56,7 +56,7 @@ const ModalCreateClass = (props) => {
     })
       .then((res) => res.json())
       .then((resJson) => {
-        console.log(values);
+        console.log(resJson);
       })
       .catch((error) => {
         console.log(error);

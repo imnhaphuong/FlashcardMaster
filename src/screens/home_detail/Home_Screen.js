@@ -21,6 +21,7 @@ import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -69,8 +70,6 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  AsyncStorage.setItem("userId", "636229a664e39686c4afa67f");
-
   // console.log(data);
   // const [visible, setvisible] = useState(false);
   // const popupModal = () => {

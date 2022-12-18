@@ -34,6 +34,9 @@ import Spinner from "react-native-loading-spinner-overlay";
 import fonts from "../../../contains/fonts";
 import * as Clipboard from "expo-clipboard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import indiePushNotifications from "../../../getdata/notifications/indiePushNotifications";
+import { useSelector } from "react-redux";
+import getUserById from "../../../getdata/getUserById";
 
 const ClassDetailScreen = (props) => {
   //State
@@ -43,12 +46,10 @@ const ClassDetailScreen = (props) => {
   const [toggleMore, settoggleMore] = useState(false);
   let [visibleUpdateModal, setVisibleUpdateModal] = useState(false);
   let [visibleDeleteModal, setVisibleDeleteModal] = useState(false);
-  //get user id when logged to fill in creator id
-  const [userId, setuserId] = useState("");
-  AsyncStorage.getItem("userId").then((result) => {
-    setuserId(result);
-  });
 
+  //get user id when logged to fill in creator id
+  const { user } = useSelector((state) => state.user);
+  const [myUser, setUser] = useState([]);
   //minor data
   const [members, setMembers] = useState([]);
   const [units, setUnits] = useState([]);
@@ -57,16 +58,17 @@ const ClassDetailScreen = (props) => {
   const [isCreator, setIsCreator] = useState(false);
 
   // refesh data
-  const onRefreshData = () => {
-    getClassByJCode(params.jcode, setclass, setLoading);
+  const onRefreshData = async () => {
+    await getClassByJCode(params.jcode, setclass, setLoading);
     if (typeof CLASS.creator !== "undefined") {
       setCreator(CLASS.creator);
-      setIsCreator(userId == CLASS.creator._id);
+      setIsCreator(user._id == CLASS.creator._id);
     }
     if (typeof CLASS.members !== "undefined") {
       setMembers(CLASS.members);
+      console.log("recall set members");
       CLASS.members.map((e) => {
-        if (e._id == userId) {
+        if (e._id == user._id) {
           setIsJoined(true);
         }
       });
@@ -75,38 +77,37 @@ const ClassDetailScreen = (props) => {
     if (typeof CLASS.units !== "undefined") {
       setUnits(CLASS.units);
     }
+    await getUserById(setUser, user._id);
   };
 
   //useEffect
   useEffect(() => {
     onRefreshData();
     const focusHandler = props.navigation.addListener("focus", () => {
-      setLoading(true)
-      onRefreshData();
+      setLoading(true);
     });
     return focusHandler;
   }, [isLoading]);
   //render unit card
   const renderUnitItem = ({ item }) => (
-    <UnitCard
-    unit={item}
-      // id={item._id}
-      // unit_name={item.unitName}
-      // creator={creator}
-      // number_of_cards={
-      //   typeof item.flashcards !== "undefined" ? item.flashcards.length : 0
-      // }
-      navigation={props.navigation}
-    />
+    <UnitCard unit={item} navigation={props.navigation} />
   );
 
   //render user card
   const renderUserItem = (item) => {
     if (item.index === 0) {
-      return <UserCard creatorCard={true} user={item.item} classId = {CLASS._id} />;
+      return (
+        <UserCard class_id={CLASS._id} creatorCard={true} user={item.item} />
+      );
     }
     return (
-      <UserCard isCreator={isCreator} creatorCard={false} user={item.item} />
+      <UserCard
+        class_id={CLASS._id}
+        isCreator={isCreator}
+        creatorCard={false}
+        user={item.item}
+        setLoading={setLoading}
+      />
     );
   };
 
@@ -123,6 +124,18 @@ const ClassDetailScreen = (props) => {
       mode: CLASS.mode,
       id: CLASS._id,
       units: CLASS.units,
+      class_name: CLASS.name,
+      members: CLASS.members,
+      jcode: CLASS.jcode
+    });
+  };
+  //creaete unit
+  const onCreate = () => {
+    props.navigation.push("create_unit", {
+      class_id: CLASS._id,
+      class_name: CLASS.name,
+      members: CLASS.members,
+      jcode: CLASS.jcode
     });
   };
   // share
@@ -153,7 +166,7 @@ const ClassDetailScreen = (props) => {
       });
       const json = await res.json();
       const result = await Share.share({
-        message: `Join the class ${json.shortLink}`,
+        message: `Join the class ${json}`,
         url: json.shortLink,
         title: `check ${CLASS.jcode}`,
       });
@@ -175,15 +188,22 @@ const ClassDetailScreen = (props) => {
   };
 
   //join
-  const onJoinRequest = () => {
+  const onJoinRequest = async () => {
     setLoading(true);
-    joinClass(CLASS._id, userId, setIsJoined);
+    await joinClass(CLASS._id, myUser._id, setIsJoined);
+    await indiePushNotifications(
+      creator._id,
+      user._id,
+      `${myUser.fullname} đã tham gia lớp "${CLASS.name}" của bạn`,
+      `Hãy cố gắng tạo ra nhiều bài học. Cùng phát triển cộng đồng Fcard nào`,
+      CLASS.jcode
+    );
   };
 
   //leave
   const onLeaveRequest = () => {
     setLoading(true);
-    leaveClass(CLASS._id, userId, setIsJoined);
+    leaveClass(CLASS._id, user._id, setIsJoined);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -237,8 +257,14 @@ const ClassDetailScreen = (props) => {
                 </View>
               </TouchableOpacity>
               <Line backgroundColor={colors.violet} opacity={0.2} />
-              {userId == creator._id ? (
+              {user._id == creator._id ? (
                 <>
+                  <TouchableOpacity onPress={onCreate} style={styles.option}>
+                    <View>
+                      <Text>Tạo học phần</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <Line backgroundColor={colors.violet} opacity={0.2} />
                   <TouchableOpacity onPress={onImpUnit} style={styles.option}>
                     <View>
                       <Text>Thêm học phần</Text>
@@ -258,16 +284,23 @@ const ClassDetailScreen = (props) => {
                     </View>
                   </TouchableOpacity>
                 </>
-              ) : (
-                isJoined ?
+              ) : isJoined ? (
                 <>
-                  <TouchableOpacity onPress={onLeaveRequest} style={styles.option}>
+                  <TouchableOpacity
+                    onPress={onLeaveRequest}
+                    style={styles.option}
+                  >
                     <View>
                       <Text>Rời lớp học</Text>
                     </View>
                   </TouchableOpacity>
-                </> :    <>
-                  <TouchableOpacity onPress={onJoinRequest} style={styles.option}>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity
+                    onPress={onJoinRequest}
+                    style={styles.option}
+                  >
                     <View>
                       <Text>Tham gia lớp</Text>
                     </View>
@@ -395,24 +428,32 @@ const ClassDetailScreen = (props) => {
               color: colors.violet,
             }}
           />
-          {selectedIndex === 0 && (
-            <View style={styles.wrapUnits}>
-              <FlatList
-                data={units}
-                renderItem={renderUnitItem}
-                numColumns={2}
-                keyExtractor={(item) => item.id}
-              />
-            </View>
-          )}
-          {selectedIndex === 1 && (
-            <View style={styles.wrapUnits}>
-              <FlatList
-                data={members}
-                renderItem={renderUserItem}
-                numColumns={1}
-              />
-            </View>
+          {!isJoined && CLASS.mode == 0 ? (
+            <Text style={styles.blockNotJoin}>
+              Tham gia lớp để được nhìn thấy nội dung này
+            </Text>
+          ) : (
+            <>
+              {selectedIndex === 0 && (
+                <View style={styles.wrapUnits}>
+                  <FlatList
+                    data={units}
+                    renderItem={renderUnitItem}
+                    numColumns={2}
+                    keyExtractor={(item) => item.id}
+                  />
+                </View>
+              )}
+              {selectedIndex === 1 && (
+                <View style={styles.wrapUnits}>
+                  <FlatList
+                    data={members}
+                    renderItem={renderUserItem}
+                    numColumns={1}
+                  />
+                </View>
+              )}
+            </>
           )}
         </View>
       </TouchableWithoutFeedback>

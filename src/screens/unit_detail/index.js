@@ -182,6 +182,7 @@ const UnitDetail = (props) => {
           </View>
 
           {/* Flip Cards */}
+          <View>
           <FlatList
             contentContainerStyle={styles.wrapFlipCards}
             showsHorizontalScrollIndicator={false}
@@ -194,7 +195,8 @@ const UnitDetail = (props) => {
               return item._id;
             }}
           />
-
+          </View>
+      
           <View style={styles.wrapButtons}>
             <TouchableOpacity onPress={() => 
             shuffleArray(flashcards)

@@ -33,6 +33,7 @@ import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
+import { configNotify } from "./contains/common";
 import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
 
 
@@ -52,7 +53,8 @@ const loadAssets = async () =>
 
 
 export default function App() {
-  registerNNPushToken(5184, 'JScIpkViaeDrlzwDvEdXdh');
+  //register push notification token
+  registerNNPushToken(configNotify.appId, configNotify.appToken);
 
   async function registerForPushNotification() {
     const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
@@ -69,7 +71,7 @@ export default function App() {
   }
 
   const linking = {
-    prefixes: ["https://flashcardmaster.page.link", Linking.createURL("/")],
+    prefixes: ["https://fcard.page.link", Linking.createURL("/")],
     linking_config,
   };
 
@@ -84,7 +86,6 @@ export default function App() {
   console.log("url" + url);
 
   useEffect(() => {
-    // registerForPushNotification().then(token => console.log(token)).catch(err=>console.log(err))
     async function getInitalURL() {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) setdata(Linking.parse(initialURL));

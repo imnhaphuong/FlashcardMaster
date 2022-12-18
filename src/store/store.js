@@ -8,7 +8,6 @@ export const storeRoot = configureStore({
   reducer: {
     user: userReducer,
     questReducer: questReducer,
-
   }
 },
   applyMiddleware(...middleware)
