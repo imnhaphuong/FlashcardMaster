@@ -18,30 +18,30 @@ import UnitCard_Profile from "../../components/UnitCard/UnitCard_Profile";
 import ClassCard from "../../components/ClassCard";
 import Setting from "../../../assets/images/header/setting.svg";
 import InsigniaProfile from "../../components/Insignia/Insignia_Profile";
-import { useDispatch, useSelector } from "react-redux";
-import { setUnits, setClasses, setInsigniaes } from "../../store/slices/userSlice";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import fonts from '../../../contains/fonts';
 
 
 const Profile_Screen = (props) => {
-    const { user, units, classes, insigniaes } = useSelector(state => state.user);
+    const { user } = useSelector(state => state.user);
+    const [units, setUnits] = useState()
+    const [classes, setClasses] = useState()
+    const [insigniaes, setInsigniaes] = useState()
     const [isLoading, setIsLoading] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const dispatch = useDispatch();
     const navigation = useNavigation();
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
     };
-
     useEffect(() => {
         const fetchData = async () => {
             const unitsCreator = await getUnitsCreated(user._id);
             const classesCreator = await getClassesCreated(user._id);
             const insigniaBought = await getInsigniaesBought(user._id);
-            dispatch(setUnits(unitsCreator));
-            dispatch(setClasses(classesCreator));
-            dispatch(setInsigniaes(insigniaBought));
+            setUnits(unitsCreator);
+            setClasses(classesCreator);
+            setInsigniaes(insigniaBought);
             setIsLoading(false);
         }
         fetchData()

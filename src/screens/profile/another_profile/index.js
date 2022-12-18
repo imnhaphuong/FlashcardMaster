@@ -19,17 +19,19 @@ import colors from "../../../../contains/colors";
 import styles from "../style";
 import UnitCard_Profile from "../../../components/UnitCard/UnitCard_Profile";
 import ClassCard from "../../../components/ClassCard";
-import { setUnits, setClasses, setInsigniaes } from "../../../store/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import fonts from '../../../../contains/fonts';
 
 const Other_Profile_Screen = (props) => {
-    const { user, units, classes, insigniaes } = useSelector(state => state.user);
+    const { user } = useSelector(state => state.user);
+    const [units, setUnits] = useState()
+    const [classes, setClasses] = useState()
+    const [insigniaes, setInsigniaes] = useState()
+
     if (user._id === props.route.params.id) {
         props.navigation.navigate("nav",{screenName: "profile"})
     }
     const [isLoading, setIsLoading] = useState(true);
-    const dispatch = useDispatch();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
@@ -40,9 +42,9 @@ const Other_Profile_Screen = (props) => {
             const unitsCreator = await getUnitsCreated(props.route.params.id);
             const classesCreator = await getClassesCreated(props.route.params.id);
             const insigniaBought = await getInsigniaesBought(props.route.params.id);
-            dispatch(setUnits(unitsCreator));
-            dispatch(setClasses(classesCreator));
-            dispatch(setInsigniaes(insigniaBought));
+            setUnits(unitsCreator);
+            setClasses(classesCreator);
+            setInsigniaes(insigniaBought);
             setIsLoading(false);
         }
         fetchData()

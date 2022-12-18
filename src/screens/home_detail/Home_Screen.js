@@ -32,8 +32,11 @@ const Home_Screen = (props) => {
   const navigation = useNavigation();
 
   //useEffect
-  useEffect(()=> {
-    getAllTopics(settopic, setLoading);
+  useEffect(() => {
+    const fetchData = async () => {
+      getAllTopics(settopic, setLoading);
+    }
+    fetchData()
   }, [isLoading]);
 
   const myRenderTopicItem = ({ item }) => (

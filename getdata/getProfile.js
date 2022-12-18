@@ -24,26 +24,3 @@ export const getInsigniaesBought = async (userID) => {
   return result.data.insignia;
 };
 
-// export const getUnitsCreatedSearch = async ( setData, userID) => {
-//   fetch("https://flashcard-master.vercel.app/api/units/created", {
-//     method: "post",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Accept: "application/json",
-//     },
-//     body: JSON.stringify({
-//       creator: userID,
-//     }),
-//   })
-//     .then((res) => res.json())
-//     .then((resJson) => {
-//       if (resJson[0]) {
-//         setData(resJson[0]);
-//       } else {
-//         setData([]);
-//       }
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };

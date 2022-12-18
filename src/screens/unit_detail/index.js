@@ -39,7 +39,7 @@ const UnitDetail = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState("");
   const [OPTION, SET_OPTION] = useState( "OPTION" );
-  const url = "http://192.168.43.158:3000/api/units";
+  const url = "http://flashcard-master.vercel.app/api/units";
   const dispatch = useDispatch();
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -68,7 +68,7 @@ const UnitDetail = (props) => {
     try {
       console.log("deleteUnit", id);
       const data = { _id: id };
-      await fetch("http://192.168.43.158:3000/api/units/deleted", {
+      await fetch("http://flashcard-master.vercel.app/units/deleted", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
