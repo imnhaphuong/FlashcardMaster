@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Pressable
+  Pressable, RefreshControl
 } from "react-native";
 import styles from "./style";
 import Coin from "../../../assets/images/header/coin.svg";
@@ -29,7 +29,9 @@ const Home_Screen = (props) => {
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
   //useEffect
   useEffect(() => {
     getAllTopics(settopic, setLoading);
@@ -42,6 +44,16 @@ const Home_Screen = (props) => {
       navigation={props.navigation}
     />
   );
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    getAllTopics(settopic, setLoading);
+    wait(1000).then(() => setRefreshing(false));
+  }
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   wait(1000).then(() => setRefreshing(false));
+  // }, []);
   // const [data, setdata] = useState([])
   // function handleDeepLink(event) {
   //   let data = Linking.parse(event.url);
@@ -66,7 +78,7 @@ const Home_Screen = (props) => {
   //     Linking.removeEventListener("click", handleDeepLink);
   //   };
   // }, []);
-  AsyncStorage.setItem("userId", "636229a664e39686c4afa67f");
+  // AsyncStorage.setItem("userId", "636229a664e39686c4afa67f");
 
   // console.log(data);
   // const [visible, setvisible] = useState(false);
@@ -88,7 +100,7 @@ const Home_Screen = (props) => {
           style={styles.landscape}
           source={require("../../../assets/images/welcome/landscape.png")}
         />
-        <Pressable onPress={()=>{navigation.navigate("Shop_Screen")}}>
+        <Pressable onPress={() => { navigation.navigate("Shop_Screen") }}>
           <View style={styles.coin_display}>
             <Coin />
             <Text style={styles.price}>{user.coin}</Text>
@@ -96,11 +108,13 @@ const Home_Screen = (props) => {
         </Pressable>
       </View>
       <FlatList
+        refreshing={refreshing}
+        onRefresh={onRefresh}
         ListHeaderComponent={
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>dasd</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>{" "}
               </Text>
             </View>
             <View style={styles.Thegirl}>

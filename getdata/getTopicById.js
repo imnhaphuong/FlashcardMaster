@@ -9,6 +9,7 @@ const getTopicById = async (setData, _id) => {
       .then((res) => res.json())
       .then((resJson) => {
         setData(resJson);
+        setLabelTopic()
       })
       .catch((error) => {
         console.log(error);

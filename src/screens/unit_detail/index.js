@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
+  ToastAndroid,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./style";
@@ -26,6 +27,8 @@ import { resetQuest } from "../../store/slices/questSlice"
 import { updateScore } from "../../store/slices/userSlice"
 import { createFcard, resetFcard } from "../../store/slices/fcardSlice"
 import { useDispatch, useSelector } from 'react-redux'
+
+
 const UnitDetail = (props) => {
   //State
   var params = props.route.params;
@@ -40,8 +43,10 @@ const UnitDetail = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [mess, setMess] = useState("");
   const [OPTION, SET_OPTION] = useState("OPTION");
-  const url = "http://192.168.43.158:3000/api/units";
+  const url = "https://flashcard-master.vercel.app/api/units";
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.user);
+
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -59,17 +64,20 @@ const UnitDetail = (props) => {
       setFlashcards(UNIT.flashcards);
       settempFcard(UNIT.flashcards.map((e) => e));
     }
-  }, [isLoading]);
+    console.log("useEffect",UNIT)
+  },  [isLoading]);
+
   const message = () => {
     setMess("Bạn có muốn xóa học phần này không?");
     setShowModal(true);
   };
   const deleteUnit = async (id) => {
+    SET_OPTION("OPTION")
     setLoading(true);
     try {
       console.log("deleteUnit", id);
       const data = { _id: id };
-      await fetch("http://192.168.43.158:3000/api/units/deleted", {
+      await fetch(`${url}/deleted`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +90,9 @@ const UnitDetail = (props) => {
       setShowModal(false);
       setLoading(false);
       setTimeout(() => {
-        props.navigation.replace("home");
+        ToastAndroid.show("Xóa học phần thành công", ToastAndroid.SHORT)
+        props.navigation.goBack();
+
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -99,7 +109,6 @@ const UnitDetail = (props) => {
       />
     );
   };
-  const Questions = useSelector((state) => state.questReducer)
 
 
   return (
@@ -133,13 +142,16 @@ const UnitDetail = (props) => {
         >
           <Back />
         </TouchableOpacity>
-        <TouchableOpacity
+        {UNIT.creator === user._id ? <TouchableOpacity
           onPress={() => {
             settoggleMore(!toggleMore);
           }}
+          
+          
         >
           <More />
-        </TouchableOpacity>
+        </TouchableOpacity> : ""}
+
       </KeyboardAvoidingView>
 
       {/* Options */}
@@ -148,8 +160,9 @@ const UnitDetail = (props) => {
         <View style={[styles.wrapOptions, { zIndex: 100 }]}>
           <TouchableOpacity
             onPress={() => {
-              props.navigation.push("create_unit", {
-                id: params.id,
+              settoggleMore(false)
+              props.navigation.navigate("create_unit", {
+                id: params.id, UNIT: UNIT
               });
             }}
             style={styles.option}
@@ -157,7 +170,7 @@ const UnitDetail = (props) => {
             <Text style={{ fontFamily: fonts.semibold }}>Sửa học phần</Text>
           </TouchableOpacity>
           <Line backgroundColor={colors.violet} opacity={0.2} />
-          <TouchableOpacity onPress={() => message()} style={styles.option}>
+          <TouchableOpacity onPress={() => { settoggleMore(false); message() }} style={styles.option}>
             <Text style={{ fontFamily: fonts.semibold }}>Xóa học phần</Text>
           </TouchableOpacity>
         </View>
@@ -173,13 +186,6 @@ const UnitDetail = (props) => {
             <Text style={styles.numberOfUnits}>
               {flashcards.length} thuật ngữ
             </Text>
-            {/* <View style={styles.wrapUser}>
-              <Image
-                style={styles.avatar}
-                source={require("../../../assets/images/avt-default.png")}
-              />
-              <Text style={styles.username}>user 11231</Text>
-            </View> */}
           </View>
 
           {/* Flip Cards */}
@@ -205,13 +211,13 @@ const UnitDetail = (props) => {
                 flashcards: flashcards,
               }
               dispatch(createFcard(payload))
-              let fcard1=null;
+              let fcard1 = null;
               if (flashcards.length > 3) {
                 fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
                 // console.log("fcard1dasd", fcard1);
               }
               props.navigation.navigate('learn', {
-                flashcards: flashcards, id: params.id, 
+                flashcards: flashcards, id: params.id,
               })
             }} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
@@ -226,7 +232,7 @@ const UnitDetail = (props) => {
                 setShowModal(true)
                 setTimeout(() => {
                   setShowModal(false);
-                }, 2000);
+                }, 2500);
               } else {
                 props.navigation.navigate('test', {
                   flashcards: flashcards, id: params.id
@@ -235,9 +241,6 @@ const UnitDetail = (props) => {
 
             }} style={[styles.btn, styles.btnTest]}>
               <Text style={styles.textBtn}>Kiểm tra</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.btn, styles.btnMatch]}>
-              <Text style={styles.textBtn}>Ghép thẻ</Text>
             </TouchableOpacity>
           </View>
 
