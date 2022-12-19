@@ -35,6 +35,7 @@ import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
 import LearnResultScreen from "./src/screens/learn/LearnResultScreen";
 import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
+import ForgotPasswordScreen from "./src/screens/forgot_password/ForgotPasswordScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -144,6 +145,8 @@ export default function App() {
           <Stack.Screen name="learn" component={LearnScreen} />
           <Stack.Screen name="lern_result" component={LearnResultScreen} />
           <Stack.Screen name="verifyEmailAgain" component={VerifyEmailAgain} />
+          <Stack.Screen name="forgot_password" component={ForgotPasswordScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
