@@ -12,6 +12,7 @@ import SysModal from '../../components/SysModal/SysModal'
 import Spinner from 'react-native-loading-spinner-overlay'
 import CountDown from 'react-native-countdown-component';
 import Reload from '../../../assets/images/sign_up/reload.svg'
+import { useNavigation } from '@react-navigation/native'
 
 export default VerifyEmailScreen = ({ }) => {
 
@@ -20,7 +21,7 @@ export default VerifyEmailScreen = ({ }) => {
     const [userId, setUserId] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState(null);
-
+    const navigation = useNavigation()
     // React function hook && react funtion 
     useEffect(() => {
         AsyncStorage.getItem('userId').then(result => {
@@ -90,7 +91,7 @@ export default VerifyEmailScreen = ({ }) => {
             userId: userId,
             email: email,
         }
-        console.log("send verification",data);
+        console.log("send verification", data);
         try {
             const result = await fetch("https://flashcard-master.vercel.app/api/users/send-verification", {
                 method: "POST",
@@ -100,7 +101,7 @@ export default VerifyEmailScreen = ({ }) => {
                 },
                 body: JSON.stringify(data),
             }).then(res => res.json()
-            ).then(data=>console.log("data",data))
+            ).then(data => console.log("data", data))
             setLoading(false)
             navigation.replace("verify_email")
         } catch (err) {
@@ -164,7 +165,7 @@ export default VerifyEmailScreen = ({ }) => {
 
                             <View style={{ marginTop: 260, marginHorizontal: 20 }}>
                                 <CountDown
-                                    until={60*10}
+                                    until={60 * 10}
                                     size={25}
                                     digitStyle={{ backgroundColor: '#FFF' }}
                                     digitTxtStyle={{ color: colors.violet }}
@@ -174,8 +175,8 @@ export default VerifyEmailScreen = ({ }) => {
                                     running="false"
                                 />
                                 <TouchableOpacity style={{
-                                    alignItems: 'center',justifyContent:'center' ,marginVertical: 30,  flexDirection: 'row',
-                                }} activeOpacity={0.5} onPress={()=>sendVerification()}>
+                                    alignItems: 'center', justifyContent: 'center', marginVertical: 30, flexDirection: 'row',
+                                }} activeOpacity={0.5} onPress={() => sendVerification()}>
                                     <Reload />
                                     <Text style={styles.textSignIn}>
                                         Gửi lại mã

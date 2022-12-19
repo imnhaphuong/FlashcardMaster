@@ -20,7 +20,6 @@ export default function WriteTextScreen(props) {
   const [answer, setAnswer] = useState("");
   const [correct, setCorrect] = useState("");
   const [random, setRandom] = useState(null);
-  console.log("flashcardnjnjin", flashcards);
   const navigation = useNavigation()
   useEffect(() => {
     const ran = (Math.round(Math.random() * 1));
@@ -44,12 +43,12 @@ export default function WriteTextScreen(props) {
     if (values.answer.trim() === correct) {
       console.log("đúng");
       if (props.index + 1 === flashcards.length) {
-        navigation.replace('lern_result', {
+        props.navigation.replace('lern_result', {
           flashcards: flashcards, round: round
         })
       } else {
-        navigation.replace('learn', {
-          flashcards: flashcards, index: (i + 1), round: round
+        props.navigation.replace('learn', {
+          flashcards: flashcards, index: (i + 1), 
         })
       }
     } else {
@@ -78,9 +77,9 @@ export default function WriteTextScreen(props) {
             <Text style={styles.textTrueFalse} >
               {question}
             </Text >
-
+            {console.log("flashcards[i].example", flashcards[i].example)}
             {
-              (flashcards[i].example !== "") ? <View style={{ flexDirection: "row" }}>
+              (flashcards[i].example !== "" || flashcards[i].example !== undefined) ? <View style={{ flexDirection: "row" }}>
                 <Text style={{
                   fontSize: 18,
                   fontFamily: fonts.regular, color: colors.violet

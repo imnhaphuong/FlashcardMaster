@@ -55,7 +55,7 @@ export default function MutipleChoiceScreen(props) {
                 })
             } else {
                 props.navigation.replace('learn', {
-                    flashcards: flashcards, index: (props.index + 1)
+                    flashcards: flashcards, index: (i + 1), round: round
                 })
             }
         } else {

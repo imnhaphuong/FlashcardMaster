@@ -29,7 +29,7 @@ export default function LearnScreen(props) {
         if (params.index !== undefined) {
             setIndex(params.index);
             // pro = (index + 1) / flashcards.length;
-            setProgress((index + 1) / fcards.length)
+            setProgress((index + 1) / flashcards.length)
         } else {
             setProgress(1 / flashcards.length)
         }
@@ -37,11 +37,11 @@ export default function LearnScreen(props) {
         
     }, [index])
     useLayoutEffect(() => {
-        if (flashcards.length > 5 && round === 1) {
-            const fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
-            // console.log("fcard1dasd", fcard1);
-            setFcards(fcard1)
-        }
+        // if (flashcards.length > 3 && round === 1) {
+        //     const fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
+        //     // console.log("fcard1dasd", fcard1);
+        //     setFcards(fcard1)
+        // }
         if (params.round !== undefined) {
             setRound(params.round)
             setFlashcards(params.flashcards)
@@ -49,7 +49,7 @@ export default function LearnScreen(props) {
     }, [round])
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <StatusBar
                 animated={true}
                 backgroundColor={colors.white}
@@ -82,17 +82,15 @@ export default function LearnScreen(props) {
 
                 {
                     // console.log("flashcards",flashcards)
-                    (random === 1  ) ? <MutipleChoiceScreen navigation={props.navigation} index={index} flashcards={fcards} round={round} />:
-                    <WriteTextScreen  index={index} flashcards={fcards} round={round} />
+                    (random===1) ? <MutipleChoiceScreen navigation={props.navigation} index={index} flashcards={flashcards} round={round} />:
+                    <WriteTextScreen navigation={props.navigation}  index={index} flashcards={flashcards} round={round} />
+                    
                          
-                }
-                {
-                    // console.log("fcardLearnScreen",flashcards)
                 }
 
 
             </View>
 
-        </SafeAreaView>
+        </View>
     )
 }

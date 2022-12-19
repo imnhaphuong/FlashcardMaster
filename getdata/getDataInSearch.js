@@ -19,6 +19,5 @@ export const getUsersSearch = async (keyword) => {
   const result = await axios.post(uri, {
     keyword: keyword
   })
-  console.log("USER", result.data);
   return result.data
 };

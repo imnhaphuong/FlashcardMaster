@@ -47,31 +47,36 @@ export default function NavigationBar() {
     })();
 
   }, [currentScreen]);
+
   useEffect(() => {
-    AsyncStorage.getItem('userId').then(result => {
-      setUserId(result);
+    AsyncStorage.getItem('userInfo').then(result => {
+      const {  _id } = JSON.parse(result);
+      setUserId( _id);
+      
     })
     if (userId !== '') {
-      fetchData();
+      fetchData()
     }
   }, [userId])
-  async function fetchData() {
+  const fetchData=async()=> {
     const data = {
-      _id: userId
+      id: userId
     }
-    console.log("userId2345", userId);
+  console.log("userId2345", userId);
+
     try {
       const url = "https://flashcard-master.vercel.app/api/users/id";
       const result = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(data),
       }).then(res => res.json()
       )
       setType(result.type);
+      console.log("result.type",result.type);
     } catch (err) {
       console.log(err);
     }

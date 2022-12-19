@@ -37,9 +37,10 @@ export default function LearnResultScreen(props) {
 
     // const coin = trueAnswer.length * 5;
     const onBack = () => {
-        props.navigation.replace("unit_detail", {
-            id: useSelector((state) => state.fcardReducer)._id,
-        })
+        // props.navigation.replace("unit_detail", {
+        //     id: useSelector((state) => state.fcardReducer)._id,
+        // })
+        props.navigation.goBack()
     }
     // const Questiondsa = useSelector((state) => state.questReducer)
     return (
