@@ -33,7 +33,7 @@ const ImpUnitCard = (props) => {
       }}
     >
       <Text style={styles.unitName}>
-        {unit_name} + {creator._id}
+        {unit_name} 
       </Text>
       {mode ? (
         <Image

@@ -18,17 +18,18 @@ import UnitCard_Profile from "../../components/UnitCard/UnitCard_Profile";
 import ClassCard from "../../components/ClassCard";
 import Setting from "../../../assets/images/header/setting.svg";
 import InsigniaProfile from "../../components/Insignia/Insignia_Profile";
-import { useDispatch, useSelector } from "react-redux";
-import { setUnits, setClasses, setInsigniaes } from "../../store/slices/userSlice";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import fonts from '../../../contains/fonts';
 
 
 const Profile_Screen = (props) => {
-    const { user, units, classes, insigniaes } = useSelector(state => state.user);
+    const { user } = useSelector(state => state.user);
+    const [units, setUnits] = useState()
+    const [classes, setClasses] = useState()
+    const [insigniaes, setInsigniaes] = useState()
     const [isLoading, setIsLoading] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const dispatch = useDispatch();
     const navigation = useNavigation();
     const handleIndexChange = (index) => {
         setSelectedIndex(index);
@@ -38,26 +39,28 @@ const Profile_Screen = (props) => {
             const unitsCreator = await getUnitsCreated(user._id);
             const classesCreator = await getClassesCreated(user._id);
             const insigniaBought = await getInsigniaesBought(user._id);
-            dispatch(setUnits(unitsCreator));
-            dispatch(setClasses(classesCreator));
-            dispatch(setInsigniaes(insigniaBought));
-            console.log(insigniaBought);
+            setUnits(unitsCreator);
+            setClasses(classesCreator);
+            setInsigniaes(insigniaBought);
             setIsLoading(false);
         }
         fetchData()
     }, [])
     const renderUnitItem = ({ item }) => (
         <UnitCard_Profile
+            key={item.id}
             unit={item}
         />
     );
     const renderClassItem = ({ item }) => (
         <ClassCard
+            key={item.id}
             classData={item}
         />
     );
     const renderInsignialItem = (item) => (
         <InsigniaProfile
+            key={item.id}
             insigniaData={item.item}
         />
     );
@@ -89,7 +92,9 @@ const Profile_Screen = (props) => {
                         uri: user.avatar,
                     }} />
             </View>
-            <ScrollView>
+            <ScrollView
+                nestedScrollEnabled={true}
+            >
                 <View style={styles.counts}>
                     <Text style={{ fontFamily: fonts.semibold }}>Thống kê</Text>
                     <View style={styles.statics}>
@@ -146,7 +151,7 @@ const Profile_Screen = (props) => {
                                     data={[...units.private, ...units.public]}
                                     renderItem={renderUnitItem}
                                     numColumns={2}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}
@@ -157,7 +162,7 @@ const Profile_Screen = (props) => {
                                     data={[...classes.private, ...classes.public]}
                                     renderItem={renderClassItem}
                                     numColumns={1}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}
@@ -177,7 +182,7 @@ const Profile_Screen = (props) => {
                                     data={insigniaes}
                                     renderItem={renderInsignialItem}
                                     numColumns={1}
-                                    keyExtractor={(item) => item.id}
+                                    keyExtractor={(item,index) => item.id + index}
                                 />
                             </View>
                         )}

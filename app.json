@@ -36,7 +36,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "flashcardmaster.page.link",
+              "host": "fcardmaster.page.link",
               "pathPrefix": "/"
             }
           ],

@@ -6,10 +6,12 @@ import UnitCard from "../../components/UnitCard";
 import colors from "../../../contains/colors";
 
 const TopicReadMore = (props) => {
-    const UNIT = props.units;
+    const UNIT = props.route.params.units;
+    console.log("UNITS DATA", UNIT);
     const myRenderUnitItem = ({ item }) => (
         <UnitCard
             unit={item}
+            initialNumToRender={1}
         />
     )
     return (

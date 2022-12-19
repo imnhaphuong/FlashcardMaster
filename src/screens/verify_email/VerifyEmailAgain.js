@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BgSignUp from '../../../assets/images/sign_up/bgSignUp.svg'
 import colors from '../../../contains/colors'
 import styles from './style'

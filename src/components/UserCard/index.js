@@ -8,7 +8,7 @@ import TextConfirm from "../TextConfirm";
 import leaveClass from "../../../getdata/leaveClass";
 
 const UserCard = (props) => {
-  const classId = props.classId
+  const class_id = props.class_id
   const isCreator = props.isCreator;
   const user = props.user;
   const creatorCard = props.creatorCard;
@@ -49,7 +49,9 @@ const UserCard = (props) => {
         setVisibleModal={setVisibleModal}
         textTitle={`Xóa ${user.fullname} ra khỏi lớp`}
         textConfirm="Đồng ý"
-        submitData={leaveClass(classId, user._id)}
+        member_id={user._id}
+        class_id={class_id}
+        setLoading={props.setLoading}
       />
       {isKey}
       {isCreator ? removeBtn : null}

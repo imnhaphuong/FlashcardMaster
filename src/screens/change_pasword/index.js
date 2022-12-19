@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState } from "react";
 import {
     Text,
     View,
@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     ScrollView,
 } from "react-native";
-import { useState } from "react";
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import colors from "../../../contains/colors";

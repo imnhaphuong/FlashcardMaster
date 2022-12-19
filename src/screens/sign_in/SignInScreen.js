@@ -15,9 +15,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
-import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../../store/slices/userSlice"
+import { registerIndieID } from 'native-notify'
+import { configNotify } from '../../../contains/common'
+
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.user);
@@ -29,12 +31,12 @@ export default SignInScreen = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(true);
   const [email, setEmail] = useState(null);
   const url = "https://flashcard-master.vercel.app/api/users";
-  const [mess, setMess] = useState('');
+  const [mess, setMess] = useState("");
 
-  const lock = <LockIcon />
-  const envelope = <EnvelopeIcon />
-  const eye = <EyeIcon />
-  const eyeSlash = <EyeSlashIcon />
+  const lock = <LockIcon />;
+  const envelope = <EnvelopeIcon />;
+  const eye = <EyeIcon />;
+  const eyeSlash = <EyeSlashIcon />;
 
   const showModa = () => {
     setTimeout(() => {
@@ -49,20 +51,14 @@ export default SignInScreen = ({ navigation }) => {
     } else {
       setHide(true);
     }
-  }
+  };
   const onSignUpGoogle = () => {
     console.log("Sign Up Google");
-  }
+  };
 
-  // React function hook && react funtion 
-
-  // useEffect(() => {
-  //   AsyncStorage.getItem('Id').then(result => {
-  //     setUserId(result);
-  //   })
-  // }, [])
+  // React function hook && react funtion
   const submitData = async (values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const result = await fetch(`${url}/signin`, {
         method: "POST",
@@ -80,26 +76,31 @@ export default SignInScreen = ({ navigation }) => {
         setMess(result.message);
         setShowModal(true);
         showModa();
-      } else if (result.status === 'errorVerified') {
+      } else if (result.status === "errorVerified") {
         setMess(result.message);
         console.log(result.message);
         setShowModal(true);
         showModa();
         setTimeout(() => {
-          navigation.replace("verify_email")
+          navigation.replace("verify_email");
         }, 1000);
       } else {
         dispatch(setUser(result.data));
-        setLoading(false)
-        AsyncStorage.setItem('accessToken', result.token);
-        AsyncStorage.setItem('userId', result.data._id);
-        AsyncStorage.setItem('userInfo', JSON.stringify(result.data));
+        setLoading(false);
+        console.log(result);
+        AsyncStorage.setItem("accessToken", result.token);
+        AsyncStorage.setItem("userId", result.data._id);
+        
+        //register indie id
+        registerIndieID(result.data._id, configNotify.appId, configNotify.appToken);
+
+        AsyncStorage.setItem("userInfo", JSON.stringify(result.data));
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);
         if (result.data.type !== 0) {
           setTimeout(() => {
-            navigation.replace("nav")
+            navigation.replace("nav");
           }, 1000);
         }
       }
@@ -110,13 +111,12 @@ export default SignInScreen = ({ navigation }) => {
       setShowModal(true);
       showModa();
     }
-
   };
   const chooseClass = async () => {
     console.log("email", email);
     const data = {
       email: email,
-    }
+    };
     try {
       await fetch(`${url}/type-class`, {
         method: "POST",
@@ -125,22 +125,21 @@ export default SignInScreen = ({ navigation }) => {
           Accept: "application/json",
         },
         body: JSON.stringify(data),
-      }).then(res => res.json()
-      )
+      }).then((res) => res.json());
       setShowOptions(false);
       setTimeout(() => {
-        navigation.replace("nav")
+        navigation.replace("nav");
       }, 1000);
     } catch (err) {
       setMess(err);
       setShowModal(true);
       showModa();
     }
-  }
+  };
   const choosePersonal = async () => {
     const data = {
       email: email,
-    }
+    };
     try {
       await fetch(`${url}/type-personal`, {
         method: "POST",
@@ -149,34 +148,43 @@ export default SignInScreen = ({ navigation }) => {
           Accept: "application/json",
         },
         body: JSON.stringify(data),
-      }).then(res => res.json()
-      )
+      }).then((res) => res.json());
       setShowOptions(false);
       setTimeout(() => {
-        navigation.replace("nav")
+        navigation.replace("nav");
       }, 1000);
     } catch (err) {
       setMess(err);
       setShowModal(true);
       showModa();
     }
-  }
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {type === 0 ? <ModalOption visible={showOptions} chooseClass={chooseClass} choosePersonal={choosePersonal} /> : ""}
+      {type === 0 ? (
+        <ModalOption
+          visible={showOptions}
+          chooseClass={chooseClass}
+          choosePersonal={choosePersonal}
+        />
+      ) : (
+        ""
+      )}
 
       <Spinner color={colors.violet} visible={isLoading} />
       <SysModal visible={showModal} message={mess} />
       <ScrollView scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
-        <View style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          bottom: 0,
-          zIndex: -1,
-          left: 0,
-          right: 0,
-        }}>
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            bottom: 0,
+            zIndex: -1,
+            left: 0,
+            right: 0,
+          }}
+        >
           <BgSignUp width={400} height={820} />
         </View>
         {/* Title */}
@@ -191,48 +199,106 @@ export default SignInScreen = ({ navigation }) => {
           </View>
         </View>
         {/* Form */}
-        <View style={{ top: 80 }} >
+        <View style={{ top: 80 }}>
           {/* FormText */}
           <Formik
             initialValues={{
-              email: '',
-              password: '',
+              email: "",
+              password: "",
             }}
             validateOnMount={true}
             validationSchema={SignInSchema}
             onSubmit={async (values, { resetForm }) => {
-              await submitData(values)
+              await submitData(values);
               resetForm();
             }}
           >
-            {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-              <View style={{ marginHorizontal: 20, top: 120 }}  >
-                <CustomInput onChangeText={handleChange('email')} iconEye=" "
-                  onBlur={handleBlur('email')} value={values.email} keyboardType='default' secureTextEntry={false} placeholder="Email" icon={envelope} errors={errors.email} touched={touched.email} isEye={false} />
-                <CustomInput onChangeText={handleChange('password')} changeIcon={hide}
-                  onBlur={handleBlur('password')} onPress={changeSecureText} secureTextEntry={hide} value={values.password} keyboardType="password" placeholder="Mật khẩu" icon={lock} iconEye={eye} iconEyeSlash={eyeSlash} errors={errors.password} touched={touched.password} isEye={true} />
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              <View style={{ marginHorizontal: 20, top: 120 }}>
+                <CustomInput
+                  onChangeText={handleChange("email")}
+                  iconEye=" "
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  keyboardType="default"
+                  secureTextEntry={false}
+                  placeholder="Email"
+                  icon={envelope}
+                  errors={errors.email}
+                  touched={touched.email}
+                  isEye={false}
+                />
+                <CustomInput
+                  onChangeText={handleChange("password")}
+                  changeIcon={hide}
+                  onBlur={handleBlur("password")}
+                  onPress={changeSecureText}
+                  secureTextEntry={hide}
+                  value={values.password}
+                  keyboardType="password"
+                  placeholder="Mật khẩu"
+                  icon={lock}
+                  iconEye={eye}
+                  iconEyeSlash={eyeSlash}
+                  errors={errors.password}
+                  touched={touched.password}
+                  isEye={true}
+                />
                 {/* BottomForm */}
-                <View >
-                  <CustomButton text="Đăng nhập" onPress={handleSubmit} hide="hide" />
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
-                    <Text style={[styles.btnText, { color: colors.text }]}>Bạn chưa có tài khoản?</Text>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => {
-                      // useFormik().resetForm();
-                      navigation.navigate("sign_up")
-                    }}>
-                      <Text style={styles.textSignIn}>
-                        Đăng ký
-                      </Text>
+                <View>
+                  <CustomButton
+                    text="Đăng nhập"
+                    onPress={handleSubmit}
+                    hide="hide"
+                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginVertical: 10,
+                    }}
+                  >
+                    <Text style={[styles.btnText, { color: colors.text }]}>
+                      Bạn chưa có tài khoản?
+                    </Text>
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      onPress={() => {
+                        // useFormik().resetForm();
+                        navigation.navigate("sign_up");
+                      }}
+                    >
+                      <Text style={styles.textSignIn}>Đăng ký</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 5 }}>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("SignUp")}>
-                      <Text style={styles.textSignIn}>
-                        Quên mật khẩu?
-                      </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginVertical: 5,
+                    }}
+                  >
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      onPress={() => navigation.navigate("SignUp")}
+                    >
+                      <Text style={styles.textSignIn}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
                   </View>
-                  <CustomButton text="Đăng nhập bằng Google" onPress={onSignUpGoogle} type="GG" />
+                  <CustomButton
+                    text="Đăng nhập bằng Google"
+                    onPress={onSignUpGoogle}
+                    type="GG"
+                  />
                 </View>
               </View>
             )}
@@ -240,5 +306,5 @@ export default SignInScreen = ({ navigation }) => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};

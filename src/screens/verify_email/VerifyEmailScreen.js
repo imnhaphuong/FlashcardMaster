@@ -179,7 +179,7 @@ export default VerifyEmailScreen = ({ }) => {
                                 />
                                 <TouchableOpacity style={{
                                     alignItems: 'center',justifyContent:'center' ,marginVertical: 30,  flexDirection: 'row',
-                                }} activeOpacity={0.5} onPress={()=>sendVerification}>
+                                }} activeOpacity={0.5} onPress={()=>sendVerification()}>
                                     <Reload />
                                     <Text style={styles.textSignIn}>
                                         Gửi lại mã

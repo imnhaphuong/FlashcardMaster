@@ -4,18 +4,16 @@ import colors from '../../../contains/colors'
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Check from "../../../assets/images/header/check.svg";
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { FieldArray, Formik, getIn } from 'formik';
-import CustomInputUnit from '../../components/CustomInputUnit/CustomInputUnit';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FieldArray, Formik, getIn } from "formik";
+import CustomInputUnit from "../../components/CustomInputUnit/CustomInputUnit";
 import Add from "../../../assets/images/checkbox/add.svg";
-import { UnitSchema } from '../../../contains/validation'
-import CustomButton from '../../components/CustomButton/CustomButton';
-import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
-import SysModal from '../../components/SysModal/SysModal';
-// import ImagePicker from 'react-native-image-picker'
-// import { launchImageLibrary } from 'react-native-image-picker';
+import { UnitSchema } from "../../../contains/validation";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import Spinner from "react-native-loading-spinner-overlay";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import SysModal from "../../components/SysModal/SysModal";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system'
 import { Button, Checkbox, Provider } from 'react-native-paper';
@@ -24,57 +22,59 @@ import fonts from '../../../contains/fonts';
 import getTopic from "./getTopic";
 import { useNavigation } from '@react-navigation/native';
 import Delete from "../../../assets/images/checkbox/Trash.svg";
+import groupPushNotifications from "../../../getdata/notifications/groupPushNotifications";
+import createUnitInClass from "../../../getdata/createUnitInClass";
+import { useSelector } from "react-redux";
 
 const CreateUnitScreen = (props) => {
   var params = props.route.params;
-  const label = 'Tên học phần';
-  const term = 'Thuật ngữ'
-  const defi = 'Định nghĩa'
-  const example = 'Ví dụ'
+  const label = "Tên học phần";
+  const term = "Thuật ngữ";
+  const defi = "Định nghĩa";
+  const example = "Ví dụ";
   const [showModal, setShowModal] = useState(false);
-  const [mess, setMess] = useState('');
+  const [mess, setMess] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [fullname, setFullname] = useState("")
+  const [fullname, setFullname] = useState("");
   const [images, setImages] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [load, setLoad] = useState(true);
-  const [flashcards, setFlashcards] = useState([]);
   const [unit, setUnit] = useState("")
-  const [labelTopic, setLabelTopic] = useState("")
-  const [create, setCreate] = useState(true)
   const [idFcard, setIdFcard] = useState("")
   const [change, setChange] = useState(false)
   const [OPTION, SET_OPTION] = useState("NONE");
+  const { user } = useSelector((state) => state.user);
   const [initialValue, setInitialValue] = useState({
     unitName: "",
-    flashcards: [{
-      _id: "",
-      term: "",
-      define: "",
-      example: "",
-      image: "",
-    }],
+    flashcards: [
+      {
+        _id: "",
+        term: "",
+        define: "",
+        example: "",
+        image: "",
+      },
+    ],
     topic: "",
     mode: false,
-  })
+  });
 
   const navigation = useNavigation()
   // const url = "https://flashcard-master.vercel.app/api/units"
   const url = "http://192.168.43.158:3000/api/units"
 
   useEffect(() => {
-    AsyncStorage.getItem('userInfo').then(result => {
-      const { fullname, _id } = JSON.parse(result)
+    AsyncStorage.getItem("userInfo").then((result) => {
+      const { fullname, _id } = JSON.parse(result);
       setFullname(fullname);
       setUserId(_id);
     })
     getTopic(items, setItems)
-    if (params !== undefined) {
+    if (params !== undefined && params.hasOwnProperty("id")) {
       setLoading(false)
-      setCreate(false)
       if (params.UNIT !== undefined) {
         setUnit(params.UNIT)
 
@@ -90,27 +90,26 @@ const CreateUnitScreen = (props) => {
     }, 2000);
   };
   const options = {
-    title: 'Select Image',
-    type: 'library',
+    title: "Select Image",
+    type: "library",
     options: {
       selectionLimit: 1,
-      mediaType: 'photo',
+      mediaType: "photo",
       includeBase64: false,
-
     },
-  }
+  };
   //Kiem tra dung luong file
   const getFileInfo = async (fileURI) => {
-    const fileInfo = await FileSystem.getInfoAsync(fileURI)
-    return fileInfo
-  }
+    const fileInfo = await FileSystem.getInfoAsync(fileURI);
+    return fileInfo;
+  };
   const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
-    const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB
-    return isOk
-  }
+    const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB;
+    return isOk;
+  };
   const onUploadImage = async (i) => {
     console.log("onUploadImage");
-    setLoading(true)
+    setLoading(true);
     // const image = await launchImageLibrary(options);
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -118,64 +117,66 @@ const CreateUnitScreen = (props) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      base64: true
+      base64: true,
     });
-    const { uri, type } = result
-    const file = { uri, type }
+    const { uri, type } = result;
+    const file = { uri, type };
 
-    if (result.cancelled) return setLoading(false)
+    if (result.cancelled) return setLoading(false);
 
     if (!result.cancelled) {
-      const fileInfo = await getFileInfo(uri)
+      const fileInfo = await getFileInfo(uri);
       //Kiểm tra kích thước file
       if (!fileInfo.size) {
-        setMess("Không thể chọn hình ảnh với kích thước không phù hợp")
-        setShowModal(true)
+        setMess("Không thể chọn hình ảnh với kích thước không phù hợp");
+        setShowModal(true);
         showModa();
-        return
+        return;
       }
-      if (type === 'image') {
-        const isLt3MB = isLessThanTheMB(fileInfo.size, 3)
+      if (type === "image") {
+        const isLt3MB = isLessThanTheMB(fileInfo.size, 3);
         if (!isLt3MB) {
-          setMess("Hình ảnh phải có kích thước bé hơn 3MB!")
-          setShowModal(true)
+          setMess("Hình ảnh phải có kích thước bé hơn 3MB!");
+          setShowModal(true);
           showModa();
-          return
+          return;
         }
       }
 
       //Upload imgage to cloudinary
-      let base64Img = `data:image/jpg;base64,${result.base64}`
+      let base64Img = `data:image/jpg;base64,${result.base64}`;
       let data = {
-        "file": base64Img,
-        "upload_preset": "_FlashcardMaster"
-      }
-      await fetch('https://api.cloudinary.com/v1_1/flashcardmaster/image/upload', {
-        method: "POST",
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(data),
-      }).then(res => res.json())
-        .then(data => {
+        file: base64Img,
+        upload_preset: "_FlashcardMaster",
+      };
+      await fetch(
+        "https://api.cloudinary.com/v1_1/flashcardmaster/image/upload",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
           showModa();
           images[i] = data.url;
-          setImages([...images])
-        }).catch(err => {
-          setMess(err)
-          setShowModal(true)
-
+          console.log("images[i]",images[i])
+          setImages([...images]);
         })
-
+        .catch((err) => {
+          setMess(err);
+          setShowModal(true);
+        });
     }
-
   };
   const onDeleteImage = (i, values) => {
     console.log("onDelete");
     if (unit !== "") {
-
       console.log("fds", values.flashcards[i].image);
-      values.flashcards[i].image = ""
+      values.flashcards[i].image = "";
       console.log("after", values.flashcards[i].image);
     }
     images[i] = undefined;
@@ -185,8 +186,6 @@ const CreateUnitScreen = (props) => {
 
 
   const createUnit = async (values) => {
-
-
     const data = {
       unitName: values.unitName,
       userId: userId,
@@ -194,7 +193,6 @@ const CreateUnitScreen = (props) => {
       mode: values.mode,
       topic: value
     }
-    console.log("data", data);
     try {
       const result = await fetch(`${url}/create`, {
         method: "POST",
@@ -205,7 +203,16 @@ const CreateUnitScreen = (props) => {
         body: JSON.stringify(data),
       }).then(res => res.json()
       )
-      console.log(result);
+      if (params !== undefined && params.hasOwnProperty("class_id")) {
+        createUnitInClass(params.class_id, result._id, setLoading);
+        const members = params.members.map((e) => e._id).shift();
+        groupPushNotifications(
+          members,
+          `Học phần trong "${params.class_name}" vừa có sự cập nhật`,
+          `Vào học ngay cho nóng 🥰`,
+          params.jcode
+        );
+      }
       if (result.status === 'error') {
         setMess(result.error)
         setShowModal(true);
@@ -236,7 +243,6 @@ const CreateUnitScreen = (props) => {
         mode: values.mode,
         topic: value
       }
-      console.log("result", data);
       const result = await fetch(`${url}/update`, {
         method: "PUT",
         headers: {
@@ -253,11 +259,9 @@ const CreateUnitScreen = (props) => {
         return
       } else {
         setLoading(false)
-        // setTimeout(() => {
         props.navigation.replace("unit_detail", {
           id: params.id, isFocused: false,
         })
-        // }, 1000)
       }
 
     } catch (error) {
@@ -301,12 +305,15 @@ const CreateUnitScreen = (props) => {
     }
   };
   return (
-
     <Formik
       enableReinitialize
       style={styles.form}
       initialValues={unit === "" ? initialValue : unit}
-      onSubmit={(values) => { params === undefined ? createUnit(values) : updateUnit(values) }}
+      onSubmit={(values) => {
+        return params !== undefined && params.hasOwnProperty("id")
+          ? updateUnit(values)
+          : createUnit(values);
+      }}
       validationSchema={UnitSchema}
     >
       {({
@@ -353,18 +360,30 @@ const CreateUnitScreen = (props) => {
                   >
                     <Back />
                   </TouchableOpacity>
-                  <Text style={styles.textHeader}>{params !== undefined ? "Sửa học phần" : "Tạo học phần"}</Text>
+                  <Text style={styles.textHeader}>
+                    {params !== undefined && params.hasOwnProperty("id")
+                      ? "Sửa học phần"
+                      : "Tạo học phần"}
+                  </Text>
                   <TouchableOpacity onPress={handleSubmit}>
                     <Check />
                   </TouchableOpacity>
                 </KeyboardAvoidingView>
-                <ScrollView style={{ flex: 1 }} >
+                <ScrollView style={{ flex: 1 }}>
                   <View style={styles.content}>
-                    <CustomInputUnit onChangeText={handleChange('unitName')}
-                      onBlur={handleBlur('unitName')} value={values.unitName} errors={errors.unitName} touched={touched.unitName} label={label} />
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CustomInputUnit
+                      onChangeText={handleChange("unitName")}
+                      onBlur={handleBlur("unitName")}
+                      value={values.unitName}
+                      errors={errors.unitName}
+                      touched={touched.unitName}
+                      label={label}
+                    />
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
                       <Checkbox
-                        status={values.mode === true ? 'checked' : 'unchecked'}
+                        status={values.mode === true ? "checked" : "unchecked"}
                         onPress={() => {
                           setFieldValue("mode", !values.mode);
                         }}
@@ -378,7 +397,6 @@ const CreateUnitScreen = (props) => {
                         if (unit.topic === item.value) {
                           setValue(item);
                           setChange(true);
-                          console.log("đúm", items)
                         }
                       }) : ""
                     }
@@ -395,9 +413,6 @@ const CreateUnitScreen = (props) => {
                       stickyHeader={true}
                       searchable={true}
                       listMode="SCROLLVIEW"
-                      // multiple={true}
-                      // mode="BADGE"
-                      // badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
                       autoScroll={true}
                       searchPlaceholderTextColor={colors.text}
                       searchPlaceholder="Tìm kiếm"
@@ -411,10 +426,9 @@ const CreateUnitScreen = (props) => {
                         fontFamily: fonts.regular,
                         backgroundColor: colors.yellow,
                         borderColor: colors.yellow,
-
                       }}
                       searchContainerStyle={{
-                        borderBottomColor: colors.graySecondary
+                        borderBottomColor: colors.graySecondary,
                       }}
                       dropDownContainerStyle={{
                         borderWidth: 1,
@@ -433,7 +447,7 @@ const CreateUnitScreen = (props) => {
                       }}
                       placeholderStyle={{
                         color: colors.text,
-                        fontFamily: fonts.regular
+                        fontFamily: fonts.regular,
                       }}
                     />
                     <View style={styles.createCard}>
@@ -456,13 +470,12 @@ const CreateUnitScreen = (props) => {
                                 values.flashcards[i]._id !== undefined ? <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id} name={id} /> : <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id = ""} name={id} />
                               }
                               <View style={{ alignItems: "flex-end" }}>
-                                
+
                                 {
                                   values.flashcards[i]._id===""?(
                                     <TouchableOpacity style={{ borderRadius: 10, height: 44, width: 44, backgroundColor: colors.red, alignItems: 'center', justifyContent: 'center' }} onPress={() => {
                                       console.log("khum",values.flashcards[i]._id)
                                       remove(i)
-                                      // values.flashcards.splice(i,1)
                                     }} >
                                       <Delete />
                                     </TouchableOpacity>
@@ -485,7 +498,7 @@ const CreateUnitScreen = (props) => {
                                 onBlur={handleBlur(de)} errors={errDefine} touched={item.define} label={defi} />
                               <CustomInputUnit name={ex} onChangeText={handleChange(ex)} value={values.flashcards[i].example}
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
-                              <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
+                              <TextInput style={{ width: 0, height: 0 }} value={ images[i]} name={im} />
                               {(images[i] === undefined && values.flashcards[i].image === "") || (values.flashcards[i].image === "") || images[i] === undefined ?
                                 <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
                                   onUploadImage(i)
@@ -512,17 +525,16 @@ const CreateUnitScreen = (props) => {
                   activeOpacity={0.9}
                   onPress={() => {
                     if (values.flashcards.length > 49) {
-                      setMess("Một học phần không thể tạo quá 50 thẻ")
-                      setShowModal(true)
-                      showModa()
+                      setMess("Một học phần không thể tạo quá 50 thẻ");
+                      setShowModal(true);
+                      showModa();
                     }
                     push({
-                      // id: uuid.v4(), 
                       term: "",
                       define: "",
                       example: "",
                       image: undefined,
-                    })
+                    });
                   }}
                   style={styles.add}
                 >
@@ -536,8 +548,6 @@ const CreateUnitScreen = (props) => {
         </>
       )}
     </Formik>
-
-
-  )
-}
-export default CreateUnitScreen
+  );
+};
+export default CreateUnitScreen;

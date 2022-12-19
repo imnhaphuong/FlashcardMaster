@@ -21,12 +21,12 @@ import * as Linking from "expo-linking";
 import getAllTopics from "./../../../getdata/getAllTopics";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 
 
 const Home_Screen = (props) => {
   const { user } = useSelector(state => state.user)
-  console.log("usersdsadsa",user);
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -35,7 +35,10 @@ const Home_Screen = (props) => {
   };
   //useEffect
   useEffect(() => {
-    getAllTopics(settopic, setLoading);
+    const fetchData = async () => {
+      getAllTopics(settopic, setLoading);
+    }
+    fetchData()
   }, [isLoading]);
 
   const myRenderTopicItem = ({ item }) => (
@@ -51,42 +54,7 @@ const Home_Screen = (props) => {
     getAllTopics(settopic, setLoading);
     wait(1000).then(() => setRefreshing(false));
   }
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   wait(1000).then(() => setRefreshing(false));
-  // }, []);
-  // const [data, setdata] = useState([])
-  // function handleDeepLink(event) {
-  //   let data = Linking.parse(event.url);
-  //   setdata(data);
-  // }
-  // const url = Linking.useURL();
 
-  // console.log("url"+url );
-
-  // useEffect(() => {
-  //   async function getInitalURL() {
-  //     const initialURL = await Linking.getInitialURL();
-  //     if (initialURL) setdata(Linking.parse(initialURL));
-  //   }
-
-  //   Linking.addEventListener("url", handleDeepLink);
-  //   if (!data) {
-  //     getInitalURL();
-  //   }
-
-  //   return () => {
-  //     Linking.removeEventListener("click", handleDeepLink);
-  //   };
-  // }, []);
-  // AsyncStorage.setItem("userId", "636229a664e39686c4afa67f");
-
-  // console.log(data);
-  // const [visible, setvisible] = useState(false);
-  // const popupModal = () => {
-  //   setvisible(true);
-  //   return true;
-  // };
   return (
     <SafeAreaView style={styles.container}>
       <Spinner color={colors.violet} visible={isLoading} />
@@ -104,7 +72,7 @@ const Home_Screen = (props) => {
         <Pressable onPress={() => { navigation.navigate("Shop_Screen") }}>
           <View style={styles.coin_display}>
             <Coin />
-            <Text style={styles.price}>{user.coin !== null ? user.coin :"0"}</Text>
+            <Text style={styles.price}>{user.coin}</Text>
           </View>
         </Pressable>
       </View>
@@ -115,7 +83,7 @@ const Home_Screen = (props) => {
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>{user.fullname!==null?user.fullname:""}</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>
               </Text>
             </View>
             <View style={styles.Thegirl}>

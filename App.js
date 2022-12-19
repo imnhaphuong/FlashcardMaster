@@ -15,7 +15,6 @@ import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { Provider } from "react-redux";
-import { store } from './src/redux/store'
 import * as Font from 'expo-font';
 import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
@@ -34,6 +33,7 @@ import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
 import LearnResultScreen from "./src/screens/learn/LearnResultScreen";
+import { configNotify } from "./contains/common";
 import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
 import ForgotPasswordScreen from "./src/screens/forgot_password/ForgotPasswordScreen";
 
@@ -54,7 +54,8 @@ const loadAssets = async () =>
 
 
 export default function App() {
-  registerNNPushToken(5184, 'JScIpkViaeDrlzwDvEdXdh');
+  //register push notification token
+  registerNNPushToken(configNotify.appId, configNotify.appToken);
 
   async function registerForPushNotification() {
     const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
@@ -71,7 +72,7 @@ export default function App() {
   }
 
   const linking = {
-    prefixes: ["https://flashcardmaster.page.link", Linking.createURL("/")],
+    prefixes: ["https://fcard.page.link", Linking.createURL("/")],
     linking_config,
   };
 
@@ -86,7 +87,6 @@ export default function App() {
   console.log("url" + url);
 
   useEffect(() => {
-    // registerForPushNotification().then(token => console.log(token)).catch(err=>console.log(err))
     async function getInitalURL() {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) setdata(Linking.parse(initialURL));

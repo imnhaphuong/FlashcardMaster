@@ -16,3 +16,11 @@ export const updateEmail = async (id, email) => {
   })
   return result.data;
 };
+export const updateAvatar = async (id ,avatar) => {
+  var uri = "https://flashcard-master.vercel.app/api/users/updateAvatar";
+  const result = await axios.post(uri, {
+    Userid: id,
+    avatar: avatar,
+  })
+  return result.data;
+};

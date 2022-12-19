@@ -19,7 +19,7 @@ const getClassByJCode = async (_jcode, setData, setLoading) => {
       setLoading(false);
     })
     .catch((error) => {
-      console.log(error);
+      console.log('Has error' , error);
     });
 };
 

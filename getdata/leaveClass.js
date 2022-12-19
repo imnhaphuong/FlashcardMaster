@@ -12,10 +12,11 @@ const leaveClass = async (id, memberId, setIsJoined) => {
   })
     .then((res) => res.json())
     .then((resJson) => {
+      console.log('class ' +id + " & rm member " + memberId);
       if (typeof setIsJoined === "function") {
-        console.log(id + " & " + memberId);
         setIsJoined(false);
       }
+      console.log('kicked ', JSON.stringify(resJson));
     })
     .catch((error) => {
       console.log(error);
