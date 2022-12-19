@@ -214,13 +214,21 @@ const UnitDetail = (props) => {
               }
               dispatch(createFcard(payload))
               let fcard1 = null;
-              if (flashcards.length > 3) {
+              if (flashcards.length > 10) {
                 fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
                 // console.log("fcard1dasd", fcard1);
+                props.navigation.navigate('learn', {
+                  flashcards: fcard1, id: params.id,
+                })
+              }else{
+                setMess("Học phần phải nhiều hơn 10 thẻ mới có thể học")
+                SET_OPTION("NONE")
+                setShowModal(true)
+                setTimeout(() => {
+                  setShowModal(false);
+                }, 2500);
               }
-              props.navigation.navigate('learn', {
-                flashcards: flashcards, id: params.id,
-              })
+
             }} style={[styles.btn, styles.btnLearn]}>
               <Text style={[styles.textBtn, styles.textLearn]}>Học</Text>
             </TouchableOpacity>

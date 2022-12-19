@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const UserCard_Search = ({ user }) => {
   const navigation = useNavigation();
-  console.log("USER", user);
   return (
     <Pressable
       style={styles.wrapUserCard}
