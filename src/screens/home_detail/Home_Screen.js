@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Pressable
+  Pressable, RefreshControl
 } from "react-native";
 import styles from "./style";
 import Coin from "../../../assets/images/header/coin.svg";
@@ -30,7 +30,9 @@ const Home_Screen = (props) => {
   const [TOPIC, settopic] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
   //useEffect
   useEffect(() => {
     const fetchData = async () => {
@@ -46,36 +48,13 @@ const Home_Screen = (props) => {
       navigation={props.navigation}
     />
   );
-  // const [data, setdata] = useState([])
-  // function handleDeepLink(event) {
-  //   let data = Linking.parse(event.url);
-  //   setdata(data);
-  // }
-  // const url = Linking.useURL();
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    getAllTopics(settopic, setLoading);
+    wait(1000).then(() => setRefreshing(false));
+  }
 
-  // console.log("url"+url );
-
-  // useEffect(() => {
-  //   async function getInitalURL() {
-  //     const initialURL = await Linking.getInitialURL();
-  //     if (initialURL) setdata(Linking.parse(initialURL));
-  //   }
-
-  //   Linking.addEventListener("url", handleDeepLink);
-  //   if (!data) {
-  //     getInitalURL();
-  //   }
-
-  //   return () => {
-  //     Linking.removeEventListener("click", handleDeepLink);
-  //   };
-  // }, []);
-  // console.log(data);
-  // const [visible, setvisible] = useState(false);
-  // const popupModal = () => {
-  //   setvisible(true);
-  //   return true;
-  // };
   return (
     <SafeAreaView style={styles.container}>
       <Spinner color={colors.violet} visible={isLoading} />
@@ -90,7 +69,7 @@ const Home_Screen = (props) => {
           style={styles.landscape}
           source={require("../../../assets/images/welcome/landscape.png")}
         />
-        <Pressable onPress={()=>{navigation.navigate("Shop_Screen")}}>
+        <Pressable onPress={() => { navigation.navigate("Shop_Screen") }}>
           <View style={styles.coin_display}>
             <Coin />
             <Text style={styles.price}>{user.coin}</Text>
@@ -98,11 +77,13 @@ const Home_Screen = (props) => {
         </Pressable>
       </View>
       <FlatList
+        refreshing={refreshing}
+        onRefresh={onRefresh}
         ListHeaderComponent={
           <View style={styles.welcome}>
             <View style={styles.group21}>
               <Text style={styles.hello}>
-                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>{" "}
+                Chào cậu, <Text style={styles.helloname}>{user.fullname}</Text>
               </Text>
             </View>
             <View style={styles.Thegirl}>

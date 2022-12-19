@@ -3,11 +3,9 @@ import React from 'react'
 import styles from './style'
 import { TextInput } from 'react-native-paper'
 import colors from '../../../contains/colors'
-const CustomInputUnit = ({ label, touched, errors, onBlur, onChangeText, value, name }) => {
+const CustomInputUnit = ({ label, touched, errors, onBlur, onChangeText, value, name,placeholder }) => {
 
     return (
-
-
         <View style={styles.input}>
             <TextInput style={styles.textInput} label={label}
                 name={name}
@@ -16,6 +14,7 @@ const CustomInputUnit = ({ label, touched, errors, onBlur, onChangeText, value, 
                 onChangeText={onChangeText}
                 value={value}
                 mode="flat" textColor={colors.text}
+                placeholder={placeholder}
                 underlineColor={colors.darkGray}
                 placeholderTextColor={colors.pink}
                 theme={{ colors: { primary: colors.violet, placeholder: colors.pink } }} />

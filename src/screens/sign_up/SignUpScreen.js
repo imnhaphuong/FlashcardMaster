@@ -221,12 +221,6 @@ export default SignUpScreen = ({ navigation }) => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  {/* {!googleSubmitting && ( */}
-                  <CustomButton text="Đăng ký bằng Google" onPress={()=>{
-                    promptAsync();
-                  }} type="GG" />
-
-                  {/* )} */}
 
                 </View>
               </View>

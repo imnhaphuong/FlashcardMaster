@@ -1,5 +1,6 @@
 import { StyleSheet, StatusBar } from 'react-native'
 import colors from '../../../contains/colors';
+import fonts from '../../../contains/fonts';
 
 const styles = StyleSheet.create({
     container: {
@@ -58,7 +59,8 @@ const styles = StyleSheet.create({
     },
     btn_text: {
         fontSize: 18,
-        color: colors.white
+        color: colors.white,
+        fontWeight:fonts.semibold,
     }
 });
 

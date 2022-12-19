@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from "react";
+import { View, Text, SafeAreaView, StatusBar, KeyboardAvoidingView, ScrollView } from 'react-native'
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styles from './style'
 import colors from "../../../contains/colors";
 import Back from "../../../assets/images/header/back.svg";
@@ -7,34 +7,47 @@ import Check from "../../../assets/images/header/check.svg";
 import WriteTextScreen from './WriteTextScreen';
 import MutipleChoiceScreen from './MutipleChoiceScreen';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux'
-import { updateScore } from "../../redux/actions/actionUser"
-import { useLayoutEffect } from 'react';
+
+
 export default function LearnScreen(props) {
     const [userId, setUserId] = useState(null);
+
     var params = props.route.params;
     const [numberOfUnits, setNumberOfUnits] = useState();
-    const [number, setNumber] = useState();
     const [progress, setProgress] = useState(0);
     const [index, setIndex] = useState(0);
-    const [score, setScore] = useState(0);
-    const flashcards = params.flashcards;
+    const [flashcards,setFlashcards] = useState(params.flashcards);
     const [round, setRound] = useState(1);
-    const [showModal, setShowModal] = useState(false);
-    const [mess, setMess] = useState('');
+    const [random, setRandom] = useState(null);
+    const [fcards, setFcards] = useState([])
+    const fcard1 = params.fcard1
+    const [fcard2, setFcard2] = useState([])
     useEffect(() => {
-        setScore(10 / flashcards.length)
+        const ran = (Math.round(Math.random() * 1));
+        setRandom(ran)
         if (params.index !== undefined) {
             setIndex(params.index);
             // pro = (index + 1) / flashcards.length;
-            setProgress((index + 1) / flashcards.length)
+            setProgress((index + 1) / fcards.length)
         } else {
             setProgress(1 / flashcards.length)
         }
         setNumberOfUnits(flashcards.length);
         
     }, [index])
+    useLayoutEffect(() => {
+        if (flashcards.length > 5 && round === 1) {
+            const fcard1 = flashcards.slice(0, Math.floor(flashcards.length / 2))
+            // console.log("fcard1dasd", fcard1);
+            setFcards(fcard1)
+        }
+        if (params.round !== undefined) {
+            setRound(params.round)
+            setFlashcards(params.flashcards)
+        }
+    }, [round])
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar
@@ -44,6 +57,7 @@ export default function LearnScreen(props) {
                 showHideTransition={"fade"}
             />
             {/* Header */}
+
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.header}
@@ -56,7 +70,7 @@ export default function LearnScreen(props) {
                     <Back />
                 </TouchableOpacity> */}
                 <View style={{ width: "90%", }}>
-                    <Text style={styles.textHeader}>{round}</Text>
+                    <Text style={styles.textHeader}>Vòng {round}</Text>
                 </View>
 
             </KeyboardAvoidingView>
@@ -65,12 +79,20 @@ export default function LearnScreen(props) {
                 <View style={{ alignItems: "center" }}>
                     <Text style={styles.textTrueFalse}>{index + 1}/{numberOfUnits}</Text>
                 </View>
-                {(index < Math.floor(numberOfUnits / 2)) ?
-                    <WriteTextScreen />
-                    :
-                    <MutipleChoiceScreen score={score} navigation={props.navigation} index={index} flashcards={flashcards} />
+
+                {
+                    // console.log("flashcards",flashcards)
+                    (random === 1  ) ? <MutipleChoiceScreen navigation={props.navigation} index={index} flashcards={fcards} round={round} />:
+                    <WriteTextScreen  index={index} flashcards={fcards} round={round} />
+                         
                 }
+                {
+                    // console.log("fcardLearnScreen",flashcards)
+                }
+
+
             </View>
+
         </SafeAreaView>
     )
 }

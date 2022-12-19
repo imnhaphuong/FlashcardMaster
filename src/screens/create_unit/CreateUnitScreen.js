@@ -1,15 +1,6 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  TextInput,
-} from "react-native";
-import React, { useState, useReducer } from "react";
-import colors from "../../../contains/colors";
+import { View, Text, StatusBar, KeyboardAvoidingView, TouchableOpacity, ScrollView, Image, TextInput,ToastAndroid } from 'react-native'
+import React, { useState, useReducer } from 'react'
+import colors from '../../../contains/colors'
 import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Check from "../../../assets/images/header/check.svg";
@@ -23,18 +14,17 @@ import Spinner from "react-native-loading-spinner-overlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import SysModal from "../../components/SysModal/SysModal";
-// import ImagePicker from 'react-native-image-picker'
-// import { launchImageLibrary } from 'react-native-image-picker';
-import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
-import { Checkbox, Provider } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
-import fonts from "../../../contains/fonts";
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system'
+import { Button, Checkbox, Provider } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
+import fonts from '../../../contains/fonts';
 import getTopic from "./getTopic";
-import getUnitById from "../../../getdata/getUnitById";
+import { useNavigation } from '@react-navigation/native';
+import Delete from "../../../assets/images/checkbox/Trash.svg";
+import groupPushNotifications from "../../../getdata/notifications/groupPushNotifications";
 import createUnitInClass from "../../../getdata/createUnitInClass";
 import { useSelector } from "react-redux";
-import groupPushNotifications from "../../../getdata/notifications/groupPushNotifications";
 
 const CreateUnitScreen = (props) => {
   var params = props.route.params;
@@ -52,11 +42,11 @@ const CreateUnitScreen = (props) => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [load, setLoad] = useState(true);
-  const [flashcards, setFlashcards] = useState([]);
-  const [unit, setUnit] = useState("");
-  const [create, setCreate] = useState(true);
+  const [unit, setUnit] = useState("")
+  const [idFcard, setIdFcard] = useState("")
+  const [change, setChange] = useState(false)
+  const [OPTION, SET_OPTION] = useState("NONE");
   const { user } = useSelector((state) => state.user);
-
   const [initialValue, setInitialValue] = useState({
     unitName: "",
     flashcards: [
@@ -72,25 +62,27 @@ const CreateUnitScreen = (props) => {
     mode: false,
   });
 
+  const navigation = useNavigation()
   const url = "https://flashcard-master.vercel.app/api/units"
+
+
   useEffect(() => {
     AsyncStorage.getItem("userInfo").then((result) => {
       const { fullname, _id } = JSON.parse(result);
       setFullname(fullname);
       setUserId(_id);
-    });
-    getTopic(items, setItems);
+    })
+    getTopic(items, setItems)
     if (params !== undefined && params.hasOwnProperty("id")) {
-      setLoading(true);
-      setCreate(false);
-      getUnitById(params.id, setUnit, setLoading);
+      setLoading(false)
+      if (params.UNIT !== undefined) {
+        setUnit(params.UNIT)
 
-      if (typeof unit.flashcards !== "undefined") {
-        setLoad(false);
-        // setValue(unit.topic)
       }
     }
-  }, [load]);
+
+  }, [load])
+
   const showModa = () => {
     setTimeout(() => {
       setShowModal(false);
@@ -171,6 +163,7 @@ const CreateUnitScreen = (props) => {
         .then((data) => {
           showModa();
           images[i] = data.url;
+          console.log("images[i]",images[i])
           setImages([...images]);
         })
         .catch((err) => {
@@ -187,124 +180,127 @@ const CreateUnitScreen = (props) => {
       console.log("after", values.flashcards[i].image);
     }
     images[i] = undefined;
-    setImages([...images]);
-  };
-  let verif = true;
-  const verified = (values, verif) => {
-    setLoading(true);
-    values.flashcards.map((item, index) => {
-      if (
-        item.define === "" &&
-        item.term === "" &&
-        item.example === "" &&
-        item.image === ""
-      ) {
-        if (flashcards.length > 1) {
-          values.flashcards.splice(index, 1);
-          setMess("Không được để trống ");
-          setShowModal(true);
-          showModa();
-          return;
-        }
-      } else if (
-        item.define === "" ||
-        item.term === "" ||
-        (item.define === "" && item.term === "")
-      ) {
-        setMess("Không được để trống Thuật ngữ hoặc Định nghĩa");
+    setImages([...images])
+
+  }
+
+
+  const createUnit = async (values) => {
+    const data = {
+      unitName: values.unitName,
+      userId: userId,
+      flashcards: values.flashcards,
+      mode: values.mode,
+      topic: value
+    }
+    try {
+      const result = await fetch(`${url}/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      )
+      if (params !== undefined && params.hasOwnProperty("class_id")) {
+        createUnitInClass(params.class_id, result._id, setLoading);
+        const members = params.members.map((e) => e._id).shift();
+        groupPushNotifications(
+          members,
+          `Học phần trong "${params.class_name}" vừa có sự cập nhật`,
+          `Vào học ngay cho nóng 🥰`,
+          params.jcode
+        );
+      }
+      if (result.status === 'error') {
+        setMess(result.error)
         setShowModal(true);
         showModa();
-        verif = false;
-        return;
+        return
       }
-    });
-  };
-  const createUnit = async (values) => {
-    verified(values, verif);
-    if (verif === true) {
+      setLoading(false)
+      setTimeout(() => {
+        props.navigation.replace("unit_detail", {
+          id: result._id,
+        })
+      }, 1000)
+    } catch (error) {
+      setMess(error.message)
+      console.log(error);
+      setShowModal(true);
+      showModa();
+    }
+
+  }
+  const updateUnit = async (values) => {
+    setLoading(true);
+    try {
       const data = {
+        _id: params.id,
         unitName: values.unitName,
-        userId: user._id,
-        fullname: user.fullname,
         flashcards: values.flashcards,
         mode: values.mode,
-        topic: values.topic,
-      };
-      console.log("data", data);
-      try {
-        const result = await fetch(`${url}/create`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then((res) => res.json());
-        if (params !== undefined && params.hasOwnProperty("class_id")) {
-          createUnitInClass(params.class_id, result._id, setLoading);
-          const members = params.members.map((e) => e._id).shift();
-          groupPushNotifications(
-            members,
-            `Học phần trong "${params.class_name}" vừa có sự cập nhật`,
-            `Vào học ngay cho nóng 🥰`,
-            params.jcode
-          );
-        }
-        console.log(result);
-        if (result.status === "error") {
-          setMess(result.error);
-          setShowModal(true);
-          showModa();
-          return;
-        }
-        setLoading(false);
-        setTimeout(() => {
-          props.navigation.replace("unit_detail", {
-            id: result._id,
-          });
-        }, 1000);
-      } catch (error) {
-        setMess(error.message);
-        console.log(error);
+        topic: value
+      }
+      const result = await fetch(`${url}/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      )
+      if (result.status === 'error') {
+        setMess(result.error)
         setShowModal(true);
         showModa();
+        return
+      } else {
+        setLoading(false)
+        props.navigation.replace("unit_detail", {
+          id: params.id, isFocused: false,
+        })
       }
-    }
-  };
-  const updateUnit = async (values) => {
-    console.log("updateUnit", values);
-    verified(values, verif);
-    if (verif) {
-      try {
-        const data = {
-          _id: params.id,
-          unitName: values.unitName,
-          flashcards: values.flashcards,
-          mode: values.mode,
-          topic: values.topic,
-        };
-        console.log("result", data);
-        const result = await fetch(`${url}/update`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then((res) => res.json());
 
-        setLoading(false);
-        setTimeout(() => {
-          props.navigation.replace("unit_detail", {
-            id: params.id,
-          });
-        }, 1000);
-      } catch (error) {
-        setMess(error.message);
-        console.log(error);
-        setShowModal(true);
-        showModa();
-      }
+    } catch (error) {
+      setMess(error.message)
+      console.log(error);
+      setShowModal(true);
+      showModa();
+    }
+
+  }
+  const onClose = () => {
+    setShowModal(false);
+  };
+  const message = () => {
+    setMess("Bạn có muốn xóa thẻ này không?");
+    SET_OPTION("OPTION")
+    setShowModal(true);
+  };
+  const deleteFcard = async (idFcard) => {
+    console.log(idFcard);
+    setLoading(true);
+    try {
+      const data = { _id: idFcard };
+      await fetch(`${url}/deFcard`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+      setShowModal(false);
+      setLoading(false);
+      setTimeout(() => {
+        ToastAndroid.show("Xóa thành công", ToastAndroid.SHORT)
+      }, 1000);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -330,9 +326,20 @@ const CreateUnitScreen = (props) => {
       }) => (
         <>
           <Spinner color={colors.violet} visible={isLoading} />
-          <SysModal visible={showModal} message={mess} />
-          <FieldArray name="flashcards">
-            {({ push }) => (
+
+          <SysModal
+            visible={showModal}
+            message={mess}
+            type={OPTION}
+            onClose={onClose}
+            onPress={() => {
+              deleteFcard(idFcard);
+            }}
+          />
+          <FieldArray
+            name='flashcards'
+          >
+            {({ push, remove }) => (
               <SafeAreaView style={styles.container}>
                 <StatusBar
                   animated={true}
@@ -347,7 +354,7 @@ const CreateUnitScreen = (props) => {
                 >
                   <TouchableOpacity
                     onPress={() => {
-                      props.navigation.goBack();
+                      navigation.goBack();
                     }}
                   >
                     <Back />
@@ -384,17 +391,20 @@ const CreateUnitScreen = (props) => {
                       />
                       <Text style={styles.text}>Công khai học phần</Text>
                     </View>
-                    {items.map((item, i) => {
-                      if (unit.topic === item.value) {
-                        setValue(item);
-                      }
-                    })}
+                    {
+                      change === false ? items.map((item, i) => {
+                        if (unit.topic === item.value) {
+                          setValue(item);
+                          setChange(true);
+                        }
+                      }) : ""
+                    }
                     <DropDownPicker
                       placeholder={
-                        values.topic === "" ? "Chọn chủ đề" : value.label
+                        unit === "" ? "Chọn chủ đề" : value.label
                       }
                       open={open}
-                      value={(values.topic = value)}
+                      value={value}
                       items={items}
                       setOpen={setOpen}
                       setValue={setValue}
@@ -402,9 +412,6 @@ const CreateUnitScreen = (props) => {
                       stickyHeader={true}
                       searchable={true}
                       listMode="SCROLLVIEW"
-                      // multiple={true}
-                      // mode="BADGE"
-                      // badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
                       autoScroll={true}
                       searchPlaceholderTextColor={colors.text}
                       searchPlaceholder="Tìm kiếm"
@@ -443,121 +450,75 @@ const CreateUnitScreen = (props) => {
                       }}
                     />
                     <View style={styles.createCard}>
-                      {values.flashcards.map((item, i) => {
-                        const id = `flashcards[${i}]._id`;
-                        const te = `flashcards[${i}].term`;
-                        const errTerm = getIn(errors, te);
-                        const de = `flashcards[${i}].define`;
-                        const errDefine = getIn(errors, de);
-                        const ex = `flashcards[${i}].example`;
-                        const errExample = getIn(i, ex);
-                        const im = `flashcards[${i}].image`;
-                        return (
-                          <View key={i} style={styles.formCard}>
-                            {values.flashcards[i]._id !== undefined ? (
-                              <TextInput
-                                style={{ width: 0, height: 0 }}
-                                value={values.flashcards[i]._id}
-                                name={id}
-                              />
-                            ) : (
-                              <TextInput
-                                style={{ width: 0, height: 0 }}
-                                value={(values.flashcards[i]._id = "")}
-                                name={id}
-                              />
-                            )}
+                      {
+                        values.flashcards.map((item, i) => {
+                          const id = `flashcards[${i}]._id`
+                          const te = `flashcards[${i}].term`
+                          const errTerm = getIn(errors, te);
+                          const de = `flashcards[${i}].define`
+                          const errDefine = getIn(errors, de);
+                          const ex = `flashcards[${i}].example`
+                          const errExample = getIn(i, ex);
+                          const im = `flashcards[${i}].image`
+                          if(params !== undefined && params.hasOwnProperty("id")){
+                            values.flashcards[i].image !== "" && images[i]===undefined ? images[i] = values.flashcards[i].image : null
+                          }
+                          
 
-                            <CustomInputUnit
-                              name={te}
-                              onChangeText={handleChange(te)}
-                              value={values.flashcards[i].term}
-                              onBlur={handleBlur(te)}
-                              errors={errTerm}
-                              touched={item.term}
-                              label={term}
-                            />
-                            <CustomInputUnit
-                              name={de}
-                              onChangeText={handleChange(de)}
-                              value={values.flashcards[i].define}
-                              onBlur={handleBlur(de)}
-                              errors={errDefine}
-                              touched={item.define}
-                              label={defi}
-                            />
-                            <CustomInputUnit
-                              name={ex}
-                              onChangeText={handleChange(ex)}
-                              value={values.flashcards[i].example}
-                              onBlur={handleBlur(ex)}
-                              errors={errExample}
-                              touched={item.example}
-                              label={example}
-                            />
-                            <TextInput
-                              style={{ width: 0, height: 0 }}
-                              value={
-                                images[i] === undefined
-                                  ? values.flashcards[i].image
-                                  : (values.flashcards[i].image = images[i])
+                          return (
+                            <View key={i} style={styles.formCard}>
+                              {
+                                values.flashcards[i]._id !== undefined ? <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id} name={id} /> : <TextInput style={{ width: 0, height: 0 }} value={values.flashcards[i]._id = ""} name={id} />
                               }
-                              name={im}
-                            />
+                              <View style={{ alignItems: "flex-end" }}>
 
-                            {images[i] !== undefined ||
-                            (images[i] !== undefined &&
-                              values.flashcards[i].image !== "") ||
-                            values.flashcards[0].image !== "" ? (
-                              <View
-                                style={{
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  flexDirection: "row",
-                                }}
-                              >
-                                <Image
-                                  style={{
-                                    height: 100,
-                                    width: 100,
-                                    marginRight: 20,
-                                  }}
-                                  source={{
-                                    uri:
-                                      images[i] == undefined
-                                        ? values.flashcards[i].image
-                                        : (images[i] =
-                                            values.flashcards[i].image),
-                                  }}
-                                />
-                                <View style={{}}>
-                                  <CustomButton
-                                    name={im}
-                                    type="CHANGE_IMAGE"
-                                    text="Thay đổi"
-                                    onPress={() => onUploadImage(i)}
-                                    hide="hide"
-                                  />
-                                  <CustomButton
-                                    type="DE_IMAGE"
-                                    text="Xóa"
-                                    onPress={() => onDeleteImage(i, values)}
-                                    hide="hide"
-                                  />
-                                </View>
+                                {
+                                  values.flashcards[i]._id===""?(
+                                    <TouchableOpacity style={{ borderRadius: 10, height: 44, width: 44, backgroundColor: colors.red, alignItems: 'center', justifyContent: 'center' }} onPress={() => {
+                                      console.log("khum",values.flashcards[i]._id)
+                                      remove(i)
+                                    }} >
+                                      <Delete />
+                                    </TouchableOpacity>
+                                  ):(
+                                    <TouchableOpacity style={{ borderRadius: 10, height: 44, width: 44, backgroundColor: colors.red, alignItems: 'center', justifyContent: 'center' }} onPress={() => {
+                                      console.log("có",values.flashcards[i]._id)
+                                      message()
+                                      setIdFcard(values.flashcards[i]._id)
+                                    }} >
+                                      <Delete />
+                                    </TouchableOpacity>
+                                  )
+                                }
                               </View>
-                            ) : (
-                              <CustomButton
-                                name={im}
-                                type="ADD"
-                                text="Tải ảnh lên"
-                                onPress={() => onUploadImage(i)}
-                                hide="hide"
-                              />
-                            )}
-                          </View>
-                        );
-                      })}
+
+                              <CustomInputUnit name={te} onChangeText={handleChange(te)
+                              } value={values.flashcards[i].term}
+                                onBlur={handleBlur(te)} errors={errTerm} touched={item.term} label={term} />
+                              <CustomInputUnit name={de} onChangeText={handleChange(de)} value={values.flashcards[i].define}
+                                onBlur={handleBlur(de)} errors={errDefine} touched={item.define} label={defi} />
+                              <CustomInputUnit name={ex} onChangeText={handleChange(ex)} value={values.flashcards[i].example}
+                                onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
+                              <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
+                              {(images[i] === undefined && values.flashcards[i].image === "") || (values.flashcards[i].image === "") || images[i] === undefined ?
+                                <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
+                                  onUploadImage(i)
+                                } hide="hide" />
+                                : (<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                                  <Image
+                                    style={{ height: 100, width: 100, marginRight: 20 }}
+                                    source={{ uri: (images[i] == undefined ? values.flashcards[i].image : images[i] = values.flashcards[i].image) }} />
+                                  <View >
+                                    <CustomButton name={im} type="CHANGE_IMAGE" text="Thay đổi" onPress={() =>
+                                      onUploadImage(i)
+                                    } hide="hide" />
+                                    <CustomButton type="DE_IMAGE" text="Xóa" onPress={() => onDeleteImage(i, values)} hide="hide" />
+                                  </View>
+                                </View>)}
+                            </View>
+                          )
+                        })
+                      }
                     </View>
                   </View>
                 </ScrollView>
@@ -570,7 +531,6 @@ const CreateUnitScreen = (props) => {
                       showModa();
                     }
                     push({
-                      // id: uuid.v4(),
                       term: "",
                       define: "",
                       example: "",

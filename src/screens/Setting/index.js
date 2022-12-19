@@ -16,9 +16,13 @@ import styles from "./style";
 import Back from "../../../assets/images/header/back.svg";
 import Tick from "../../../assets/images/header/Tick.svg";
 import colors from "../../../contains/colors";
+import Toast from "react-native-toast-message";
+import { resetUser } from "../../store/slices/userSlice";
+import { resetQuest } from "../../store/slices/questSlice";
+import { resetFcard } from "../../store/slices/fcardSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFullname, updateAvatar } from "../../../getdata/updateProfile";
-import Toast from "react-native-toast-message";
 import { setUser } from "../../store/slices/userSlice";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system'
@@ -26,7 +30,7 @@ import * as FileSystem from 'expo-file-system'
 
 
 const Setting_Screen = (props) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { user } = useSelector(state => state.user);
     const [inputs, setInputs] = useState({
         fullname: '',
@@ -55,6 +59,13 @@ const Setting_Screen = (props) => {
                 }
             ]
         );
+    const signOut = () => {
+        AsyncStorage.clear();
+        props.navigation.replace('sign_in')
+        // dispatch(resetUser())
+        dispatch(resetFcard(""))
+        dispatch(resetQuest(""))
+    }
     //Update avatar suport
     //Kiem tra dung luong file
     const getFileInfo = async (fileURI) => {
@@ -130,6 +141,7 @@ const Setting_Screen = (props) => {
         }
     };
 
+    
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar
@@ -227,7 +239,7 @@ const Setting_Screen = (props) => {
                         <Text style={styles.version_text}>1.0</Text>
                     </View>
                     <View style={styles.btn_gr}>
-                        <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("sign_up")}>
+                        <TouchableOpacity style={styles.btn} onPress={() => signOut()}>
                             <Text style={styles.btn_text}>Đăng xuất</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("ChangePassword_Screen")}>

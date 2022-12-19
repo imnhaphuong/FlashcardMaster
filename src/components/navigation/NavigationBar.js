@@ -26,6 +26,7 @@ import Profile_Screen from "../../screens/profile/Profile_Screen";
 import { getUnreadIndieNotificationInboxCount } from "native-notify";
 import { configNotify } from "../../../contains/common";
 import AutoScrolling from "react-native-auto-scrolling";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Tab = createBottomTabNavigator();
 export default function NavigationBar() {
@@ -33,7 +34,7 @@ export default function NavigationBar() {
   const [type, setType] = useState("");
   const { user } = useSelector((state) => state.user);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
-
+  const [userId, setUserId] = useState("");
   useEffect(() => {
     (async () => {
       let unreadCount = await getUnreadIndieNotificationInboxCount(
@@ -44,41 +45,43 @@ export default function NavigationBar() {
       console.log("unreadCount: ", unreadCount);
       setUnreadNotificationCount(unreadCount);
     })();
-    //   AsyncStorage.getItem('userId').then(result => {
-    //     setUserId(result);
-    //   })
-    //   if (userId !== '') {
-    //     fetchData();
-    //   }
-    // }, [userId])
-    // async function fetchData() {
-    //   const data = {
-    //     _id: userId
-    //   }
-    //   console.log("userId2345", userId);
-    //   try {
-    //     const url = "http://192.168.43.158:3000/api/users/id";
-    //     // const url ="https://flashcard-master.vercel.app/api/users/id";
-    //     const result = await fetch(url, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Accept": "application/json",
-    //       },
-    //       body: JSON.stringify(data),
-    //     }).then(res => res.json()
-    //     )
-    //     setType(result.type);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
+
   }, [currentScreen]);
+  useEffect(() => {
+    AsyncStorage.getItem('userId').then(result => {
+      setUserId(result);
+    })
+    if (userId !== '') {
+      fetchData();
+    }
+  }, [userId])
+  async function fetchData() {
+    const data = {
+      _id: userId
+    }
+    console.log("userId2345", userId);
+    try {
+      const url = "https://flashcard-master.vercel.app/api/users/id";
+      const result = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(res => res.json()
+      )
+      setType(result.type);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <>
       {unreadNotificationCount != 0 ? (
-          <AutoScrolling style={styles.scrolling}>
-            <Text style={styles.textScrolling}>{`Bạn có ${unreadNotificationCount} thông báo mới 🎉🎉🎉`}</Text>
-          </AutoScrolling>
+        <AutoScrolling style={styles.scrolling}>
+          <Text style={styles.textScrolling}>{`Bạn có ${unreadNotificationCount} thông báo mới 🎉🎉🎉`}</Text>
+        </AutoScrolling>
       ) : null}
       <Tab.Navigator
         screenOptions={{
@@ -104,27 +107,30 @@ export default function NavigationBar() {
             },
           })}
         />
-        {/* if (type === 1) {
-      ( */}
-        <Tab.Screen
-          name="class"
-          component={ClassScreen}
-          options={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => (
-              <View style={styles.view}>
-                {focused ? <ClassFocus /> : <Class />}
-              </View>
-            ),
-          }}
-          listeners={({ navigation, route }) => ({
-            focus: (e) => {
-              setcurrentScreen(route.name);
-            },
-          })}
-        />
-        {/* )} */}
+        {
+          (type === 1) ?
+            (
+              <Tab.Screen
+                name="class"
+                component={ClassScreen}
+                options={{
+                  headerShown: false,
+                  tabBarShowLabel: false,
+                  tabBarIcon: ({ focused }) => (
+                    <View style={styles.view}>
+                      {focused ? <ClassFocus /> : <Class />}
+                    </View>
+                  ),
+                }}
+                listeners={({ navigation, route }) => ({
+                  focus: (e) => {
+                    setcurrentScreen(route.name);
+                  },
+                })}
+              />
+            ) : null
+        }
+
         <Tab.Screen
           name="create_unit"
           component={CreateUnitScreen}
@@ -195,4 +201,5 @@ export default function NavigationBar() {
       </Tab.Navigator>
     </>
   );
+
 }

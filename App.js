@@ -15,7 +15,6 @@ import * as Linking from "expo-linking";
 import linking_config from "./linking-config";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { Provider } from "react-redux";
-import { store } from './src/redux/store'
 import * as Font from 'expo-font';
 import AppLoading from "expo-app-loading";
 import UnitDetail from "./src/screens/unit_detail";
@@ -33,8 +32,10 @@ import Shop_Screen from "./src/screens/shop/Shop_Screen";
 import { storeRoot } from "./src/store/store";
 import LearnScreen from "./src/screens/learn/LearnScreen";
 import ChangePassword_Screen from "./src/screens/change_pasword";
+import LearnResultScreen from "./src/screens/learn/LearnResultScreen";
 import { configNotify } from "./contains/common";
 import VerifyEmailAgain from "./src/screens/verify_email/VerifyEmailAgain";
+import ForgotPasswordScreen from "./src/screens/forgot_password/ForgotPasswordScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -142,7 +143,10 @@ export default function App() {
           <Stack.Screen name="ChangePassword_Screen" component={ChangePassword_Screen} />
           <Stack.Screen name="Other_Profile_Screen" component={Other_Profile_Screen} />
           <Stack.Screen name="learn" component={LearnScreen} />
+          <Stack.Screen name="lern_result" component={LearnResultScreen} />
           <Stack.Screen name="verifyEmailAgain" component={VerifyEmailAgain} />
+          <Stack.Screen name="forgot_password" component={ForgotPasswordScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

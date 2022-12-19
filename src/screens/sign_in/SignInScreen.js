@@ -15,7 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Spinner from 'react-native-loading-spinner-overlay'
 import SysModal from '../../components/SysModal/SysModal'
 import ModalOption from '../../components/ModalOption/ModalOption'
-import { createUser } from "../../redux/actions/actionUser"
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../../store/slices/userSlice"
 import { registerIndieID } from 'native-notify'
@@ -23,7 +22,8 @@ import { configNotify } from '../../../contains/common'
 
 export default SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
+  const { user } = useSelector(state => state.user);
+  console.log("USER", user);
   const [hide, setHide] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -67,9 +67,12 @@ export default SignInScreen = ({ navigation }) => {
           Accept: "application/json",
         },
         body: JSON.stringify(values),
-      }).then((res) => res.json());
-      if (result.status === "error") {
+      }).then(res => res.json()
+      )
+      console.log(values);
+      if (result.status === 'error') {
         // everythign went fine
+        console.log(result);
         setMess(result.message);
         setShowModal(true);
         showModa();
@@ -92,7 +95,6 @@ export default SignInScreen = ({ navigation }) => {
         registerIndieID(result.data._id, configNotify.appId, configNotify.appToken);
 
         AsyncStorage.setItem("userInfo", JSON.stringify(result.data));
-        dispatch(createUser(result.data));
         setEmail(result.data.email);
         //Check type user
         setType(result.data.type);
@@ -105,7 +107,6 @@ export default SignInScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
       setMess("Email hoặc mật khẩu chưa đúng");
-      console.log("khum");
       setShowModal(true);
       showModa();
     }
@@ -287,7 +288,7 @@ export default SignInScreen = ({ navigation }) => {
                   >
                     <TouchableOpacity
                       activeOpacity={0.5}
-                      onPress={() => navigation.navigate("SignUp")}
+                      onPress={() => navigation.navigate("forgot_password")}
                     >
                       <Text style={styles.textSignIn}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
