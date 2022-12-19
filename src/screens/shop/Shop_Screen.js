@@ -23,6 +23,7 @@ const Shop_Screen = (props) => {
     const [INSIGNIA, setInsignia] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const { user } = useSelector(state => state.user);
+    const [errorMessage, setErrorMessage] = useState();
     useEffect(() => {
         getALLInsignia(setInsignia, setLoading);
     }, [isLoading]);
@@ -47,8 +48,8 @@ const Shop_Screen = (props) => {
                             onPress: async () => {
                                 const buy = await buyInsignia(user._id, insignia._id)
                                 console.log("BUY", buy);
-                                if (!buy) {
-                                    setErroMessage("Rất tiếc bạn không đủ xu.")
+                                if (buy.status === "ERROR") {
+                                    setErrorMessage("Rất tiếc bạn không đủ xu.")
                                 } else {
                                     console.log("Mua thanh cong");
                                     dispatch(setUser(
@@ -79,6 +80,7 @@ const Shop_Screen = (props) => {
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Cửa hàng</Text>
             </View>
+            {errorMessage && <Text style={{ color: "#DD0000", fontSize: 20 }}>{errorMessage}</Text>}
             <View style={styles.wrapInsigniases}>
                 <FlatList
                     data={INSIGNIA}
