@@ -63,8 +63,8 @@ const CreateUnitScreen = (props) => {
   });
 
   const navigation = useNavigation()
-  // const url = "https://flashcard-master.vercel.app/api/units"
-  const url = "http://192.168.43.158:3000/api/units"
+  const url = "https://flashcard-master.vercel.app/api/units"
+
 
   useEffect(() => {
     AsyncStorage.getItem("userInfo").then((result) => {
@@ -298,7 +298,6 @@ const CreateUnitScreen = (props) => {
       setLoading(false);
       setTimeout(() => {
         ToastAndroid.show("Xóa thành công", ToastAndroid.SHORT)
-        props.navigation.goBack();
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -461,8 +460,10 @@ const CreateUnitScreen = (props) => {
                           const ex = `flashcards[${i}].example`
                           const errExample = getIn(i, ex);
                           const im = `flashcards[${i}].image`
-
-                          values.flashcards[i].image !== "" ? images[i] = values.flashcards[i].image : null
+                          if(params !== undefined && params.hasOwnProperty("id")){
+                            values.flashcards[i].image !== "" && images[i]===undefined ? images[i] = values.flashcards[i].image : null
+                          }
+                          
 
                           return (
                             <View key={i} style={styles.formCard}>
@@ -498,7 +499,7 @@ const CreateUnitScreen = (props) => {
                                 onBlur={handleBlur(de)} errors={errDefine} touched={item.define} label={defi} />
                               <CustomInputUnit name={ex} onChangeText={handleChange(ex)} value={values.flashcards[i].example}
                                 onBlur={handleBlur(ex)} errors={errExample} touched={item.example} label={example} />
-                              <TextInput style={{ width: 0, height: 0 }} value={ images[i]} name={im} />
+                              <TextInput style={{ width: 0, height: 0 }} value={images[i] === undefined ? values.flashcards[i].image : values.flashcards[i].image = images[i]} name={im} />
                               {(images[i] === undefined && values.flashcards[i].image === "") || (values.flashcards[i].image === "") || images[i] === undefined ?
                                 <CustomButton name={im} type="ADD" text="Tải ảnh lên" onPress={() =>
                                   onUploadImage(i)

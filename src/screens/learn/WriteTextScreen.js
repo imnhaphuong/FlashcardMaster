@@ -53,7 +53,6 @@ export default function WriteTextScreen(props) {
         })
       }
     } else {
-      console.log("sai", wrong);
       setShowModal(true);
       setAnswer(values.answer)
 

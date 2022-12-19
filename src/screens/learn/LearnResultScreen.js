@@ -20,37 +20,7 @@ export default function LearnResultScreen(props) {
     const flashcards = params.flashcards;
     const round = params.round;
     const [progress, setProgress] = useState(2);
-    const tempFcard = [
-        {
-            _id: "63749b4f2835ca4aa5bb320b",
-            term: "economic",
-            define: "kinh tế",
-            example: "sshhxhxxjsjsn",
-            image: "",
-        },
-        {
-            _id: "63749b4f2835ca4aa5bb320c",
-            term: "tree",
-            define: "cái cây",
-            example: "",
-            image: "http://res.cloudinary.com/flashcardmaster/image/upload/v1668586260/wd94dd6pormigetqc461.jpg",
-
-        },
-        {
-            example: "",
-            _id: "63749dda5724e2fdacaaef65",
-            term: "gfff",
-            define: "fdff",
-            image: "",
-        },
-        {
-            _id: "63749df75724e2fdacaaef6f",
-            term: "fdff",
-            define: "ỳghg",
-            example: "",
-            image: "",
-        }
-    ]
+    
     useEffect(() => {
         setProgress(flashcards.length / fcard.length);
         if (round !== 1) {
@@ -68,7 +38,7 @@ export default function LearnResultScreen(props) {
     // const coin = trueAnswer.length * 5;
     const onBack = () => {
         props.navigation.replace("unit_detail", {
-            id: useSelector((state) => state.fcardReducer).id,
+            id: useSelector((state) => state.fcardReducer)._id,
         })
     }
     // const Questiondsa = useSelector((state) => state.questReducer)

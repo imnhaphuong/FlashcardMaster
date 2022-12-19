@@ -81,10 +81,6 @@ export default VerifyEmailScreen = ({ }) => {
 
         } catch (error) {
             console.log(error);
-            // setMess("Email hoặc mật khẩu chưa đúng");
-            console.log("khum");
-            // setShowModal(true);
-            // showModa();
         }
     }
     const sendVerification = async () => {

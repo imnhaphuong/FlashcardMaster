@@ -107,7 +107,6 @@ export default SignInScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
       setMess("Email hoặc mật khẩu chưa đúng");
-      console.log("khum");
       setShowModal(true);
       showModa();
     }
@@ -289,7 +288,7 @@ export default SignInScreen = ({ navigation }) => {
                   >
                     <TouchableOpacity
                       activeOpacity={0.5}
-                      onPress={() => navigation.navigate("SignUp")}
+                      onPress={() => navigation.navigate("forgot_password")}
                     >
                       <Text style={styles.textSignIn}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
