@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "450365107666",
+    "project_id": "flashcard-master-27bd9",
+    "storage_bucket": "flashcard-master-27bd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450365107666:android:e514ce44fc51297b822c0b",
+        "android_client_info": {
+          "package_name": "com.tdc.flashcardmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450365107666-2sb54440pm2o04o6p0m76q0k2se2koi4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tdc.flashcardmaster",
+            "certificate_hash": "f81d5302d7a71ef0f402dc210c610d622a1a372f"
+          }
+        },
+        {
+          "client_id": "450365107666-idgmibh6q7ndb9gs2vgbilrsr7ka92ao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvpgFJrmazoCktMtxRl-Yl9aqKErLaiGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450365107666-idgmibh6q7ndb9gs2vgbilrsr7ka92ao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

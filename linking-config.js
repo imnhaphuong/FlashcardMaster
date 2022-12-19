@@ -1,19 +1,17 @@
 const linking_config = {
+  screens: {
+    NavigationBar: {
+      path: "nav",
       screens: {
-        sign_in: {
-          path: 'signin'
-        },
-        sign_up: {
-          path: 'signup'
-        },
-        class: {
-          path: 'class/:jcode',
+        Home: "home",
+        Class: {
+          path: "class/:jcode",
           parse: {
-            jcode : (jcode)=>`${jcode}`
-          }
+            jcode: (jcode) => `${jcode}`
+          },
         },
       },
+    },
+  },
 };
-
-
 export default linking_config;

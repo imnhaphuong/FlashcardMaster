@@ -143,8 +143,8 @@ const ClassDetailScreen = (props) => {
     try {
       const payload = {
         dynamicLinkInfo: {
-          domainUriPrefix: "https://flashcardmaster.page.link",
-          link: `https://flashcardmaster.page.link/class/${CLASS.jcode}`,
+          domainUriPrefix: "https://fcardmaster.page.link",
+          link: `https://fcardmaster.page.link/?class=${CLASS.jcode}`,
           androidInfo: {
             androidPackageName: "com.tdc.flashcardmaster",
           },
@@ -156,7 +156,7 @@ const ClassDetailScreen = (props) => {
           },
         },
       };
-      const url = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAPsJC1Jtb_0VU3IGRfW-0-UjmFDgTWaJc`;
+      const url = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyBvpgFJrmazoCktMtxRl-Yl9aqKErLaiGc`;
       const res = await fetch(url, {
         method: "post",
         headers: {
@@ -166,12 +166,12 @@ const ClassDetailScreen = (props) => {
       });
       const json = await res.json();
       const result = await Share.share({
-        message: `Join the class ${json}`,
+        message: `Join the class ${JSON.stringify(json.shortLink)}`,
         url: json.shortLink,
         title: `check ${CLASS.jcode}`,
       });
       if (result.action === Share.sharedAction) {
-        console.log("share" + CLASS.jcode);
+        console.log("share" + json);
       } else if (result.action == Share.dismissedAction) {
       }
     } catch (err) {
@@ -186,7 +186,7 @@ const ClassDetailScreen = (props) => {
   const onDelete = () => {
     setVisibleDeleteModal(true);
   };
-
+ 
   //join
   const onJoinRequest = async () => {
     setLoading(true);

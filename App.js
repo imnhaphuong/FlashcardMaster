@@ -71,7 +71,7 @@ export default function App() {
   }
 
   const linking = {
-    prefixes: ["https://fcard.page.link", Linking.createURL("/")],
+    prefixes: ["https://fcardmaster.page.link", Linking.createURL("/")],
     linking_config,
   };
 
